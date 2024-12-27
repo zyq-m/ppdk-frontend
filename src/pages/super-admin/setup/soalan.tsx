@@ -1,6 +1,5 @@
 import Layout from "@/components/layout/super-admin-layout";
 import { Button } from "@/components/ui/button";
-import { FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -12,8 +11,9 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import { useToast } from "@/hooks/use-toast";
 import { api } from "@/utils/axios";
-import { Delete, Plus, Save, Trash } from "lucide-react";
+import { Plus, Trash } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Form } from "react-router-dom";
 
@@ -21,6 +21,7 @@ export default function SetupSoalan() {
 	const [soalan, setSoalan] = useState([{ id: 0, soalan: "" }]);
 	const [kategori, setKategori] = useState([]);
 	const [selected, setSelected] = useState("");
+	const { toast } = useToast();
 
 	const tambahSoalan = () => {
 		const newId = soalan.length;
@@ -31,6 +32,12 @@ export default function SetupSoalan() {
 	const buangSoalan = (id: number) => {
 		const updatedSoalan = soalan.filter((item) => item.id !== id);
 		setSoalan(updatedSoalan);
+		api.delete(`/setup/soalan/${id}`).then((res) => {
+			toast({
+				title: "Berjaya",
+				description: res.data.message,
+			});
+		});
 	};
 
 	const onSoalan = (id: number, value: string) => {
@@ -43,9 +50,20 @@ export default function SetupSoalan() {
 	const onSimpan = async () => {
 		try {
 			const res = await api.post(`/setup/soalan/${selected}`, { soalan });
+			toast({
+				title: "Berjaya",
+				description: res.data.message,
+			});
 		} catch (error) {
 			console.log(error);
 		}
+	};
+
+	const onSelect = (value: string) => {
+		setSelected(value);
+		api.get(`/setup/soalan/${value}`).then((res) => {
+			setSoalan(res.data);
+		});
 	};
 
 	useEffect(() => {
@@ -59,7 +77,7 @@ export default function SetupSoalan() {
 			<Form>
 				<div>
 					<Label>Kategori soalan</Label>
-					<Select onValueChange={setSelected}>
+					<Select onValueChange={onSelect}>
 						<SelectTrigger>
 							<SelectValue placeholder="Pilih kategori" />
 						</SelectTrigger>
@@ -80,6 +98,7 @@ export default function SetupSoalan() {
 								<Label>Soalan {i + 1}</Label>
 								<div className="flex gap-1">
 									<Input
+										value={s.soalan}
 										onChange={(e) =>
 											onSoalan(s.id, e.target.value)
 										}

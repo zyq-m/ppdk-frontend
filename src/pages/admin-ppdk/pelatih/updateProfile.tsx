@@ -60,7 +60,7 @@ const formSchema = z.object({
 	}),
 });
 
-export default function PelatihDetails() {
+export default function UpdateProfile() {
 	const { toast } = useToast();
 	const { id } = useParams();
 	const form = useForm<z.infer<typeof formSchema>>({
@@ -203,13 +203,13 @@ export default function PelatihDetails() {
 										<SelectContent>
 											<SelectGroup>
 												<SelectLabel>Kaum</SelectLabel>
-												<SelectItem value="1">
+												<SelectItem value="Melayu">
 													Melayu
 												</SelectItem>
-												<SelectItem value="2">
+												<SelectItem value="India">
 													India
 												</SelectItem>
-												<SelectItem value="3">
+												<SelectItem value="Cina">
 													Cina
 												</SelectItem>
 											</SelectGroup>

@@ -9,8 +9,11 @@ import SetupKategori from "./super-admin/setup/kategoriOKU";
 import DashboardAdminPPK from "./admin-ppdk";
 import ListPelatih from "./admin-ppdk/pelatih/list";
 import RegisterPelatih from "./admin-ppdk/pelatih/register";
-import PelatihDetails from "./admin-ppdk/pelatih/details";
+import UpdateProfile from "./admin-ppdk/pelatih/updateProfile";
 import NilaiPelatih from "./admin-ppdk/penilaian/nilai";
+import Profile from "./admin-ppdk/pelatih/profile";
+import ViewAssessment from "./admin-ppdk/penilaian/viewAssessment";
+import DashboardPenilaian from "./admin-ppdk/penilaian";
 
 import Login from "./login";
 
@@ -28,7 +31,10 @@ export {
 	DashboardAdminPPK,
 	ListPelatih,
 	RegisterPelatih,
-	PelatihDetails,
+	UpdateProfile,
 	NilaiPelatih,
 	Login,
+	Profile,
+	ViewAssessment,
+	DashboardPenilaian,
 };

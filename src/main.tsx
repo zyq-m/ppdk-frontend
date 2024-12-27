@@ -69,12 +69,27 @@ const router = createBrowserRouter([
 	},
 	{
 		path: "/admin-ppdk/pelatih/:id",
-		element: <Page.PelatihDetails />,
+		element: <Page.Profile />,
+		loader: protectedLoader,
+	},
+	{
+		path: "/admin-ppdk/pelatih-update/:id",
+		element: <Page.UpdateProfile />,
+		loader: protectedLoader,
+	},
+	{
+		path: "/admin-ppdk/penilaian",
+		element: <Page.DashboardPenilaian />,
 		loader: protectedLoader,
 	},
 	{
 		path: "/admin-ppdk/penilaian/:id/:kategori",
 		element: <Page.NilaiPelatih />,
+		loader: protectedLoader,
+	},
+	{
+		path: "/admin-ppdk/view-penilaian/:id/:kategori",
+		element: <Page.ViewAssessment />,
 		loader: protectedLoader,
 	},
 ]);

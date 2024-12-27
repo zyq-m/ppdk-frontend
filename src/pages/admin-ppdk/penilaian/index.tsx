@@ -10,12 +10,12 @@ import {
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 
 const chartConfig = {
-	lelaki: {
-		label: "Lelaki",
+	k1: {
+		label: "Kekuatan dan Kesusahan (SDQ-Mal)",
 		color: "#2563eb",
 	},
-	perempuan: {
-		label: "Perempuan",
+	k2: {
+		label: "Kekuatan dan Kesusahan",
 		color: "#60a5fa",
 	},
 } satisfies ChartConfig;
@@ -23,37 +23,37 @@ const chartConfig = {
 const chartData = [
 	{
 		month: "Januari",
-		lelaki: 20,
-		perempuan: 12,
+		k1: 20,
+		k2: 12,
 	},
 	{
 		month: "Febuari",
-		lelaki: 5,
-		perempuan: 9,
+		k1: 5,
+		k2: 9,
 	},
 	{
 		month: "Mac",
-		lelaki: 7,
-		perempuan: 18,
+		k1: 7,
+		k2: 18,
 	},
 	{
 		month: "April",
-		lelaki: 2,
-		perempuan: 10,
+		k1: 2,
+		k2: 10,
 	},
 	{
 		month: "Mei",
-		lelaki: 7,
-		perempuan: 5,
+		k1: 7,
+		k2: 5,
 	},
 	{
 		month: "Jun",
-		lelaki: 9,
-		perempuan: 28,
+		k1: 9,
+		k2: 28,
 	},
 ];
 
-export default function DashboardAdminPPK() {
+export default function DashboardPenilaian() {
 	return (
 		<Layout>
 			<ChartContainer config={chartConfig}>
@@ -68,16 +68,8 @@ export default function DashboardAdminPPK() {
 					/>
 					<ChartTooltip content={<ChartTooltipContent />} />
 					<ChartLegend content={<ChartLegendContent />} />
-					<Bar
-						dataKey="lelaki"
-						fill="var(--color-lelaki)"
-						radius={4}
-					/>
-					<Bar
-						dataKey="perempuan"
-						fill="var(--color-perempuan)"
-						radius={4}
-					/>
+					<Bar dataKey="k1" fill="var(--color-k1)" radius={4} />
+					<Bar dataKey="k2" fill="var(--color-k2)" radius={4} />
 				</BarChart>
 			</ChartContainer>
 		</Layout>

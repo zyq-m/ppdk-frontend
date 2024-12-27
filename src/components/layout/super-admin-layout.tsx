@@ -44,7 +44,7 @@ const items: NavItemType[] = [
 		icon: ChartLine,
 	},
 	{
-		title: "Seting",
+		title: "Setting",
 		subItem: [
 			{ title: "Setup soalan", url: "/super-admin/setup/soalan" },
 			{ title: "Kategori OKU", url: "/super-admin/setup/kategori" },
