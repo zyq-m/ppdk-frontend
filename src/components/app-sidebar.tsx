@@ -27,13 +27,19 @@ import {
 	DropdownMenuTrigger,
 	DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
-import { ForwardRefExoticComponent, RefAttributes } from "react";
+import {
+	ForwardRefExoticComponent,
+	RefAttributes,
+	useEffect,
+	useState,
+} from "react";
 import {
 	Collapsible,
 	CollapsibleTrigger,
 	CollapsibleContent,
 } from "@/components/ui/collapsible";
 import { version } from "../../package.json";
+import { jwtDecode } from "jwt-decode";
 
 type UrlType = {
 	title?: string;
@@ -48,6 +54,14 @@ export type NavItemType = UrlType & {
 
 export function AppSidebar({ items }: { items: NavItemType[] }) {
 	const navigate = useNavigate();
+	const [username, setUsername] = useState("");
+
+	useEffect(() => {
+		const token = window.sessionStorage.getItem("accessToken") ?? "";
+		const decoded = jwtDecode(token);
+		const user = JSON.parse(decoded.sub?.replace(/'/g, '"') ?? "");
+		setUsername(user?.email);
+	}, []);
 
 	return (
 		<Sidebar collapsible="icon">
@@ -131,7 +145,7 @@ export function AppSidebar({ items }: { items: NavItemType[] }) {
 						<DropdownMenu>
 							<DropdownMenuTrigger asChild>
 								<SidebarMenuButton>
-									<User2 /> Username
+									<User2 /> {username}
 									<ChevronUp className="ml-auto" />
 								</SidebarMenuButton>
 							</DropdownMenuTrigger>
