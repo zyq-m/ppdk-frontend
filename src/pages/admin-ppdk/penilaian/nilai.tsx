@@ -1,6 +1,13 @@
 import Layout from "@/components/layout/admin-ppdk-layout";
 import { Button } from "@/components/ui/button";
 import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
+import {
 	Table,
 	TableBody,
 	TableCell,
@@ -49,75 +56,84 @@ export default function NilaiPelatih() {
 
 	return (
 		<Layout>
-			<div className="mb-8">
-				<h2 className="mb-5 font-medium capitalize">
-					Soal selidik {soalan?.[0]?.kategori_oku?.kategori}
-				</h2>
-				<p className="text-muted-foreground">
-					Bagi setiap perkara dibawah, sila tandakan petak Tidak
-					Benar, Sedikit Benar, atau Memang Benar. Anda boleh membantu
-					kami jika anda dapat menjawab semua perkara sebaik baiknya
-					yang boleh walaupun anda tidak pasti atau perkara itu nampak
-					bodoh. Sila beri jawapan anda berasaskan kelakuan
-					kanak-kanak itu dalam enam bulan yang lalu atau tahun
-					sekolah ini.
-				</p>
-			</div>
-			<form onSubmit={handleSubmit(onSubmit)}>
-				<div className="mb-8">
-					<Table>
-						<TableHeader>
-							<TableRow>
-								<TableHead>Soalan</TableHead>
-								<TableHead className="text-center w-20">
-									Tidak benar
-								</TableHead>
-								<TableHead className="text-center w-20">
-									Sedikit benar
-								</TableHead>
-								<TableHead className="text-center w-20">
-									Memang benar
-								</TableHead>
-							</TableRow>
-						</TableHeader>
-						<TableBody>
-							{soalan?.map((s, i) => (
-								<TableRow key={i}>
-									<TableCell
-										className={
-											errors[s.id] && "text-destructive"
-										}
-									>
-										{s.soalan}
-									</TableCell>
-									{s.options?.map((option, i) => (
-										<TableCell
-											key={i}
-											className="text-center"
-										>
-											<div>
-												<input
-													type="radio"
-													value={option}
-													{...register(s.id, {
-														required: true,
-													})}
-												/>
-											</div>
-										</TableCell>
+			<Card>
+				<CardHeader>
+					<CardTitle>
+						Soal selidik {soalan?.[0]?.kategori_oku?.kategori}
+					</CardTitle>
+					<CardDescription>
+						Bagi setiap perkara dibawah, sila tandakan petak Tidak
+						Benar, Sedikit Benar, atau Memang Benar. Anda boleh
+						membantu kami jika anda dapat menjawab semua perkara
+						sebaik baiknya yang boleh walaupun anda tidak pasti atau
+						perkara itu nampak bodoh. Sila beri jawapan anda
+						berasaskan kelakuan kanak-kanak itu dalam enam bulan
+						yang lalu atau tahun sekolah ini.
+					</CardDescription>
+				</CardHeader>
+				<CardContent>
+					<form onSubmit={handleSubmit(onSubmit)}>
+						<div className="mb-8">
+							<Table>
+								<TableHeader>
+									<TableRow>
+										<TableHead></TableHead>
+										<TableHead>Soalan</TableHead>
+										<TableHead className="text-center w-20">
+											Tidak benar
+										</TableHead>
+										<TableHead className="text-center w-20">
+											Sedikit benar
+										</TableHead>
+										<TableHead className="text-center w-20">
+											Memang benar
+										</TableHead>
+									</TableRow>
+								</TableHeader>
+								<TableBody>
+									{soalan?.map((s, i) => (
+										<TableRow key={i}>
+											<TableCell className="text-muted-foreground">
+												{i + 1}
+											</TableCell>
+											<TableCell
+												className={
+													errors[s.id] &&
+													"text-destructive"
+												}
+											>
+												{s.soalan}
+											</TableCell>
+											{s.options?.map((option, i) => (
+												<TableCell
+													key={i}
+													className="text-center"
+												>
+													<div>
+														<input
+															type="radio"
+															value={option}
+															{...register(s.id, {
+																required: true,
+															})}
+														/>
+													</div>
+												</TableCell>
+											))}
+										</TableRow>
 									))}
-								</TableRow>
-							))}
-						</TableBody>
-					</Table>
-				</div>
-				<div className="flex justify-end gap-2">
-					<Button type="reset" variant="outline">
-						Padam
-					</Button>
-					<Button type="submit">Simpan</Button>
-				</div>
-			</form>
+								</TableBody>
+							</Table>
+						</div>
+						<div className="flex justify-end gap-2">
+							<Button type="reset" variant="outline">
+								Padam
+							</Button>
+							<Button type="submit">Simpan</Button>
+						</div>
+					</form>
+				</CardContent>
+			</Card>
 		</Layout>
 	);
 }

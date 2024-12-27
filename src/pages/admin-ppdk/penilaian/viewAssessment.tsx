@@ -1,5 +1,12 @@
 import Layout from "@/components/layout/admin-ppdk-layout";
 import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
+import {
 	Table,
 	TableBody,
 	TableCell,
@@ -40,55 +47,66 @@ export default function ViewAssessment() {
 
 	return (
 		<Layout>
-			<div className="mb-8">
-				<h2 className="mb-5 font-medium capitalize">
-					Soal selidik {soalan?.[0]?.kategori_oku?.kategori}
-				</h2>
-				<p className="text-muted-foreground">
-					Bagi setiap perkara dibawah, sila tandakan petak Tidak
-					Benar, Sedikit Benar, atau Memang Benar. Anda boleh membantu
-					kami jika anda dapat menjawab semua perkara sebaik baiknya
-					yang boleh walaupun anda tidak pasti atau perkara itu nampak
-					bodoh. Sila beri jawapan anda berasaskan kelakuan
-					kanak-kanak itu dalam enam bulan yang lalu atau tahun
-					sekolah ini.
-				</p>
-			</div>
-			<Table>
-				<TableHeader>
-					<TableRow>
-						<TableHead>Soalan</TableHead>
-						<TableHead className="text-center w-20">
-							Tidak benar
-						</TableHead>
-						<TableHead className="text-center w-20">
-							Sedikit benar
-						</TableHead>
-						<TableHead className="text-center w-20">
-							Memang benar
-						</TableHead>
-					</TableRow>
-				</TableHeader>
-				<TableBody>
-					{soalan?.map((s, i) => (
-						<TableRow key={i}>
-							<TableCell>{s.soalan}</TableCell>
-							{s.options?.map((option, i) => (
-								<TableCell key={i} className="text-center">
-									<div>
-										<input
-											type="radio"
-											value={option.value}
-											disabled
-											checked={option.checked}
-										/>
-									</div>
-								</TableCell>
+			<Card>
+				<CardHeader>
+					<CardTitle>
+						Soal selidik {soalan?.[0]?.kategori_oku?.kategori}
+					</CardTitle>
+					<CardDescription>
+						Bagi setiap perkara dibawah, sila tandakan petak Tidak
+						Benar, Sedikit Benar, atau Memang Benar. Anda boleh
+						membantu kami jika anda dapat menjawab semua perkara
+						sebaik baiknya yang boleh walaupun anda tidak pasti atau
+						perkara itu nampak bodoh. Sila beri jawapan anda
+						berasaskan kelakuan kanak-kanak itu dalam enam bulan
+						yang lalu atau tahun sekolah ini.
+					</CardDescription>
+				</CardHeader>
+				<CardContent>
+					<Table>
+						<TableHeader>
+							<TableRow>
+								<TableHead></TableHead>
+								<TableHead>Soalan</TableHead>
+								<TableHead className="text-center w-20">
+									Tidak benar
+								</TableHead>
+								<TableHead className="text-center w-20">
+									Sedikit benar
+								</TableHead>
+								<TableHead className="text-center w-20">
+									Memang benar
+								</TableHead>
+							</TableRow>
+						</TableHeader>
+						<TableBody>
+							{soalan?.map((s, i) => (
+								<TableRow key={i}>
+									<TableCell className="text-muted-foreground">
+										{i + 1}
+									</TableCell>
+									<TableCell>{s.soalan}</TableCell>
+									{s.options?.map((option, i) => (
+										<TableCell
+											key={i}
+											className="text-center"
+										>
+											<div>
+												<input
+													type="radio"
+													value={option.value}
+													disabled
+													checked={option.checked}
+												/>
+											</div>
+										</TableCell>
+									))}
+								</TableRow>
 							))}
-						</TableRow>
-					))}
-				</TableBody>
-			</Table>
+						</TableBody>
+					</Table>
+				</CardContent>
+			</Card>
 		</Layout>
 	);
 }
