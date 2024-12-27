@@ -1,5 +1,9 @@
 import { AppSidebar, NavItemType } from "@/components/app-sidebar";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import {
+	SidebarInset,
+	SidebarProvider,
+	SidebarTrigger,
+} from "@/components/ui/sidebar";
 import {
 	Breadcrumb,
 	BreadcrumbItem,
@@ -11,6 +15,7 @@ import {
 
 import { Gauge, UserPlus, ChartLine, Landmark, Settings } from "lucide-react";
 import { Toaster } from "@/components/ui/toaster";
+import { Separator } from "@/components/ui/separator";
 
 const items: NavItemType[] = [
 	{
@@ -57,29 +62,33 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 	return (
 		<SidebarProvider>
 			<AppSidebar items={items} />
-			<main className="w-full max-w-5xl mx-auto px-6 pb-6">
-				<div className="flex items-center gap-2 py-4">
-					<SidebarTrigger />
-					<Breadcrumb>
-						<BreadcrumbList>
-							<BreadcrumbItem>
-								<BreadcrumbLink href="/">Home</BreadcrumbLink>
-							</BreadcrumbItem>
-							<BreadcrumbSeparator />
-							<BreadcrumbItem>
-								<BreadcrumbLink href="/components">
-									Components
-								</BreadcrumbLink>
-							</BreadcrumbItem>
-							<BreadcrumbSeparator />
-							<BreadcrumbItem>
-								<BreadcrumbPage>Breadcrumb</BreadcrumbPage>
-							</BreadcrumbItem>
-						</BreadcrumbList>
-					</Breadcrumb>
-				</div>
-				{children}
-			</main>
+			<SidebarInset>
+				<header className="flex h-16 shrink-0 items-center gap-2 border-b">
+					<div className="flex items-center gap-2 px-3">
+						<SidebarTrigger />
+						<Separator
+							orientation="vertical"
+							className="mr-2 h-4"
+						/>
+						<Breadcrumb>
+							<BreadcrumbList>
+								<BreadcrumbItem className="hidden md:block">
+									<BreadcrumbLink href="#">
+										Building Your Application
+									</BreadcrumbLink>
+								</BreadcrumbItem>
+								<BreadcrumbSeparator className="hidden md:block" />
+								<BreadcrumbItem>
+									<BreadcrumbPage>
+										Data Fetching
+									</BreadcrumbPage>
+								</BreadcrumbItem>
+							</BreadcrumbList>
+						</Breadcrumb>
+					</div>
+				</header>
+				<div className="flex flex-1 flex-col gap-4 p-6">{children}</div>
+			</SidebarInset>
 			<Toaster />
 		</SidebarProvider>
 	);

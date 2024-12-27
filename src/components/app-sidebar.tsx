@@ -3,7 +3,6 @@ import {
 	Accessibility,
 	ChevronDown,
 	ChevronUp,
-	GalleryVerticalEnd,
 	LucideProps,
 	User2,
 } from "lucide-react";
@@ -62,7 +61,7 @@ export function AppSidebar({ items }: { items: NavItemType[] }) {
 								</div>
 								<div className="flex flex-col gap-0.5 leading-none">
 									<span className="font-semibold">
-										PPDK Info Sys
+										PPDK InfoSys
 									</span>
 									<span>v{version}</span>
 								</div>

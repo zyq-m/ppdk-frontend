@@ -22,6 +22,13 @@ import {
 import { Eye, TextSearch } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
 
 export default function ListPelatih() {
 	const [list, setList] = useState([]);
@@ -35,51 +42,58 @@ export default function ListPelatih() {
 
 	return (
 		<Layout>
-			<div>
-				<Table>
-					<TableCaption>Senarai pelatih</TableCaption>
-					<TableHeader>
-						<TableRow>
-							<TableHead>Bil</TableHead>
-							<TableHead>Nama</TableHead>
-							<TableHead>No KP</TableHead>
-							<TableHead>Jantina</TableHead>
-							<TableHead>Negeri</TableHead>
-							<TableHead className="w-20"></TableHead>
-						</TableRow>
-					</TableHeader>
-					<TableBody>
-						{list?.map((item, i) => (
-							<TableRow key={item.id}>
-								<TableCell className="text-muted-foreground">
-									{i + 1}
-								</TableCell>
-								<TableCell>{item.nama}</TableCell>
-								<TableCell>{item.no_kp}</TableCell>
-								<TableCell className="capitalize">
-									{item.jantina.jantina}
-								</TableCell>
-								<TableCell>{item.negeri}</TableCell>
-								<TableCell>
-									<div className="flex justify-end items-center gap-1">
-										<Assessment id={item.id} />
-										<Button
-											variant="outline"
-											onClick={() =>
-												navigate(
-													`/admin-ppdk/pelatih/${item.id}`
-												)
-											}
-										>
-											<Eye />
-										</Button>
-									</div>
-								</TableCell>
+			<Card>
+				<CardHeader>
+					<CardTitle>Senarai Pelatih</CardTitle>
+					<CardDescription>
+						Senarai ini telah didaftarkan oleh Admin
+					</CardDescription>
+				</CardHeader>
+				<CardContent>
+					<Table>
+						<TableHeader>
+							<TableRow>
+								<TableHead>Bil</TableHead>
+								<TableHead>Nama</TableHead>
+								<TableHead>No KP</TableHead>
+								<TableHead>Jantina</TableHead>
+								<TableHead>Negeri</TableHead>
+								<TableHead className="w-20"></TableHead>
 							</TableRow>
-						))}
-					</TableBody>
-				</Table>
-			</div>
+						</TableHeader>
+						<TableBody>
+							{list?.map((item, i) => (
+								<TableRow key={item.id}>
+									<TableCell className="text-muted-foreground">
+										{i + 1}
+									</TableCell>
+									<TableCell>{item.nama}</TableCell>
+									<TableCell>{item.no_kp}</TableCell>
+									<TableCell className="capitalize">
+										{item.jantina.jantina}
+									</TableCell>
+									<TableCell>{item.negeri}</TableCell>
+									<TableCell>
+										<div className="flex justify-end items-center gap-1">
+											<Assessment id={item.id} />
+											<Button
+												variant="ghost"
+												onClick={() =>
+													navigate(
+														`/admin-ppdk/pelatih/${item.id}`
+													)
+												}
+											>
+												<Eye />
+											</Button>
+										</div>
+									</TableCell>
+								</TableRow>
+							))}
+						</TableBody>
+					</Table>
+				</CardContent>
+			</Card>
 		</Layout>
 	);
 }
@@ -95,7 +109,7 @@ const Assessment = ({ id }) => {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
-				<Button className="text-green-500" variant="outline">
+				<Button className="text-green-500" variant="ghost">
 					<TextSearch />
 				</Button>
 			</DropdownMenuTrigger>
