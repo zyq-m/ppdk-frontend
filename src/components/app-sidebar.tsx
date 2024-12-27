@@ -1,5 +1,12 @@
-import { NavLink } from "react-router-dom";
-import { ChevronDown, ChevronUp, LucideProps, User2 } from "lucide-react";
+import { NavLink, useNavigate } from "react-router-dom";
+import {
+	Accessibility,
+	ChevronDown,
+	ChevronUp,
+	GalleryVerticalEnd,
+	LucideProps,
+	User2,
+} from "lucide-react";
 import {
 	Sidebar,
 	SidebarContent,
@@ -7,6 +14,7 @@ import {
 	SidebarGroup,
 	SidebarGroupContent,
 	SidebarGroupLabel,
+	SidebarHeader,
 	SidebarMenu,
 	SidebarMenuButton,
 	SidebarMenuItem,
@@ -26,6 +34,7 @@ import {
 	CollapsibleTrigger,
 	CollapsibleContent,
 } from "@/components/ui/collapsible";
+import { version } from "../../package.json";
 
 type UrlType = {
 	title?: string;
@@ -39,11 +48,32 @@ export type NavItemType = UrlType & {
 };
 
 export function AppSidebar({ items }: { items: NavItemType[] }) {
+	const navigate = useNavigate();
+
 	return (
 		<Sidebar collapsible="icon">
+			<SidebarHeader>
+				<SidebarMenu>
+					<SidebarMenuItem>
+						<SidebarMenuButton size="lg" asChild>
+							<a href="#">
+								<div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+									<Accessibility className="size-4" />
+								</div>
+								<div className="flex flex-col gap-0.5 leading-none">
+									<span className="font-semibold">
+										PPDK Info Sys
+									</span>
+									<span>v{version}</span>
+								</div>
+							</a>
+						</SidebarMenuButton>
+					</SidebarMenuItem>
+				</SidebarMenu>
+			</SidebarHeader>
 			<SidebarContent>
 				<SidebarGroup>
-					<SidebarGroupLabel>Application</SidebarGroupLabel>
+					<SidebarGroupLabel>Menu</SidebarGroupLabel>
 					<SidebarGroupContent>
 						<SidebarMenu>
 							{items.map((item) => (
@@ -111,13 +141,14 @@ export function AppSidebar({ items }: { items: NavItemType[] }) {
 								className="w-[--radix-popper-anchor-width]"
 							>
 								<DropdownMenuItem>
-									<span>Account</span>
-								</DropdownMenuItem>
-								<DropdownMenuItem>
-									<span>Billing</span>
-								</DropdownMenuItem>
-								<DropdownMenuItem>
-									<span>Sign out</span>
+									<span
+										onClick={() => {
+											window.sessionStorage.clear();
+											navigate("/");
+										}}
+									>
+										Sign out
+									</span>
 								</DropdownMenuItem>
 							</DropdownMenuContent>
 						</DropdownMenu>
