@@ -10,85 +10,85 @@ import "./index.css";
 
 const router = createBrowserRouter([
 	{
-		path: "/",
+		path: "/app",
 		element: <Page.Login />,
 	},
 
 	// Super Admin
 	{
-		path: "/super-admin",
+		path: "/app/super-admin",
 		element: <Page.Dashboard />,
 		loader: protectedLoader,
 	},
 	{
-		path: "/super-admin/ppdk",
+		path: "/app/super-admin/ppdk",
 		element: <Page.ListPPDK />,
 		loader: protectedLoader,
 	},
 	{
-		path: "/super-admin/ppdk/register",
+		path: "/app/super-admin/ppdk/register",
 		element: <Page.RegisterPPDK />,
 		loader: protectedLoader,
 	},
 	{
-		path: "/super-admin/admin",
+		path: "/app/super-admin/admin",
 		element: <Page.ListAdmin />,
 		loader: protectedLoader,
 	},
 	{
-		path: "/super-admin/admin/register",
+		path: "/app/super-admin/admin/register",
 		element: <Page.RegisterAdminPPDK />,
 		loader: protectedLoader,
 	},
 	{
-		path: "/super-admin/setup/soalan",
+		path: "/app/super-admin/setup/soalan",
 		element: <Page.SetupSoalan />,
 		loader: protectedLoader,
 	},
 	{
-		path: "/super-admin/setup/kategori",
+		path: "/app/super-admin/setup/kategori",
 		element: <Page.SetupKategori />,
 		loader: protectedLoader,
 	},
 
 	// Admin PPDK
 	{
-		path: "/admin-ppdk",
+		path: "/app/admin-ppdk",
 		element: <Page.DashboardAdminPPK />,
 		loader: protectedLoader,
 	},
 	{
-		path: "/admin-ppdk/pelatih",
+		path: "/app/admin-ppdk/pelatih",
 		element: <Page.ListPelatih />,
 		loader: protectedLoader,
 	},
 	{
-		path: "/admin-ppdk/pelatih/register",
+		path: "/app/admin-ppdk/pelatih/register",
 		element: <Page.RegisterPelatih />,
 		loader: protectedLoader,
 	},
 	{
-		path: "/admin-ppdk/pelatih/:id",
+		path: "/app/admin-ppdk/pelatih/:id",
 		element: <Page.Profile />,
 		loader: protectedLoader,
 	},
 	{
-		path: "/admin-ppdk/pelatih-update/:id",
+		path: "/app/admin-ppdk/pelatih-update/:id",
 		element: <Page.UpdateProfile />,
 		loader: protectedLoader,
 	},
 	{
-		path: "/admin-ppdk/penilaian",
+		path: "/app/admin-ppdk/penilaian",
 		element: <Page.DashboardPenilaian />,
 		loader: protectedLoader,
 	},
 	{
-		path: "/admin-ppdk/penilaian/:id/:kategori",
+		path: "/app/admin-ppdk/penilaian/:id/:kategori",
 		element: <Page.NilaiPelatih />,
 		loader: protectedLoader,
 	},
 	{
-		path: "/admin-ppdk/view-penilaian/:id/:kategori",
+		path: "/app/admin-ppdk/view-penilaian/:id/:kategori",
 		element: <Page.ViewAssessment />,
 		loader: protectedLoader,
 	},

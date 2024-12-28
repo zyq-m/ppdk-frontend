@@ -10,5 +10,5 @@ app.get("/app/*", (req, res) => {
 });
 
 app.listen(port, () => {
-	console.log(`Admin server listening on port:${port}`);
+	console.log(`Server listening on port:${port}`);
 });
