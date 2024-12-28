@@ -102,7 +102,7 @@ function protectedLoader({ request }) {
 	if (!token) {
 		let params = new URLSearchParams();
 		params.set("from", new URL(request.url).pathname);
-		return redirect("/?" + params.toString());
+		return redirect("/app?" + params.toString());
 	}
 	return null;
 }
