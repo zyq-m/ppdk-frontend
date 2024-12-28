@@ -334,15 +334,15 @@ export default function RegisterPelatih() {
 									</FormItem>
 								)}
 							/>
+							<div className="flex justify-end gap-2 mt-2">
+								<Button type="reset" variant="outline">
+									Padam
+								</Button>
+								<Button type="submit">Daftar</Button>
+							</div>
 						</form>
 					</Form>
 				</CardContent>
-				<CardFooter className="flex justify-end gap-2">
-					<Button type="reset" variant="outline">
-						Padam
-					</Button>
-					<Button type="submit">Daftar</Button>
-				</CardFooter>
 			</Card>
 		</Layout>
 	);

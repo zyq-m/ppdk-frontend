@@ -157,7 +157,7 @@ export function AppSidebar({ items }: { items: NavItemType[] }) {
 									<span
 										onClick={() => {
 											window.sessionStorage.clear();
-											navigate("/");
+											navigate("/app");
 										}}
 									>
 										Sign out
