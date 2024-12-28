@@ -79,7 +79,7 @@ export default function ListPelatih() {
 												variant="ghost"
 												onClick={() =>
 													navigate(
-														`/admin-ppdk/pelatih/${item.id}`
+														`/app/admin-ppdk/pelatih/${item.id}`
 													)
 												}
 											>
@@ -118,7 +118,9 @@ const Assessment = ({ id }) => {
 				<DropdownMenuGroup>
 					{kategori?.map((k) => (
 						<DropdownMenuItem key={k.id}>
-							<Link to={`/admin-ppdk/penilaian/${id}/${k.id}`}>
+							<Link
+								to={`/app/admin-ppdk/penilaian/${id}/${k.id}`}
+							>
 								{k.kategori}
 							</Link>
 						</DropdownMenuItem>

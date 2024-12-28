@@ -20,39 +20,39 @@ import { Separator } from "@/components/ui/separator";
 const items: NavItemType[] = [
 	{
 		title: "Dashboard",
-		url: "/super-admin",
+		url: "/app/super-admin",
 		icon: Gauge,
 	},
 	{
 		title: "PPDK",
 		subItem: [
-			{ title: "Senarai", url: "/super-admin/ppdk" },
-			{ title: "Daftar", url: "/super-admin/ppdk/register" },
+			{ title: "Senarai", url: "/app/super-admin/ppdk" },
+			{ title: "Daftar", url: "/app/super-admin/ppdk/register" },
 		],
-		url: "/super-admin/ppdk",
+		url: "/app/super-admin/ppdk",
 		icon: Landmark,
 	},
 	{
 		title: "Admin PPDK",
 		subItem: [
-			{ title: "Senarai", url: "/super-admin/admin" },
-			{ title: "Daftar", url: "/super-admin/admin/register" },
+			{ title: "Senarai", url: "/app/super-admin/admin" },
+			{ title: "Daftar", url: "/app/super-admin/admin/register" },
 		],
 		icon: UserPlus,
 	},
 	{
 		title: "Report",
 		subItem: [
-			{ title: "PPDK", url: "/super-admin/report" },
-			{ title: "Pelatih", url: "/super-admin/report" },
+			{ title: "PPDK", url: "/app/super-admin/report" },
+			{ title: "Pelatih", url: "/app/super-admin/report" },
 		],
 		icon: ChartLine,
 	},
 	{
 		title: "Setting",
 		subItem: [
-			{ title: "Setup soalan", url: "/super-admin/setup/soalan" },
-			{ title: "Kategori OKU", url: "/super-admin/setup/kategori" },
+			{ title: "Setup soalan", url: "/app/super-admin/setup/soalan" },
+			{ title: "Kategori OKU", url: "/app/super-admin/setup/kategori" },
 		],
 		icon: Settings,
 	},

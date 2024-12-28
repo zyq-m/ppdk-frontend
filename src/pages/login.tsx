@@ -45,16 +45,16 @@ export default function Login() {
 			sessionStorage.setItem("refreshToken", res.data.refreshToken);
 
 			if (sub?.roleId == 2) {
-				navigate("/admin-ppdk");
+				navigate("/app/admin-ppdk");
 				return;
 			}
 
 			if (sub?.roleId == 1) {
-				navigate("/super-admin");
+				navigate("/app/super-admin");
 				return;
 			}
 
-			navigate("/");
+			navigate("/app");
 		} catch (error) {
 			console.log(error);
 		}

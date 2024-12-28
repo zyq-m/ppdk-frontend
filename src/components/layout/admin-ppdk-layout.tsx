@@ -20,20 +20,20 @@ import { Separator } from "@/components/ui/separator";
 const items = [
 	{
 		title: "Dashboard",
-		url: "/admin-ppdk",
+		url: "/app/admin-ppdk",
 		icon: Gauge,
 	},
 	{
 		title: "Pelatih",
 		subItem: [
-			{ title: "Senarai", url: "/admin-ppdk/pelatih" },
-			{ title: "Daftar", url: "/admin-ppdk/pelatih/register" },
+			{ title: "Senarai", url: "/app/admin-ppdk/pelatih" },
+			{ title: "Daftar", url: "/app/admin-ppdk/pelatih/register" },
 		],
 		icon: UserPlus,
 	},
 	{
 		title: "Penilaian",
-		url: "/admin-ppdk/penilaian",
+		url: "/app/admin-ppdk/penilaian",
 		icon: TextSearch,
 	},
 ];

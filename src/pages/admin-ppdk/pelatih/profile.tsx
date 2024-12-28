@@ -75,7 +75,7 @@ export default function Profile() {
 									<Button
 										onClick={() =>
 											navigate(
-												`/admin-ppdk/pelatih-update/${id}`
+												`/app/admin-ppdk/pelatih-update/${id}`
 											)
 										}
 									>
@@ -152,7 +152,7 @@ export default function Profile() {
 														variant="ghost"
 														onClick={() =>
 															navigate(
-																`/admin-ppdk/view-penilaian/${profile?.id}/${assess.kategori_oku.id}`
+																`/app/admin-ppdk/view-penilaian/${profile?.id}/${assess.kategori_oku.id}`
 															)
 														}
 													>
