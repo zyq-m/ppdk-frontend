@@ -5,6 +5,7 @@ import {
 	FormControl,
 	FormField,
 	FormItem,
+	FormLabel,
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -58,11 +59,10 @@ export default function RegisterAdminPPDK() {
 	async function onSubmit(values: z.infer<typeof formSchema>) {
 		console.log(values);
 		try {
-			// await api.post("/ppdk/", values);
-
+			await api.post("/auth/signup", values);
 			toast({
 				title: "Berjaya",
-				description: "Cawangan PPDK baharu berjaya didaftarkan",
+				description: "Admin berjaya didaftarkan",
 			});
 		} catch (error) {
 			console.log(error);
@@ -91,6 +91,7 @@ export default function RegisterAdminPPDK() {
 							name="email"
 							render={({ field }) => (
 								<FormItem>
+									<FormLabel>Email</FormLabel>
 									<FormControl>
 										<Input
 											placeholder="Email"
@@ -107,6 +108,7 @@ export default function RegisterAdminPPDK() {
 							name="nama"
 							render={({ field }) => (
 								<FormItem>
+									<FormLabel>Nama Penuh</FormLabel>
 									<FormControl>
 										<Input placeholder="Nama" {...field} />
 									</FormControl>
@@ -119,6 +121,8 @@ export default function RegisterAdminPPDK() {
 							name="no_tel"
 							render={({ field }) => (
 								<FormItem>
+									<FormLabel>No telefon</FormLabel>
+
 									<FormControl>
 										<Input
 											placeholder="No Telefon"
@@ -135,6 +139,7 @@ export default function RegisterAdminPPDK() {
 							name="jawatan"
 							render={({ field }) => (
 								<FormItem>
+									<FormLabel>Jawatan</FormLabel>
 									<FormControl>
 										<Input
 											placeholder="Jawatan"
@@ -154,6 +159,7 @@ export default function RegisterAdminPPDK() {
 										onValueChange={field.onChange}
 										defaultValue={field.value}
 									>
+										<FormLabel>Cawangan PPDK</FormLabel>
 										<FormControl>
 											<SelectTrigger>
 												<SelectValue placeholder="Pilih satu" />
