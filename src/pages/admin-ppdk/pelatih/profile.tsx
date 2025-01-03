@@ -56,6 +56,10 @@ export default function Profile() {
 									<p>{profile?.no_kp}</p>
 								</div>
 								<div>
+									<Label>Umur</Label>
+									<p>{profile?.umur} tahun</p>
+								</div>
+								<div>
 									<Label>Jantina</Label>
 									<p>{profile?.jantina?.jantina}</p>
 								</div>
@@ -118,6 +122,9 @@ export default function Profile() {
 										<TableHead className="text-center">
 											Skor
 										</TableHead>
+										<TableHead className="text-center">
+											Indikator
+										</TableHead>
 										<TableHead className="text-right">
 											Masa
 										</TableHead>
@@ -139,6 +146,9 @@ export default function Profile() {
 												</TableCell>
 												<TableCell className="text-center">
 													{assess?.skor || "-"}
+												</TableCell>
+												<TableCell className="text-center">
+													{assess?.indicator || "-"}
 												</TableCell>
 												<TableCell className="text-right">
 													{dayjs(

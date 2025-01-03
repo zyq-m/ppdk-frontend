@@ -21,6 +21,7 @@ import { useParams } from "react-router-dom";
 export default function ViewAssessment() {
 	const { id, kategori } = useParams();
 	const [soalan, setSoalan] = useState([]);
+	const [skor, setSkor] = useState({});
 
 	useEffect(() => {
 		api.get(`/setup/soalan/${kategori}`).then((res) => {
@@ -31,6 +32,7 @@ export default function ViewAssessment() {
 				pelatih_id: id,
 			},
 		}).then((res) => {
+			setSkor(res.data);
 			const answer = JSON.parse(res.data?.jawapan);
 			setSoalan((prev) =>
 				prev.map((s) => ({
@@ -105,6 +107,31 @@ export default function ViewAssessment() {
 							))}
 						</TableBody>
 					</Table>
+				</CardContent>
+			</Card>
+			<Card>
+				<CardHeader>
+					<CardTitle>Keputusan penilaian</CardTitle>
+					<CardDescription>
+						Skor penilaian yang diperoleh
+					</CardDescription>
+				</CardHeader>
+				<CardContent>
+					<div>
+						<div>Skor: {skor?.skor}</div>
+						<div>
+							Rendah: {skor?.lagend?.low.min}-
+							{skor?.lagend?.low.max}
+						</div>
+						<div>
+							Serdahana: {skor?.lagend?.mid.min}-
+							{skor?.lagend?.mid.max}
+						</div>
+						<div>
+							Tinggi: {skor?.lagend?.high.min}-
+							{skor?.lagend?.high.max}
+						</div>
+					</div>
 				</CardContent>
 			</Card>
 		</Layout>
