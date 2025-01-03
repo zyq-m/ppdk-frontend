@@ -3,6 +3,7 @@ import {
 	Accessibility,
 	ChevronDown,
 	ChevronUp,
+	LogOut,
 	LucideProps,
 	User2,
 } from "lucide-react";
@@ -153,15 +154,14 @@ export function AppSidebar({ items }: { items: NavItemType[] }) {
 								side="top"
 								className="w-[--radix-popper-anchor-width]"
 							>
-								<DropdownMenuItem>
-									<span
-										onClick={() => {
-											window.sessionStorage.clear();
-											navigate("/app");
-										}}
-									>
-										Sign out
-									</span>
+								<DropdownMenuItem
+									onClick={() => {
+										window.sessionStorage.clear();
+										navigate("/app");
+									}}
+								>
+									<LogOut />
+									Log out
 								</DropdownMenuItem>
 							</DropdownMenuContent>
 						</DropdownMenu>

@@ -4,8 +4,6 @@ import {
 	ChartConfig,
 	ChartTooltip,
 	ChartTooltipContent,
-	ChartLegend,
-	ChartLegendContent,
 } from "@/components/ui/chart";
 import {
 	Card,
@@ -15,114 +13,68 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
+import { Bar, BarChart, XAxis, YAxis } from "recharts";
 import { TrendingUp } from "lucide-react";
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@/components/ui/select";
-import { useState } from "react";
 
+const chartData = [
+	{ jantina: "lelaki", pelatih: 275, fill: "var(--color-lelaki)" },
+	{ jantina: "perempuan", pelatih: 200, fill: "var(--color-perempuan)" },
+];
 const chartConfig = {
+	pelatih: {
+		label: "Pelatih",
+	},
 	lelaki: {
 		label: "Lelaki",
-		color: "#2563eb",
+		color: "hsl(var(--chart-1))",
 	},
 	perempuan: {
 		label: "Perempuan",
-		color: "#60a5fa",
+		color: "hsl(var(--chart-2))",
 	},
 } satisfies ChartConfig;
 
-const chartData = [
-	{
-		month: "Januari",
-		lelaki: 20,
-		perempuan: 12,
-	},
-	{
-		month: "Febuari",
-		lelaki: 5,
-		perempuan: 9,
-	},
-	{
-		month: "Mac",
-		lelaki: 7,
-		perempuan: 18,
-	},
-	{
-		month: "April",
-		lelaki: 2,
-		perempuan: 10,
-	},
-	{
-		month: "Mei",
-		lelaki: 7,
-		perempuan: 5,
-	},
-	{
-		month: "Jun",
-		lelaki: 9,
-		perempuan: 28,
-	},
-];
-
 export default function DashboardAdminPPK() {
-	const [timeRange, setTimeRange] = useState("90d");
-
 	return (
 		<Layout>
 			<Card>
-				<CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
-					<div className="grid flex-1 gap-1 text-center sm:text-left">
-						<CardTitle>Graf Bar - Pelatih</CardTitle>
-						<CardDescription>Januari - Jun 2024</CardDescription>
-					</div>
-					<Select value={timeRange} onValueChange={setTimeRange}>
-						<SelectTrigger
-							className="w-[160px] rounded-lg sm:ml-auto"
-							aria-label="Select a value"
-						>
-							<SelectValue placeholder="Last 3 months" />
-						</SelectTrigger>
-						<SelectContent className="rounded-xl">
-							<SelectItem value="90d" className="rounded-lg">
-								Last 3 months
-							</SelectItem>
-							<SelectItem value="30d" className="rounded-lg">
-								Last 30 days
-							</SelectItem>
-							<SelectItem value="7d" className="rounded-lg">
-								Last 7 days
-							</SelectItem>
-						</SelectContent>
-					</Select>
+				<CardHeader>
+					<CardTitle>Graf Bar - Pelatih</CardTitle>
+					<CardDescription>
+						Bilangan pelatih berdaftar
+					</CardDescription>
 				</CardHeader>
 				<CardContent>
 					<ChartContainer config={chartConfig}>
-						<BarChart accessibilityLayer data={chartData}>
-							<CartesianGrid vertical={false} />
-							<XAxis
-								dataKey="month"
+						<BarChart
+							accessibilityLayer
+							data={chartData}
+							layout="vertical"
+							margin={{
+								left: 48,
+							}}
+						>
+							<YAxis
+								dataKey="jantina"
+								type="category"
 								tickLine={false}
 								tickMargin={10}
 								axisLine={false}
-								tickFormatter={(value) => value.slice(0, 3)}
+								tickFormatter={(value) =>
+									chartConfig[
+										value as keyof typeof chartConfig
+									]?.label
+								}
 							/>
-							<ChartTooltip content={<ChartTooltipContent />} />
-							<ChartLegend content={<ChartLegendContent />} />
-							<Bar
-								dataKey="lelaki"
-								fill="var(--color-lelaki)"
-								radius={4}
+							<XAxis dataKey="pelatih" type="number" hide />
+							<ChartTooltip
+								cursor={false}
+								content={<ChartTooltipContent hideLabel />}
 							/>
 							<Bar
-								dataKey="perempuan"
-								fill="var(--color-perempuan)"
-								radius={4}
+								dataKey="pelatih"
+								layout="vertical"
+								radius={5}
 							/>
 						</BarChart>
 					</ChartContainer>
@@ -133,8 +85,7 @@ export default function DashboardAdminPPK() {
 						<TrendingUp className="h-4 w-4" />
 					</div>
 					<div className="leading-none text-muted-foreground">
-						Menunjukkan jumlah pelatih berdaftar sepanjang 6 bulan
-						lepas
+						Menunjukkan jumlah pelatih mengikut jantina
 					</div>
 				</CardFooter>
 			</Card>
