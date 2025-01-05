@@ -1,16 +1,68 @@
+import { DataTable } from "@/components/data-table";
 import Layout from "@/components/layout/super-admin-layout";
 import {
-	Table,
-	TableBody,
-	TableCaption,
-	TableCell,
-	TableHead,
-	TableHeader,
-	TableRow,
-} from "@/components/ui/table";
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
 import { api } from "@/utils/axios";
-import { Pencil, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { ColumnDef } from "@tanstack/react-table";
+
+type NoTel = {
+	id: string;
+	no_tel: string;
+};
+
+type AdminPPDK = {
+	id: string;
+	nama: string;
+	email: string;
+	no_tel: NoTel[];
+	jawatan: string;
+	ppdk: {
+		id: string;
+		nama: string;
+		alamat: string;
+	};
+};
+
+const columns: ColumnDef<AdminPPDK>[] = [
+	{
+		id: "bil",
+		header: "Bil",
+		cell: ({ row }) => <div>{row.index + 1}</div>,
+	},
+	{
+		accessorKey: "nama",
+		header: "Nama",
+	},
+	{
+		accessorKey: "email",
+		header: "Email",
+	},
+	{
+		accessorKey: "no_tel",
+		header: "No tel",
+		cell: ({ row }) => (
+			<div>
+				{row.original.no_tel.map((tel) => (
+					<div key={tel.id}>{tel.no_tel}</div>
+				))}
+			</div>
+		),
+	},
+	{
+		accessorKey: "jawatan",
+		header: "Jawatan",
+	},
+	{
+		accessorKey: "ppdk.nama",
+		header: "PPDK",
+	},
+];
 
 export default function ListAdmin() {
 	const [list, setList] = useState([]);
@@ -23,50 +75,17 @@ export default function ListAdmin() {
 
 	return (
 		<Layout>
-			<div>
-				<Table>
-					<TableCaption>Senarai cawangan PPDK</TableCaption>
-					<TableHeader>
-						<TableRow>
-							<TableHead>Bil</TableHead>
-							<TableHead>Nama</TableHead>
-							<TableHead>Email</TableHead>
-							<TableHead>No tel</TableHead>
-							<TableHead>Jawatan</TableHead>
-							<TableHead>PPDK</TableHead>
-							<TableHead className="w-20"></TableHead>
-						</TableRow>
-					</TableHeader>
-					<TableBody>
-						{list?.map((item, i) => (
-							<TableRow key={item.id}>
-								<TableCell className="text-muted-foreground">
-									{i + 1}
-								</TableCell>
-								<TableCell>{item.nama}</TableCell>
-								<TableCell>{item.email}</TableCell>
-								<TableCell>
-									{item.no_tel?.map((tel) => (
-										<span>{tel.no_tel}</span>
-									))}
-								</TableCell>
-								<TableCell>{item.jawatan}</TableCell>
-								<TableCell>{item.ppdk.nama}</TableCell>
-								<TableCell>
-									<div className="flex justify-end items-center gap-3">
-										<button className="text-green-500">
-											<Pencil size={15} />
-										</button>
-										<button className="text-red-500">
-											<Trash2 size={15} />
-										</button>
-									</div>
-								</TableCell>
-							</TableRow>
-						))}
-					</TableBody>
-				</Table>
-			</div>
+			<Card>
+				<CardHeader>
+					<CardTitle>Senarai nama Admin</CardTitle>
+					<CardDescription>
+						Senarai nama telah didaftar oleh Super Admin
+					</CardDescription>
+				</CardHeader>
+				<CardContent>
+					<DataTable columns={columns} data={list} colName="nama" />
+				</CardContent>
+			</Card>
 		</Layout>
 	);
 }
