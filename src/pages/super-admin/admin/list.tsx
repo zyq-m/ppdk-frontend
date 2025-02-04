@@ -1,4 +1,4 @@
-import { DataTable } from "@/components/data-table";
+import DataTable from "@/components/data-table";
 import Layout from "@/components/layout/super-admin-layout";
 import {
 	Card,
@@ -10,26 +10,10 @@ import {
 import { api } from "@/utils/axios";
 import { useEffect, useState } from "react";
 import { ColumnDef } from "@tanstack/react-table";
+import { TAdmin } from "@/lib/type";
+import { Badge } from "@/components/ui/badge";
 
-type NoTel = {
-	id: string;
-	no_tel: string;
-};
-
-type AdminPPDK = {
-	id: string;
-	nama: string;
-	email: string;
-	no_tel: NoTel[];
-	jawatan: string;
-	ppdk: {
-		id: string;
-		nama: string;
-		alamat: string;
-	};
-};
-
-const columns: ColumnDef<AdminPPDK>[] = [
+const columns: ColumnDef<TAdmin>[] = [
 	{
 		id: "bil",
 		header: "Bil",
@@ -57,10 +41,11 @@ const columns: ColumnDef<AdminPPDK>[] = [
 	{
 		accessorKey: "jawatan",
 		header: "Jawatan",
+		cell: ({ row }) => <Badge variant="outline">{row.original.jawatan}</Badge>,
 	},
 	{
 		accessorKey: "ppdk.nama",
-		header: "PPDK",
+		header: "Nama PPDK",
 	},
 ];
 
@@ -83,7 +68,12 @@ export default function ListAdmin() {
 					</CardDescription>
 				</CardHeader>
 				<CardContent>
-					<DataTable columns={columns} data={list} colName="nama" />
+					<DataTable
+						columns={columns}
+						data={list}
+						colName="nama"
+						placeholder="Cari nama ..."
+					/>
 				</CardContent>
 			</Card>
 		</Layout>

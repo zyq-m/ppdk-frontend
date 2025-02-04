@@ -66,10 +66,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 				<header className="flex h-16 shrink-0 items-center gap-2 border-b">
 					<div className="flex items-center gap-2 px-3">
 						<SidebarTrigger />
-						<Separator
-							orientation="vertical"
-							className="mr-2 h-4"
-						/>
+						<Separator orientation="vertical" className="mr-2 h-4" />
 						<Breadcrumb>
 							<BreadcrumbList>
 								<BreadcrumbItem className="hidden md:block">
@@ -79,9 +76,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 								</BreadcrumbItem>
 								<BreadcrumbSeparator className="hidden md:block" />
 								<BreadcrumbItem>
-									<BreadcrumbPage>
-										Data Fetching
-									</BreadcrumbPage>
+									<BreadcrumbPage>Data Fetching</BreadcrumbPage>
 								</BreadcrumbItem>
 							</BreadcrumbList>
 						</Breadcrumb>

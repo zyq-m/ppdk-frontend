@@ -41,6 +41,11 @@ const router = createBrowserRouter([
 		loader: protectedLoader,
 	},
 	{
+		path: "/app/super-admin/report",
+		element: <Page.Report />,
+		loader: protectedLoader,
+	},
+	{
 		path: "/app/super-admin/setup/soalan",
 		element: <Page.SetupSoalan />,
 		loader: protectedLoader,

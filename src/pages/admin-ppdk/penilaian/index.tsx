@@ -22,7 +22,7 @@ import { ArrowUpDown, MoreHorizontal, TrendingUp } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
-import { DataTable } from "@/components/data-table";
+import DataTable from "@/components/data-table";
 import { ColumnDef } from "@tanstack/react-table";
 import {
 	DropdownMenu,
@@ -101,9 +101,7 @@ export default function DashboardPenilaian() {
 			header: ({ column }) => (
 				<Button
 					variant="ghost"
-					onClick={() =>
-						column.toggleSorting(column.getIsSorted() === "asc")
-					}
+					onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
 				>
 					Umur
 					<ArrowUpDown />
@@ -116,9 +114,7 @@ export default function DashboardPenilaian() {
 			header: ({ column }) => (
 				<Button
 					variant="ghost"
-					onClick={() =>
-						column.toggleSorting(column.getIsSorted() === "asc")
-					}
+					onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
 				>
 					Skor
 					<ArrowUpDown />
@@ -134,9 +130,7 @@ export default function DashboardPenilaian() {
 			header: ({ column }) => (
 				<Button
 					variant="ghost"
-					onClick={() =>
-						column.toggleSorting(column.getIsSorted() === "asc")
-					}
+					onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
 				>
 					Masa
 					<ArrowUpDown />
@@ -144,9 +138,7 @@ export default function DashboardPenilaian() {
 			),
 			cell: ({ row }) => (
 				<div>
-					{dayjs(row.getValue("created_at")).format(
-						"DD/MM/YYYY hh:mma"
-					)}
+					{dayjs(row.getValue("created_at")).format("DD/MM/YYYY hh:mma")}
 				</div>
 			),
 		},
@@ -166,9 +158,7 @@ export default function DashboardPenilaian() {
 							<DropdownMenuLabel>Actions</DropdownMenuLabel>
 							<DropdownMenuItem
 								onClick={() =>
-									navigate(
-										`/app/admin-ppdk/pelatih/${penilaian.pelatih.id}`
-									)
+									navigate(`/app/admin-ppdk/pelatih/${penilaian.pelatih.id}`)
 								}
 							>
 								Lihat Profil
@@ -190,7 +180,8 @@ export default function DashboardPenilaian() {
 	];
 
 	useEffect(() => {
-		api.get("/assessment/")
+		api
+			.get("/assessment/")
 			.then((res) => {
 				setAssessment(res.data);
 			})
@@ -220,28 +211,15 @@ export default function DashboardPenilaian() {
 							/>
 							<ChartTooltip content={<ChartTooltipContent />} />
 							<ChartLegend content={<ChartLegendContent />} />
-							<Bar
-								dataKey="k1"
-								fill="var(--color-k1)"
-								radius={4}
-							/>
-							<Bar
-								dataKey="k2"
-								fill="var(--color-k2)"
-								radius={4}
-							/>
-							<Bar
-								dataKey="k3"
-								fill="var(--color-k3)"
-								radius={4}
-							/>
+							<Bar dataKey="k1" fill="var(--color-k1)" radius={4} />
+							<Bar dataKey="k2" fill="var(--color-k2)" radius={4} />
+							<Bar dataKey="k3" fill="var(--color-k3)" radius={4} />
 						</BarChart>
 					</ChartContainer>
 				</CardContent>
 				<CardFooter className="flex-col items-start gap-2 text-sm">
 					<div className="flex gap-2 font-medium leading-none">
-						Trending up by 5.2% this month{" "}
-						<TrendingUp className="h-4 w-4" />
+						Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
 					</div>
 					<div className="leading-none text-muted-foreground">
 						Menunjukkan skor berdasarkan kategori penilaian

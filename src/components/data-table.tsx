@@ -24,12 +24,14 @@ interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
 	data: TData[];
 	colName: string;
+	placeholder?: string;
 }
 
-export function DataTable<TData, TValue>({
+export default function DataTable<TData, TValue>({
 	columns,
 	data,
 	colName,
+	placeholder = "",
 }: DataTableProps<TData, TValue>) {
 	const [sorting, setSorting] = useState<SortingState>([]);
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -51,16 +53,10 @@ export function DataTable<TData, TValue>({
 		<div>
 			<div className="flex items-center py-4">
 				<Input
-					placeholder="Cari nama pelatih"
-					value={
-						(table
-							.getColumn(colName)
-							?.getFilterValue() as string) ?? ""
-					}
+					placeholder={placeholder}
+					value={(table.getColumn(colName)?.getFilterValue() as string) ?? ""}
 					onChange={(event) =>
-						table
-							.getColumn(colName)
-							?.setFilterValue(event.target.value)
+						table.getColumn(colName)?.setFilterValue(event.target.value)
 					}
 					className="max-w-sm"
 				/>
@@ -75,8 +71,7 @@ export function DataTable<TData, TValue>({
 										{header.isPlaceholder
 											? null
 											: flexRender(
-													header.column.columnDef
-														.header,
+													header.column.columnDef.header,
 													header.getContext()
 											  )}
 									</TableHead>
@@ -94,20 +89,14 @@ export function DataTable<TData, TValue>({
 							>
 								{row.getVisibleCells().map((cell) => (
 									<TableCell key={cell.id}>
-										{flexRender(
-											cell.column.columnDef.cell,
-											cell.getContext()
-										)}
+										{flexRender(cell.column.columnDef.cell, cell.getContext())}
 									</TableCell>
 								))}
 							</TableRow>
 						))
 					) : (
 						<TableRow>
-							<TableCell
-								colSpan={columns.length}
-								className="h-24 text-center"
-							>
+							<TableCell colSpan={columns.length} className="h-24 text-center">
 								No results.
 							</TableCell>
 						</TableRow>
