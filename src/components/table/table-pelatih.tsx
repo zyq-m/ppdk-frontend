@@ -21,13 +21,15 @@ import {
 } from "@/components/ui/card";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { PelatihType } from "@/lib/type";
+import { PelatihType, TKategori } from "@/lib/type";
 
 export default function TablePelatih({
 	displayAssess = true,
 }: {
 	displayAssess?: boolean;
 }) {
+	const [list, setList] = useState([]);
+	const [kategori, setKategori] = useState<TKategori[]>([]);
 	const columns: ColumnDef<PelatihType>[] = [
 		{
 			id: "bil",
@@ -78,18 +80,28 @@ export default function TablePelatih({
 			id: "action",
 			cell: ({ row }) => {
 				return (
-					<Assessment displayAssess={displayAssess} id={row.original.id} />
+					<Assessment
+						kategori={kategori}
+						displayAssess={displayAssess}
+						id={row.original.id}
+					/>
 				);
 			},
 		},
 	];
-	const [list, setList] = useState([]);
 
 	useEffect(() => {
 		api.get("/pelatih").then((res) => {
 			setList(res.data);
 		});
 	}, []);
+
+	useEffect(() => {
+		if (displayAssess)
+			api.get("/setup/oku").then((res) => {
+				setKategori(res.data);
+			});
+	}, [displayAssess]);
 
 	return (
 		<Card>
@@ -114,19 +126,13 @@ export default function TablePelatih({
 const Assessment = ({
 	id,
 	displayAssess,
+	kategori,
 }: {
 	id: string;
 	displayAssess: boolean;
+	kategori: TKategori[];
 }) => {
-	const [kategori, setKategori] = useState([]);
 	const navigate = useNavigate();
-
-	useEffect(() => {
-		if (displayAssess)
-			api.get("/setup/oku").then((res) => {
-				setKategori(res.data);
-			});
-	}, [displayAssess]);
 
 	return (
 		<DropdownMenu>

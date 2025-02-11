@@ -42,10 +42,7 @@ const items: NavItemType[] = [
 	},
 	{
 		title: "Report",
-		subItem: [
-			{ title: "PPDK", url: "/app/super-admin/report" },
-			{ title: "Pelatih", url: "/app/super-admin/report" },
-		],
+		url: "/app/super-admin/report",
 		icon: ChartLine,
 	},
 	{

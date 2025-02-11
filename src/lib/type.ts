@@ -46,3 +46,8 @@ export type TPenilaian = {
 	};
 	created_at: string;
 };
+
+export type TKategori = {
+	id: string;
+	kategori: string;
+};
