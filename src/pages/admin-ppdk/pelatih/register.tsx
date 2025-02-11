@@ -1,87 +1,47 @@
+import KeupayaanForm from "@/components/form/pelatih/keupayaan";
+import PenjagaForm from "@/components/form/pelatih/penjaga";
+import PeribadiForm from "@/components/form/pelatih/peribadi";
+import TambahanForm from "@/components/form/pelatih/tambahan";
 import Layout from "@/components/layout/admin-ppdk-layout";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
 	CardContent,
-	CardDescription,
 	CardFooter,
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import {
-	Form,
-	FormControl,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import {
-	Select,
-	SelectContent,
-	SelectGroup,
-	SelectItem,
-	SelectLabel,
-	SelectTrigger,
-	SelectValue,
-} from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
+import { Form } from "@/components/ui/form";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
+import { formSchema } from "@/lib/formSchema";
 import { api } from "@/utils/axios";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
-const formSchema = z.object({
-	nama: z.string().min(10, {
-		message: "Sila isi nama",
-	}),
-	no_kp: z.string().min(12, {
-		message: "Sila isi nama",
-	}),
-	jantina_id: z.string().min(1, {
-		message: "Sila isi pilih jantina",
-	}),
-	kaum: z.string().min(1, {
-		message: "Sila isi pilih kaum",
-	}),
-	alamat: z.string().min(5, {
-		message: "Sila isi alamat",
-	}),
-	negeri: z.string().min(5, {
-		message: "Sila isi negeri",
-	}),
-	nama_penjaga: z.string().min(5, {
-		message: "Sila isi nama",
-	}),
-	hubungan: z.string().min(5, {
-		message: "Sila pilih hubungan",
-	}),
-	no_tel: z.string().min(10, {
-		message: "Sila isi no telefon",
-	}),
-	alamat_penjaga: z.string().min(5, {
-		message: "Sila isi alamat",
-	}),
-});
 
 export default function RegisterPelatih() {
 	const { toast } = useToast();
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			nama: "",
-			no_kp: "",
-			jantina_id: "",
-			kaum: "",
-			alamat: "",
-			nama_penjaga: "",
-			hubungan: "",
-			no_tel: "",
-			alamat_penjaga: "",
+			penjaga: [
+				{
+					nama: "",
+					hubungan: "",
+					noKp: "",
+					dob: "",
+					pekerjaan: "",
+					pendapatan: "",
+					ketidakUpayaan: "",
+					isPenerima: "",
+				},
+			],
 		},
 	});
+
+	const [tab, setTab] = useState("peribadi");
 
 	async function onSubmit(values: z.infer<typeof formSchema>) {
 		try {
@@ -99,251 +59,85 @@ export default function RegisterPelatih() {
 
 	return (
 		<Layout>
-			<Card>
-				<CardHeader>
-					<CardTitle>Daftar Pelatih</CardTitle>
-					<CardDescription>
-						Sila isi maklumat dengan lengkap
-					</CardDescription>
-				</CardHeader>
-				<CardContent>
-					<Form {...form}>
-						<form
-							onSubmit={form.handleSubmit(onSubmit)}
-							className="flex flex-col min-h-screen gap-4"
-						>
-							<h2 className="text-lg font-semibold">
-								Maklumat pelatih
-							</h2>
-							<FormField
-								control={form.control}
-								name="nama"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>Nama penuh</FormLabel>
-										<FormControl>
-											<Input
-												placeholder="Nama penuh"
-												{...field}
-											/>
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-							<FormField
-								control={form.control}
-								name="no_kp"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>No kad pengenalan</FormLabel>
-										<FormControl>
-											<Input
-												placeholder="No kad pengenalan"
-												{...field}
-											/>
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-							<FormField
-								control={form.control}
-								name="jantina_id"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>Jantina</FormLabel>
-										<Select
-											onValueChange={field.onChange}
-											defaultValue={field.value}
-										>
-											<FormControl>
-												<SelectTrigger>
-													<SelectValue placeholder="Pilih satu" />
-												</SelectTrigger>
-											</FormControl>
-											<SelectContent>
-												<SelectGroup>
-													<SelectLabel>
-														Jantina
-													</SelectLabel>
-													<SelectItem value="1">
-														Lelaki
-													</SelectItem>
-													<SelectItem value="2">
-														Perempuan
-													</SelectItem>
-												</SelectGroup>
-											</SelectContent>
-										</Select>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-							<FormField
-								control={form.control}
-								name="kaum"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>Kaum</FormLabel>
-										<Select
-											onValueChange={field.onChange}
-											defaultValue={field.value}
-										>
-											<FormControl>
-												<SelectTrigger>
-													<SelectValue placeholder="Pilih satu" />
-												</SelectTrigger>
-											</FormControl>
-											<SelectContent>
-												<SelectGroup>
-													<SelectLabel>
-														Kaum
-													</SelectLabel>
-													<SelectItem value="1">
-														Melayu
-													</SelectItem>
-													<SelectItem value="2">
-														India
-													</SelectItem>
-													<SelectItem value="3">
-														Cina
-													</SelectItem>
-												</SelectGroup>
-											</SelectContent>
-										</Select>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-							<FormField
-								control={form.control}
-								name="negeri"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>Negeri</FormLabel>
-										<FormControl>
-											<Input
-												placeholder="Negeri"
-												{...field}
-											/>
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-							<FormField
-								control={form.control}
-								name="alamat"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>Alamat</FormLabel>
-										<FormControl>
-											<Textarea
-												placeholder="Alamat"
-												{...field}
-											/>
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-
-							<h2 className="mt-4 text-lg font-semibold">
-								Maklumat penjaga
-							</h2>
-							<FormField
-								control={form.control}
-								name="nama_penjaga"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>Nama penuh</FormLabel>
-										<FormControl>
-											<Input
-												placeholder="Nama penuh"
-												{...field}
-											/>
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-							<FormField
-								control={form.control}
-								name="hubungan"
-								render={({ field }) => (
-									<FormItem>
-										<Select
-											onValueChange={field.onChange}
-											defaultValue={field.value}
-										>
-											<FormLabel>Hubungan</FormLabel>
-											<FormControl>
-												<SelectTrigger>
-													<SelectValue placeholder="Pilih satu" />
-												</SelectTrigger>
-											</FormControl>
-											<SelectContent>
-												<SelectGroup>
-													<SelectLabel>
-														Hubungan
-													</SelectLabel>
-													<SelectItem value="ibu/bapa">
-														Ibu/Bapa
-													</SelectItem>
-													<SelectItem value="penjaga">
-														Penjaga
-													</SelectItem>
-												</SelectGroup>
-											</SelectContent>
-										</Select>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-							<FormField
-								control={form.control}
-								name="no_tel"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>No telefon</FormLabel>
-										<FormControl>
-											<Input
-												placeholder="No Telefon"
-												type="tel"
-												{...field}
-											/>
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-							<FormField
-								control={form.control}
-								name="alamat_penjaga"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>Alamat</FormLabel>
-										<FormControl>
-											<Textarea
-												placeholder="Alamat"
-												{...field}
-											/>
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-							<div className="flex justify-end gap-2 mt-2">
-								<Button type="reset" variant="outline">
-									Padam
-								</Button>
-								<Button type="submit">Daftar</Button>
-							</div>
-						</form>
-					</Form>
-				</CardContent>
-			</Card>
+			<Form {...form}>
+				<form onSubmit={form.handleSubmit(onSubmit)}>
+					<Tabs value={tab} onValueChange={(v) => setTab(v)}>
+						<TabsList>
+							<TabsTrigger value="peribadi">Butiran peribadi</TabsTrigger>
+							<TabsTrigger value="penjaga">Butiran penjaga</TabsTrigger>
+							<TabsTrigger value="keupayaan">Tahap keupayaan</TabsTrigger>
+							<TabsTrigger value="tambahan">Maklumat tambahan</TabsTrigger>
+						</TabsList>
+						<TabsContent value="peribadi">
+							<Card>
+								<CardHeader>
+									<CardTitle>Butiran peribadi</CardTitle>
+								</CardHeader>
+								<CardContent>
+									<PeribadiForm form={form} />
+								</CardContent>
+								<CardFooter className="justify-end">
+									<Button type="button" onClick={() => setTab("penjaga")}>
+										Next
+									</Button>
+								</CardFooter>
+							</Card>
+						</TabsContent>
+						<TabsContent value="penjaga">
+							<Card>
+								<CardHeader>
+									<CardTitle>Butiran penjaga</CardTitle>
+								</CardHeader>
+								<CardContent>
+									<PenjagaForm form={form} />
+								</CardContent>
+								<CardFooter className="justify-end">
+									<Button type="button" onClick={() => setTab("keupayaan")}>
+										Next
+									</Button>
+								</CardFooter>
+							</Card>
+						</TabsContent>
+						<TabsContent value="keupayaan">
+							<Card>
+								<CardHeader>
+									<CardTitle>Tahap keupayaan pelatih</CardTitle>
+								</CardHeader>
+								<CardContent>
+									<KeupayaanForm form={form} />
+								</CardContent>
+								<CardFooter className="justify-end">
+									<Button type="button" onClick={() => setTab("tambahan")}>
+										Next
+									</Button>
+								</CardFooter>
+							</Card>
+						</TabsContent>
+						<TabsContent value="tambahan">
+							<Card>
+								<CardHeader>
+									<CardTitle>Butiran penjaga</CardTitle>
+								</CardHeader>
+								<CardContent>
+									<TambahanForm form={form} />
+								</CardContent>
+								<CardFooter className="justify-end gap-2">
+									<Button
+										variant="outline"
+										type="reset"
+										onClick={() => form.reset()}
+									>
+										Padam
+									</Button>
+									<Button disabled={!form.formState.isValid} type="submit">
+										Daftar
+									</Button>
+								</CardFooter>
+							</Card>
+						</TabsContent>
+					</Tabs>
+				</form>
+			</Form>
 		</Layout>
 	);
 }

@@ -1,0 +1,251 @@
+import { Button } from "@/components/ui/button";
+import {
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
+import { PelatihFormProps } from "@/lib/type";
+import { useFieldArray } from "react-hook-form";
+
+export default function PenjagaForm({ form }: PelatihFormProps) {
+	const { fields, append, remove } = useFieldArray({
+		control: form.control,
+		name: "penjaga",
+	});
+
+	return (
+		<>
+			{fields.map((item, i) => (
+				<div key={item.id} className="space-y-4">
+					<FormField
+						control={form.control}
+						name={`penjaga.${i}.nama`}
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Nama penuh</FormLabel>
+								<FormControl>
+									<Input placeholder="Nama penuh" {...field} />
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+					<FormField
+						control={form.control}
+						name={`penjaga.${i}.noKp`}
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>No. kad pengenalan</FormLabel>
+								<FormControl>
+									<Input {...field} />
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+					<FormField
+						control={form.control}
+						name={`penjaga.${i}.dob`}
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Tarikh lahir</FormLabel>
+								<FormControl>
+									<Input type="date" {...field} />
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+					<FormField
+						control={form.control}
+						name={`penjaga.${i}.pekerjaan`}
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Pekerjaan</FormLabel>
+								<FormControl>
+									<Input {...field} />
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+					<FormField
+						control={form.control}
+						name={`penjaga.${i}.pendapatan`}
+						render={({ field }) => (
+							<FormItem>
+								<Select
+									onValueChange={field.onChange}
+									defaultValue={field.value}
+								>
+									<FormLabel>Pendapatan sebulan</FormLabel>
+									<FormControl>
+										<SelectTrigger>
+											<SelectValue placeholder="Pilih satu" />
+										</SelectTrigger>
+									</FormControl>
+									<SelectContent>
+										<SelectItem value="ibu/bapa">
+											Kurang daripada RM5,250
+										</SelectItem>
+										<SelectItem value="penjaga">
+											Antara RM5,250 hingga RM11,819
+										</SelectItem>
+										<SelectItem value="penjaga">RM11,820 ke atas</SelectItem>
+									</SelectContent>
+								</Select>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+					<FormField
+						control={form.control}
+						name={`penjaga.${i}.hubungan`}
+						render={({ field }) => (
+							<FormItem>
+								<Select onValueChange={field.onChange}>
+									<FormLabel>Hubungan</FormLabel>
+									<FormControl>
+										<SelectTrigger>
+											<SelectValue placeholder="Pilih satu" />
+										</SelectTrigger>
+									</FormControl>
+									<SelectContent>
+										<SelectItem value="ibu/bapa">Ibu/Penjaga</SelectItem>
+										<SelectItem value="penjaga">Bapa/Penjaga</SelectItem>
+									</SelectContent>
+								</Select>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+					<FormField
+						control={form.control}
+						name={`penjaga.${i}.ketidakUpayaan`}
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Jenis ketidakupayaan (jika ada)</FormLabel>
+								<FormControl>
+									<Input {...field} />
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+					<FormField
+						control={form.control}
+						name={`penjaga.${i}.isPenerima`}
+						render={({ field }) => (
+							<FormItem>
+								<Select
+									onValueChange={field.onChange}
+									defaultValue={field.value}
+								>
+									<FormLabel>Penerima bantuan</FormLabel>
+									<FormControl>
+										<SelectTrigger>
+											<SelectValue placeholder="Pilih satu" />
+										</SelectTrigger>
+									</FormControl>
+									<SelectContent>
+										<SelectItem value="0">Tidak</SelectItem>
+										<SelectItem value="1">Ya</SelectItem>
+									</SelectContent>
+								</Select>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+					{form.watch(`penjaga.${i}.isPenerima`) === "1" && (
+						<>
+							<FormField
+								control={form.control}
+								name="alamat_penjaga"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Nyatakan jenis bantuan</FormLabel>
+										<FormControl>
+											<Input {...field} />
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+							<FormField
+								control={form.control}
+								name="alamat_penjaga"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Nyatakan kadar bantuan (RM)</FormLabel>
+										<FormControl>
+											<Input {...field} />
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+							<FormField
+								control={form.control}
+								name="alamat_penjaga"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>
+											Nyatakan agensi/jabatan pemberi bantuan
+										</FormLabel>
+										<FormControl>
+											<Input {...field} />
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+						</>
+					)}
+					<div>
+						<Button
+							type="button"
+							className="w-full"
+							variant="destructive"
+							disabled={fields.length === 1}
+							onClick={() => remove(i)}
+						>
+							Padam penjaga
+						</Button>
+						<Separator className="my-8" />
+					</div>
+				</div>
+			))}
+			<Button
+				className="w-full"
+				variant="secondary"
+				type="button"
+				disabled={fields.length === 2}
+				onClick={() =>
+					append({
+						nama: "",
+						hubungan: "",
+						noKp: "",
+						dob: "",
+						pekerjaan: "",
+						pendapatan: "",
+						ketidakUpayaan: "",
+						isPenerima: "",
+					})
+				}
+			>
+				Tambah penjaga
+			</Button>
+		</>
+	);
+}

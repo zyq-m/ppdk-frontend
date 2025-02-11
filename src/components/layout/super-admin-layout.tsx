@@ -16,6 +16,7 @@ import {
 import { Gauge, UserPlus, ChartLine, Landmark, Settings } from "lucide-react";
 import { Toaster } from "@/components/ui/toaster";
 import { Separator } from "@/components/ui/separator";
+import { Link, useLocation } from "react-router-dom";
 
 const items: NavItemType[] = [
 	{
@@ -56,6 +57,9 @@ const items: NavItemType[] = [
 ];
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+	const location = useLocation();
+	console.log(location);
+
 	return (
 		<SidebarProvider>
 			<AppSidebar items={items} />
@@ -67,8 +71,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 						<Breadcrumb>
 							<BreadcrumbList>
 								<BreadcrumbItem className="hidden md:block">
-									<BreadcrumbLink href="#">
-										Building Your Application
+									<BreadcrumbLink asChild>
+										<Link to="/app/super-admin">Dahsboard</Link>
 									</BreadcrumbLink>
 								</BreadcrumbItem>
 								<BreadcrumbSeparator className="hidden md:block" />

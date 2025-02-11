@@ -1,3 +1,7 @@
+import { UseFormReturn } from "react-hook-form";
+import { z } from "zod";
+import { formSchema } from "./formSchema";
+
 export type TPPDK = {
 	nama: string;
 	alamat: string;
@@ -50,4 +54,8 @@ export type TPenilaian = {
 export type TKategori = {
 	id: string;
 	kategori: string;
+};
+
+export type PelatihFormProps = {
+	form: UseFormReturn<z.infer<typeof formSchema>>;
 };
