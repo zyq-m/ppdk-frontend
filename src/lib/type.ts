@@ -27,11 +27,9 @@ export type PelatihType = {
 	id: string;
 	nama: string;
 	no_kp: string;
+	no_pendaftaran: string;
 	umur: number;
-	jantina: {
-		id: number;
-		jantina: string;
-	};
+	jantina: string;
 	negeri: string;
 };
 
@@ -55,6 +53,8 @@ export type TKategori = {
 	id: string;
 	kategori: string;
 };
+
+export type PelatihResT = z.infer<typeof formSchema> & { umur: number };
 
 export type PelatihFormProps = {
 	form: UseFormReturn<z.infer<typeof formSchema>>;

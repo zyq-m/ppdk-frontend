@@ -27,7 +27,7 @@ export default function PenjagaForm({ form }: PelatihFormProps) {
 	return (
 		<>
 			{fields.map((item, i) => (
-				<div key={item.id} className="space-y-4">
+				<div key={item.id} className="grid gap-4 md:grid-cols-2 justify-end">
 					<FormField
 						control={form.control}
 						name={`penjaga.${i}.nama`}
@@ -88,6 +88,7 @@ export default function PenjagaForm({ form }: PelatihFormProps) {
 								<Select
 									onValueChange={field.onChange}
 									defaultValue={field.value}
+									{...field}
 								>
 									<FormLabel>Pendapatan sebulan</FormLabel>
 									<FormControl>
@@ -96,13 +97,11 @@ export default function PenjagaForm({ form }: PelatihFormProps) {
 										</SelectTrigger>
 									</FormControl>
 									<SelectContent>
-										<SelectItem value="ibu/bapa">
-											Kurang daripada RM5,250
-										</SelectItem>
-										<SelectItem value="penjaga">
+										<SelectItem value="1">Kurang daripada RM5,250</SelectItem>
+										<SelectItem value="2">
 											Antara RM5,250 hingga RM11,819
 										</SelectItem>
-										<SelectItem value="penjaga">RM11,820 ke atas</SelectItem>
+										<SelectItem value="3">RM11,820 ke atas</SelectItem>
 									</SelectContent>
 								</Select>
 								<FormMessage />
@@ -114,7 +113,11 @@ export default function PenjagaForm({ form }: PelatihFormProps) {
 						name={`penjaga.${i}.hubungan`}
 						render={({ field }) => (
 							<FormItem>
-								<Select onValueChange={field.onChange}>
+								<Select
+									onValueChange={field.onChange}
+									defaultValue={field.value}
+									{...field}
+								>
 									<FormLabel>Hubungan</FormLabel>
 									<FormControl>
 										<SelectTrigger>
@@ -151,6 +154,7 @@ export default function PenjagaForm({ form }: PelatihFormProps) {
 								<Select
 									onValueChange={field.onChange}
 									defaultValue={field.value}
+									{...field}
 								>
 									<FormLabel>Penerima bantuan</FormLabel>
 									<FormControl>
@@ -171,7 +175,7 @@ export default function PenjagaForm({ form }: PelatihFormProps) {
 						<>
 							<FormField
 								control={form.control}
-								name="alamat_penjaga"
+								name={`penjaga.${i}.bantuan`}
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>Nyatakan jenis bantuan</FormLabel>
@@ -184,12 +188,12 @@ export default function PenjagaForm({ form }: PelatihFormProps) {
 							/>
 							<FormField
 								control={form.control}
-								name="alamat_penjaga"
+								name={`penjaga.${i}.kadar`}
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>Nyatakan kadar bantuan (RM)</FormLabel>
 										<FormControl>
-											<Input {...field} />
+											<Input type="number" {...field} />
 										</FormControl>
 										<FormMessage />
 									</FormItem>
@@ -197,7 +201,7 @@ export default function PenjagaForm({ form }: PelatihFormProps) {
 							/>
 							<FormField
 								control={form.control}
-								name="alamat_penjaga"
+								name={`penjaga.${i}.agensi`}
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>
@@ -212,7 +216,7 @@ export default function PenjagaForm({ form }: PelatihFormProps) {
 							/>
 						</>
 					)}
-					<div>
+					<div className="md:col-span-2">
 						<Button
 							type="button"
 							className="w-full"

@@ -7,13 +7,14 @@ import { Button } from "@/components/ui/button";
 import {
 	Card,
 	CardContent,
+	CardDescription,
 	CardFooter,
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "@/hooks/use-toast";
 import { formSchema } from "@/lib/formSchema";
 import { api } from "@/utils/axios";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,10 +23,15 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 export default function RegisterPelatih() {
-	const { toast } = useToast();
+	const [tab, setTab] = useState("peribadi");
+	const [img, setImg] = useState<File | null>(null);
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
+			no_tel: [
+				{ no: "", type: "rumah" },
+				{ no: "", type: "bimbit" },
+			],
 			penjaga: [
 				{
 					nama: "",
@@ -38,20 +44,38 @@ export default function RegisterPelatih() {
 					isPenerima: "",
 				},
 			],
+			keupayaan: {
+				urusDiri: ["1"],
+				bergerak: ["1"],
+			},
 		},
 	});
 
-	const [tab, setTab] = useState("peribadi");
-
 	async function onSubmit(values: z.infer<typeof formSchema>) {
+		const fd = new FormData();
+		if (!img) {
+			toast({
+				title: "Error",
+				description: "Sila upload gambar berukuran pasport",
+				variant: "destructive",
+			});
+			return;
+		}
+		fd.append("img", img);
+		fd.append("json", JSON.stringify(values));
+
 		try {
-			await api.post("/pelatih/", values);
+			const res = await api.post("/pelatih", fd, {
+				headers: {
+					"Content-Type": "multipart/form-data",
+				},
+			});
 
 			toast({
 				title: "Berjaya",
-				description: "Pelatih berjaya didaftarkan",
+				description: res.data.message,
 			});
-			form.reset();
+			// form.reset();
 		} catch (error) {
 			console.log(error);
 		}
@@ -72,9 +96,12 @@ export default function RegisterPelatih() {
 							<Card>
 								<CardHeader>
 									<CardTitle>Butiran peribadi</CardTitle>
+									<CardDescription>
+										Sila isi maklumat dengan lengkap
+									</CardDescription>
 								</CardHeader>
 								<CardContent>
-									<PeribadiForm form={form} />
+									<PeribadiForm form={form} sendImg={(img) => setImg(img)} />
 								</CardContent>
 								<CardFooter className="justify-end">
 									<Button type="button" onClick={() => setTab("penjaga")}>
@@ -87,6 +114,9 @@ export default function RegisterPelatih() {
 							<Card>
 								<CardHeader>
 									<CardTitle>Butiran penjaga</CardTitle>
+									<CardDescription>
+										Sila isi maklumat dengan lengkap
+									</CardDescription>
 								</CardHeader>
 								<CardContent>
 									<PenjagaForm form={form} />
@@ -102,6 +132,9 @@ export default function RegisterPelatih() {
 							<Card>
 								<CardHeader>
 									<CardTitle>Tahap keupayaan pelatih</CardTitle>
+									<CardDescription>
+										Sila isi maklumat dengan lengkap
+									</CardDescription>
 								</CardHeader>
 								<CardContent>
 									<KeupayaanForm form={form} />
@@ -117,6 +150,9 @@ export default function RegisterPelatih() {
 							<Card>
 								<CardHeader>
 									<CardTitle>Butiran penjaga</CardTitle>
+									<CardDescription>
+										Sila isi maklumat dengan lengkap
+									</CardDescription>
 								</CardHeader>
 								<CardContent>
 									<TambahanForm form={form} />
@@ -129,9 +165,7 @@ export default function RegisterPelatih() {
 									>
 										Padam
 									</Button>
-									<Button disabled={!form.formState.isValid} type="submit">
-										Daftar
-									</Button>
+									<Button type="submit">Daftar</Button>
 								</CardFooter>
 							</Card>
 						</TabsContent>

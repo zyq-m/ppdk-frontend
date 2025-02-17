@@ -45,6 +45,10 @@ export default function TablePelatih({
 			header: "No KP",
 		},
 		{
+			accessorKey: "no_pendaftaran",
+			header: "No Pendaftaran OKU",
+		},
+		{
 			accessorKey: "umur",
 			header: ({ column }) => (
 				<Button
@@ -58,7 +62,7 @@ export default function TablePelatih({
 			cell: ({ row }) => <div>{row.getValue("umur")} tahun</div>,
 		},
 		{
-			accessorKey: "jantina.jantina",
+			accessorKey: "jantina",
 			header: ({ column }) => (
 				<Button
 					variant="ghost"
@@ -67,9 +71,6 @@ export default function TablePelatih({
 					Jantina
 					<ArrowUpDown />
 				</Button>
-			),
-			cell: ({ row }) => (
-				<div className="capitalize">{row.getValue("jantina_jantina")}</div>
 			),
 		},
 		{

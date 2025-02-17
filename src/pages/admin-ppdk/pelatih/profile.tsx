@@ -1,183 +1,144 @@
+import KeupayaanForm from "@/components/form/pelatih/keupayaan";
+import PenjagaForm from "@/components/form/pelatih/penjaga";
+import PeribadiForm from "@/components/form/pelatih/peribadi";
+import TambahanForm from "@/components/form/pelatih/tambahan";
 import Layout from "@/components/layout/admin-ppdk-layout";
-import { api } from "@/utils/axios";
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import dayjs from "dayjs";
-
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import {
-	Table,
-	TableBody,
-	TableCell,
-	TableHead,
-	TableHeader,
-	TableRow,
-} from "@/components/ui/table";
-import { Pencil, Eye } from "lucide-react";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+	Card,
+	CardContent,
+	CardDescription,
+	CardFooter,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
+import { Form } from "@/components/ui/form";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+// import { toast } from "@/hooks/use-toast";
+import { formSchema } from "@/lib/formSchema";
+import { PelatihResT } from "@/lib/type";
+import { api } from "@/utils/axios";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import {
+	// useNavigate,
+	useParams,
+} from "react-router-dom";
+import { z } from "zod";
 
 export default function Profile() {
 	const { id } = useParams();
-	const [profile, setProfile] = useState({});
-	const navigate = useNavigate();
+	const [tab, setTab] = useState("peribadi");
+	// const navigate = useNavigate();
+	const form = useForm<z.infer<typeof formSchema>>({
+		resolver: zodResolver(formSchema),
+	});
+
+	async function onSubmit(values: z.infer<typeof formSchema>) {
+		console.log(values);
+	}
 
 	useEffect(() => {
-		api.get(`/pelatih/${id}`).then((res) => {
-			setProfile(res.data);
+		api.get(`/pelatih/${id}`).then(({ data }: { data: PelatihResT }) => {
+			for (const [key, value] of Object.entries(data)) {
+				form.setValue(key, value);
+			}
 		});
-	}, [id]);
+		console.log("run");
+	}, [form, id]);
 
 	return (
 		<Layout>
-			<Card>
-				<Tabs defaultValue="profil">
-					<CardHeader className="block">
+			<Form {...form}>
+				<form onSubmit={form.handleSubmit(onSubmit)}>
+					<Tabs value={tab} onValueChange={(v) => setTab(v)}>
 						<TabsList>
-							<TabsTrigger value="profil">
-								Profil Pelatih
-							</TabsTrigger>
-							<TabsTrigger value="penjaga">Penjaga</TabsTrigger>
-							<TabsTrigger value="penilaian">
-								Penilaian
-							</TabsTrigger>
+							<TabsTrigger value="peribadi">Butiran peribadi</TabsTrigger>
+							<TabsTrigger value="penjaga">Butiran penjaga</TabsTrigger>
+							<TabsTrigger value="keupayaan">Tahap keupayaan</TabsTrigger>
+							<TabsTrigger value="tambahan">Maklumat tambahan</TabsTrigger>
 						</TabsList>
-					</CardHeader>
-					<CardContent>
-						<TabsContent value="profil">
-							<div className="grid grid-cols-3 gap-4 mb-4">
-								<div>
-									<Label>Nama penuh</Label>
-									<p>{profile?.nama}</p>
-								</div>
-								<div>
-									<Label>No KP</Label>
-									<p>{profile?.no_kp}</p>
-								</div>
-								<div>
-									<Label>Umur</Label>
-									<p>{profile?.umur} tahun</p>
-								</div>
-								<div>
-									<Label>Jantina</Label>
-									<p>{profile?.jantina?.jantina}</p>
-								</div>
-								<div>
-									<Label>Kaum</Label>
-									<p>{profile?.kaum}</p>
-								</div>
-								<div>
-									<Label>Negeri</Label>
-									<p>{profile?.negeri}</p>
-								</div>
-								<div className="col-span-3">
-									<Label>Alamat</Label>
-									<p>{profile?.alamat}</p>
-								</div>
-								<div className="col-span-3 text-right">
-									<Button
-										onClick={() =>
-											navigate(
-												`/app/admin-ppdk/pelatih-update/${id}`
-											)
-										}
-									>
-										<Pencil size={16} />
-										Kemaskini
+						<TabsContent value="peribadi">
+							<Card>
+								<CardHeader>
+									<CardTitle>Butiran peribadi</CardTitle>
+									<CardDescription>
+										Sila isi maklumat dengan lengkap
+									</CardDescription>
+								</CardHeader>
+								<CardContent>
+									<PeribadiForm form={form} />
+								</CardContent>
+								<CardFooter className="justify-end">
+									<Button type="button" onClick={() => setTab("penjaga")}>
+										Next
 									</Button>
-								</div>
-							</div>
+								</CardFooter>
+							</Card>
 						</TabsContent>
 						<TabsContent value="penjaga">
-							{profile?.penjaga?.map((penjaga, index) => (
-								<div key={penjaga.id} className="grid gap-4">
-									<div>
-										<Label>Nama penuh</Label>
-										<p>{penjaga.nama}</p>
-									</div>
-									<div>
-										<Label>Hubungan</Label>
-										<p>{penjaga.hubungan}</p>
-									</div>
-									<div>
-										<Label>No tel</Label>
-										{penjaga.no_tel.map((no) => (
-											<p key={no.id}>{no.no_tel}</p>
-										))}
-									</div>
-									<div>
-										<Label>Alamat</Label>
-										<p>{penjaga.alamat}</p>
-									</div>
-								</div>
-							))}
+							<Card>
+								<CardHeader>
+									<CardTitle>Butiran penjaga</CardTitle>
+									<CardDescription>
+										Sila isi maklumat dengan lengkap
+									</CardDescription>
+								</CardHeader>
+								<CardContent>
+									<PenjagaForm form={form} />
+								</CardContent>
+								<CardFooter className="justify-end">
+									<Button type="button" onClick={() => setTab("keupayaan")}>
+										Next
+									</Button>
+								</CardFooter>
+							</Card>
 						</TabsContent>
-						<TabsContent value="penilaian">
-							<Table>
-								<TableHeader>
-									<TableRow>
-										<TableHead></TableHead>
-										<TableHead>Kategori Soalan</TableHead>
-										<TableHead className="text-center">
-											Skor
-										</TableHead>
-										<TableHead className="text-center">
-											Indikator
-										</TableHead>
-										<TableHead className="text-right">
-											Masa
-										</TableHead>
-										<TableHead className="w-20"></TableHead>
-									</TableRow>
-								</TableHeader>
-								<TableBody>
-									{profile?.assessment?.map(
-										(assess, index) => (
-											<TableRow key={assess.id}>
-												<TableCell>
-													{index + 1}
-												</TableCell>
-												<TableCell>
-													{
-														assess.kategori_oku
-															.kategori
-													}
-												</TableCell>
-												<TableCell className="text-center">
-													{assess?.skor || "-"}
-												</TableCell>
-												<TableCell className="text-center">
-													{assess?.indicator || "-"}
-												</TableCell>
-												<TableCell className="text-right">
-													{dayjs(
-														assess?.created_at
-													).format(
-														"DD/MM/YYYY HH:mm"
-													)}
-												</TableCell>
-												<TableCell className="text-right">
-													<Button
-														variant="ghost"
-														onClick={() =>
-															navigate(
-																`/app/admin-ppdk/view-penilaian/${profile?.id}/${assess.kategori_oku.id}`
-															)
-														}
-													>
-														<Eye size={16} />
-													</Button>
-												</TableCell>
-											</TableRow>
-										)
-									)}
-								</TableBody>
-							</Table>
+						<TabsContent value="keupayaan">
+							<Card>
+								<CardHeader>
+									<CardTitle>Tahap keupayaan pelatih</CardTitle>
+									<CardDescription>
+										Sila isi maklumat dengan lengkap
+									</CardDescription>
+								</CardHeader>
+								<CardContent>
+									<KeupayaanForm form={form} />
+								</CardContent>
+								<CardFooter className="justify-end">
+									<Button type="button" onClick={() => setTab("tambahan")}>
+										Next
+									</Button>
+								</CardFooter>
+							</Card>
 						</TabsContent>
-					</CardContent>
-				</Tabs>
-			</Card>
+						<TabsContent value="tambahan">
+							<Card>
+								<CardHeader>
+									<CardTitle>Butiran penjaga</CardTitle>
+									<CardDescription>
+										Sila isi maklumat dengan lengkap
+									</CardDescription>
+								</CardHeader>
+								<CardContent>
+									<TambahanForm form={form} />
+								</CardContent>
+								<CardFooter className="justify-end gap-2">
+									<Button
+										variant="outline"
+										type="reset"
+										onClick={() => form.reset()}
+									>
+										Padam
+									</Button>
+									<Button type="submit">Daftar</Button>
+								</CardFooter>
+							</Card>
+						</TabsContent>
+					</Tabs>
+				</form>
+			</Form>
 		</Layout>
 	);
 }

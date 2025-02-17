@@ -16,14 +16,14 @@ export const formSchema = z
 		dtgSendiri: z.string(),
 		yaDtg: z.string().optional(),
 		tidakDtg: z.string().optional(),
-		jantina_id: z.string().min(1, {
+		jantina: z.string().min(1, {
 			message: "Sila isi pilih jantina",
 		}),
 		bangsa: z.string().min(1, {
 			message: "Sila isi pilih kaum",
 		}),
-		bilAdik: z.number(),
-		bilKeluarga: z.number(),
+		bilAdik: z.string(),
+		bilKeluarga: z.string(),
 		alamat: z.string().min(5, {
 			message: "Sila isi alamat",
 		}),
@@ -32,19 +32,12 @@ export const formSchema = z
 		}),
 		sudahLawat: z.string(),
 		keperluan: z.string().optional(),
-
-		nama_penjaga: z.string().min(5, {
-			message: "Sila isi nama",
-		}),
-		hubungan: z.string().min(5, {
-			message: "Sila pilih hubungan",
-		}),
-		no_tel: z.string().min(10, {
-			message: "Sila isi no telefon",
-		}),
-		alamat_penjaga: z.string().min(5, {
-			message: "Sila isi alamat",
-		}),
+		no_tel: z.array(
+			z.object({
+				no: z.string().min(10).max(12),
+				type: z.enum(["rumah", "bimbit"]),
+			})
+		),
 
 		penjaga: z.array(
 			z.object({
@@ -87,25 +80,17 @@ export const formSchema = z
 
 		tambahan: z.object({
 			isSekolah: z.string(),
-			sekolah: z
-				.object({
-					nama: z.string(),
-					tahap: z.string(),
-					tempoh: z.number(),
-					mula: z.string(),
-					tamat: z.string(),
-				})
-				.optional(),
+			namaSek: z.string().optional(),
+			tahapSek: z.string().optional(),
+			tempohSek: z.string().optional(),
+			mulaSek: z.string().optional(),
+			tamatSek: z.string().optional(),
 
 			isInsitusi: z.string(),
-			insitusi: z
-				.object({
-					nama: z.string(),
-					tempoh: z.number(),
-					mula: z.string(),
-					tamat: z.string(),
-				})
-				.optional(),
+			namaIns: z.string().optional(),
+			tempohIns: z.string().optional(),
+			mulaIns: z.string().optional(),
+			tamatIns: z.string().optional(),
 		}),
 	})
 	.refine((data) => {
@@ -114,7 +99,19 @@ export const formSchema = z
 		if (data.sudahLawat === "1") return !!data.keperluan;
 		if (data.keupayaan.isBantuan === "1") return !!data.keupayaan.alatBantuan;
 		if (data.keupayaan.sikap === "99") return !!data.keupayaan.lainSikap;
-		if (data.tambahan.isSekolah === "1") return !!data.tambahan.sekolah;
-		if (data.tambahan.isInsitusi === "1") return !!data.tambahan.insitusi;
+
+		const tam = data.tambahan;
+		if (data.tambahan.isSekolah === "1") {
+			return (
+				tam.namaSek &&
+				tam.tahapSek &&
+				tam.tempohSek &&
+				tam.mulaSek &&
+				tam.tamatSek
+			);
+		}
+		if (data.tambahan.isInsitusi === "1") {
+			return tam.namaIns && tam.tempohIns && tam.mulaIns && tam.tamatIns;
+		}
 		return true;
 	});

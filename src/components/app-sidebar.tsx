@@ -59,9 +59,8 @@ export function AppSidebar({ items }: { items: NavItemType[] }) {
 
 	useEffect(() => {
 		const token = window.sessionStorage.getItem("accessToken") ?? "";
-		const decoded = jwtDecode(token);
-		const user = JSON.parse(decoded.sub?.replace(/'/g, '"') ?? "");
-		setUsername(user?.email);
+		const { sub }: { sub: { email: string } } = jwtDecode(token);
+		setUsername(sub.email);
 	}, []);
 
 	return (
@@ -75,9 +74,7 @@ export function AppSidebar({ items }: { items: NavItemType[] }) {
 									<Accessibility className="size-4" />
 								</div>
 								<div className="flex flex-col gap-0.5 leading-none">
-									<span className="font-semibold">
-										PPDK InfoSys
-									</span>
+									<span className="font-semibold">PPDK InfoSys</span>
 									<span>v{version}</span>
 								</div>
 							</a>
@@ -91,27 +88,18 @@ export function AppSidebar({ items }: { items: NavItemType[] }) {
 					<SidebarGroupContent>
 						<SidebarMenu>
 							{items.map((item) => (
-								<Collapsible
-									key={item.title}
-									className="group/collapsible"
-								>
+								<Collapsible key={item.title} className="group/collapsible">
 									<SidebarMenuItem>
 										<CollapsibleTrigger asChild>
 											<SidebarMenuButton>
 												<item.icon />
 												{item.subItem ? (
 													<>
-														<span>
-															{item.title}
-														</span>
+														<span>{item.title}</span>
 														<ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
 													</>
 												) : (
-													<NavLink
-														to={item.url ?? "#"}
-													>
-														{item.title}
-													</NavLink>
+													<NavLink to={item.url ?? "#"}>{item.title}</NavLink>
 												)}
 											</SidebarMenuButton>
 										</CollapsibleTrigger>
@@ -120,14 +108,7 @@ export function AppSidebar({ items }: { items: NavItemType[] }) {
 												<SidebarMenuSub>
 													<SidebarMenuSubItem>
 														<SidebarMenuSubButton>
-															<NavLink
-																to={
-																	sub.url ??
-																	"#"
-																}
-															>
-																{sub.title}
-															</NavLink>
+															<NavLink to={sub.url ?? "#"}>{sub.title}</NavLink>
 														</SidebarMenuSubButton>
 													</SidebarMenuSubItem>
 												</SidebarMenuSub>

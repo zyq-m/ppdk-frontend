@@ -55,8 +55,9 @@ function LoginForm() {
 	async function onSubmit(values: z.infer<typeof formSchema>) {
 		try {
 			const res = await api.post("/auth/login", values);
-			const token = jwtDecode(res.data.accessToken);
-			const sub = JSON.parse(token.sub?.replace(/'/g, '"') ?? "");
+			const { sub }: { sub: { roleId: number } } = jwtDecode(
+				res.data.accessToken
+			);
 
 			sessionStorage.setItem("accessToken", res.data.accessToken);
 			sessionStorage.setItem("refreshToken", res.data.refreshToken);

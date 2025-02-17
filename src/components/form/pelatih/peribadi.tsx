@@ -16,11 +16,79 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { PelatihFormProps } from "@/lib/type";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { useFieldArray } from "react-hook-form";
 
-export default function PeribadiForm({ form }: PelatihFormProps) {
+export default function PeribadiForm({
+	form,
+	sendImg,
+}: PelatihFormProps & { sendImg: (file: File) => void }) {
+	const fileInput = useRef<HTMLInputElement>(null);
+	const [img, setImg] = useState<(File & { preview: string }) | null>(null);
+
+	const { fields } = useFieldArray({
+		control: form.control,
+		name: "no_tel",
+	});
+
+	const handleFile = (e: ChangeEvent<HTMLInputElement>) => {
+		const file = e.target.files?.[0];
+		if (file)
+			setImg(Object.assign(file, { preview: URL.createObjectURL(file) }));
+	};
+
+	useEffect(() => {
+		if (img) {
+			sendImg(img);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [img]);
+
 	return (
-		<div className="space-y-4">
+		<div className="grid gap-4 md:grid-cols-2">
+			<div className="space-y-2.5 md:col-span-2">
+				<div>
+					<Label htmlFor="picture">Gambar</Label>
+					<p className="text-[.8rem] text-muted-foreground">
+						Berukuran pasport
+					</p>
+				</div>
+				<div className="flex items-center gap-4">
+					<Avatar className="w-20 h-20">
+						<AvatarImage src={img?.preview} />
+						<AvatarFallback>Pic</AvatarFallback>
+					</Avatar>
+					<div className="space-x-1.5">
+						<Button
+							type="button"
+							size="sm"
+							onClick={() => fileInput.current?.click()}
+						>
+							Upload
+						</Button>
+						<Button
+							type="button"
+							size="sm"
+							variant="destructive"
+							onClick={() => setImg(null)}
+						>
+							Buang
+						</Button>
+					</div>
+					<Input
+						accept="image/jpeg, image/png"
+						ref={fileInput}
+						id="picture"
+						type="file"
+						className="hidden"
+						onChange={handleFile}
+					/>
+				</div>
+			</div>
 			<FormField
 				control={form.control}
 				name="nama"
@@ -75,11 +143,15 @@ export default function PeribadiForm({ form }: PelatihFormProps) {
 			/>
 			<FormField
 				control={form.control}
-				name="jantina_id"
+				name="jantina"
 				render={({ field }) => (
 					<FormItem>
 						<FormLabel>Jantina</FormLabel>
-						<Select onValueChange={field.onChange} defaultValue={field.value}>
+						<Select
+							onValueChange={field.onChange}
+							defaultValue={field.value}
+							{...field}
+						>
 							<FormControl>
 								<SelectTrigger>
 									<SelectValue placeholder="Pilih satu" />
@@ -100,7 +172,11 @@ export default function PeribadiForm({ form }: PelatihFormProps) {
 				render={({ field }) => (
 					<FormItem>
 						<FormLabel>Agama</FormLabel>
-						<Select onValueChange={field.onChange} defaultValue={field.value}>
+						<Select
+							onValueChange={field.onChange}
+							defaultValue={field.value}
+							{...field}
+						>
 							<FormControl>
 								<SelectTrigger>
 									<SelectValue placeholder="Pilih satu" />
@@ -124,7 +200,11 @@ export default function PeribadiForm({ form }: PelatihFormProps) {
 				render={({ field }) => (
 					<FormItem>
 						<FormLabel>Kaum</FormLabel>
-						<Select onValueChange={field.onChange} defaultValue={field.value}>
+						<Select
+							onValueChange={field.onChange}
+							defaultValue={field.value}
+							{...field}
+						>
 							<FormControl>
 								<SelectTrigger>
 									<SelectValue placeholder="Pilih satu" />
@@ -186,22 +266,46 @@ export default function PeribadiForm({ form }: PelatihFormProps) {
 				control={form.control}
 				name="alamat"
 				render={({ field }) => (
-					<FormItem>
+					<FormItem className="md:col-span-2">
 						<FormLabel>Alamat</FormLabel>
 						<FormControl>
-							<Textarea placeholder="Alamat" {...field} />
+							<Textarea
+								placeholder="Alamat"
+								className="resize-none h-20"
+								{...field}
+							/>
 						</FormControl>
 						<FormMessage />
 					</FormItem>
 				)}
 			/>
+			{fields.map((item, i) => (
+				<FormField
+					key={item.id}
+					control={form.control}
+					name={`no_tel.${i}.no`}
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>No. telefon {item.type}</FormLabel>
+							<FormControl>
+								<Input type="tel" {...field} />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+			))}
 			<FormField
 				control={form.control}
 				name="dtgSendiri"
 				render={({ field }) => (
-					<FormItem>
+					<FormItem className="self-end">
 						<FormLabel>Adakah pelatih datang sendiri ke PDK?</FormLabel>
-						<Select onValueChange={field.onChange} defaultValue={field.value}>
+						<Select
+							onValueChange={field.onChange}
+							defaultValue={field.value}
+							{...field}
+						>
 							<FormControl>
 								<SelectTrigger>
 									<SelectValue placeholder="Pilih satu" />
@@ -231,7 +335,7 @@ export default function PeribadiForm({ form }: PelatihFormProps) {
 					)}
 				/>
 			)}
-			{form.watch("tidakDtg") === "0" && (
+			{form.watch("dtgSendiri") === "0" && (
 				<FormField
 					control={form.control}
 					name="tidakDtg"
@@ -240,7 +344,11 @@ export default function PeribadiForm({ form }: PelatihFormProps) {
 							<FormLabel>
 								Jika tidak, dihantar oleh keluarga menggunakan
 							</FormLabel>
-							<Select onValueChange={field.onChange} defaultValue={field.value}>
+							<Select
+								onValueChange={field.onChange}
+								defaultValue={field.value}
+								{...field}
+							>
 								<FormControl>
 									<SelectTrigger>
 										<SelectValue placeholder="Pilih satu" />
@@ -268,7 +376,11 @@ export default function PeribadiForm({ form }: PelatihFormProps) {
 							Jika rumah pelatih sudah dilawati.Adakah keadaan rumah dan ekonomi
 							keluarga terlalu daif dan memerlukan rujukan ke JKM?
 						</FormLabel>
-						<Select onValueChange={field.onChange} defaultValue={field.value}>
+						<Select
+							onValueChange={field.onChange}
+							defaultValue={field.value}
+							{...field}
+						>
 							<FormControl>
 								<SelectTrigger>
 									<SelectValue placeholder="Pilih satu" />
@@ -288,7 +400,7 @@ export default function PeribadiForm({ form }: PelatihFormProps) {
 					control={form.control}
 					name="keperluan"
 					render={({ field }) => (
-						<FormItem>
+						<FormItem className="self-end">
 							<FormLabel>Nyatakan keperluan</FormLabel>
 							<FormControl>
 								<Input {...field} />

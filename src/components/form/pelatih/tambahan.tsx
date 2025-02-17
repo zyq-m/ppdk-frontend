@@ -18,7 +18,7 @@ import { Input } from "@/components/ui/input";
 
 export default function TambahanForm({ form }: PelatihFormProps) {
 	return (
-		<div className="space-y-4">
+		<div className="grid gap-4">
 			<FormField
 				control={form.control}
 				name="tambahan.isSekolah"
@@ -44,7 +44,7 @@ export default function TambahanForm({ form }: PelatihFormProps) {
 				<>
 					<FormField
 						control={form.control}
-						name="tambahan.sekolah.nama"
+						name="tambahan.namaSek"
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>Nama sekolah</FormLabel>
@@ -57,7 +57,7 @@ export default function TambahanForm({ form }: PelatihFormProps) {
 					/>
 					<FormField
 						control={form.control}
-						name="tambahan.sekolah.tahap"
+						name="tambahan.tahapSek"
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>Darjah / tingkatan</FormLabel>
@@ -70,7 +70,7 @@ export default function TambahanForm({ form }: PelatihFormProps) {
 					/>
 					<FormField
 						control={form.control}
-						name="tambahan.sekolah.tempoh"
+						name="tambahan.tempohSek"
 						render={({ field }) => (
 							<FormItem>
 								<div>
@@ -80,11 +80,7 @@ export default function TambahanForm({ form }: PelatihFormProps) {
 									</FormDescription>
 								</div>
 								<FormControl>
-									<Input
-										type="number"
-										placeholder="Darjah 1 atau Tingakatan 1"
-										{...field}
-									/>
+									<Input type="number" {...field} />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
@@ -93,7 +89,7 @@ export default function TambahanForm({ form }: PelatihFormProps) {
 					<div className="grid grid-cols-2 gap-4">
 						<FormField
 							control={form.control}
-							name="tambahan.sekolah.mula"
+							name="tambahan.mulaSek"
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Tarikh mula</FormLabel>
@@ -106,7 +102,7 @@ export default function TambahanForm({ form }: PelatihFormProps) {
 						/>
 						<FormField
 							control={form.control}
-							name="tambahan.sekolah.tamat"
+							name="tambahan.tamatSek"
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Tarikh tamat</FormLabel>
@@ -148,7 +144,7 @@ export default function TambahanForm({ form }: PelatihFormProps) {
 				<>
 					<FormField
 						control={form.control}
-						name="tambahan.insitusi.nama"
+						name="tambahan.namaIns"
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>Nama insitusi pemulihan</FormLabel>
@@ -161,7 +157,7 @@ export default function TambahanForm({ form }: PelatihFormProps) {
 					/>
 					<FormField
 						control={form.control}
-						name="tambahan.insitusi.tempoh"
+						name="tambahan.tempohIns"
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>Tempoh mengikuti program pemulihan</FormLabel>
@@ -175,7 +171,7 @@ export default function TambahanForm({ form }: PelatihFormProps) {
 					<div className="grid grid-cols-2 gap-4">
 						<FormField
 							control={form.control}
-							name="tambahan.insitusi.mula"
+							name="tambahan.mulaIns"
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Tarikh mula</FormLabel>
@@ -188,7 +184,7 @@ export default function TambahanForm({ form }: PelatihFormProps) {
 						/>
 						<FormField
 							control={form.control}
-							name="tambahan.insitusi.tamat"
+							name="tambahan.tamatIns"
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Tarikh tamat</FormLabel>
