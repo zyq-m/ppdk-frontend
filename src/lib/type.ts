@@ -6,7 +6,7 @@ export type TPPDK = {
 	nama: string;
 	alamat: string;
 	negeri: string;
-	no_tel: TNoTel[];
+	no_tel: TNoTel;
 	admins: TAdmin[];
 };
 

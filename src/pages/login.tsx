@@ -15,6 +15,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { api } from "@/utils/axios";
 import { useNavigate } from "react-router-dom";
+import { toast } from "@/hooks/use-toast";
+import { Toaster } from "@/components/ui/toaster";
 
 const formSchema = z.object({
 	email: z.string().email({
@@ -74,7 +76,13 @@ function LoginForm() {
 
 			navigate("/app");
 		} catch (error) {
-			console.log(error);
+			if (error.response) {
+				toast({
+					variant: "destructive",
+					title: "Error",
+					description: error.response.data.message,
+				});
+			}
 		}
 	}
 	return (
@@ -119,6 +127,7 @@ function LoginForm() {
 					Login
 				</Button>
 			</form>
+			<Toaster />
 		</Form>
 	);
 }

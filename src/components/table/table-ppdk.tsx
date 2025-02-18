@@ -74,7 +74,7 @@ export default function TablePPDK() {
 					<ArrowUpDown />
 				</Button>
 			),
-			cell: ({ row }) => <div>{row.original.no_tel[0].no_tel}</div>,
+			cell: ({ row }) => <div>{row.original.no_tel.no_tel}</div>,
 		},
 		{
 			accessorKey: "admins",
