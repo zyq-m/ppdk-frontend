@@ -122,7 +122,7 @@ export const soalanSchema = z.object({
 		z.object({
 			sId: z.string().optional(),
 			soalan: z.string().min(10, "Sekurang-kurangnya 10 patah perkataan"),
-			skor: z.string().min(1, "Pilih salah satu"),
+			skor: z.string().min(2, "Sila letak skor"),
 		})
 	),
 });

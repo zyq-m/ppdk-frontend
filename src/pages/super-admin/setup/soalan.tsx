@@ -25,7 +25,6 @@ import {
 } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 
 export default function SetupSoalan() {
@@ -147,7 +146,7 @@ export default function SetupSoalan() {
 								</div>
 								<div className="space-y-4">
 									{fields.map((item, i) => (
-										<div key={item.id} className="flex items-end gap-5">
+										<div key={item.id} className="flex items-end gap-4">
 											<FormField
 												control={form.control}
 												name={`listSoalan.${i}.soalan`}
@@ -155,7 +154,7 @@ export default function SetupSoalan() {
 													<FormItem className="w-full">
 														<FormLabel>Soalan {i + 1}</FormLabel>
 														<FormControl>
-															<div className="flex gap-2">
+															<div className="flex gap-4">
 																<Button
 																	onClick={() => {
 																		remove(i);
@@ -180,25 +179,7 @@ export default function SetupSoalan() {
 												render={({ field }) => (
 													<FormItem>
 														<FormControl>
-															<RadioGroup
-																onValueChange={field.onChange}
-																defaultValue={field.value}
-																className="grid-cols-5 gap-4"
-															>
-																{Array(5)
-																	.fill(null)
-																	.map((v, i) => (
-																		<FormItem
-																			key={i}
-																			className="flex flex-col items-center"
-																		>
-																			<FormLabel>{i}</FormLabel>
-																			<FormControl>
-																				<RadioGroupItem value={i.toString()} />
-																			</FormControl>
-																		</FormItem>
-																	))}
-															</RadioGroup>
+															<Input placeholder="0,1,2,..." {...field} />
 														</FormControl>
 														<FormMessage />
 													</FormItem>
