@@ -115,3 +115,14 @@ export const formSchema = z
 		}
 		return true;
 	});
+
+export const soalanSchema = z.object({
+	kategori: z.string().min(1, "Pilih salah satu"),
+	listSoalan: z.array(
+		z.object({
+			sId: z.string().optional(),
+			soalan: z.string().min(10, "Sekurang-kurangnya 10 patah perkataan"),
+			skor: z.string().min(1, "Pilih salah satu"),
+		})
+	),
+});

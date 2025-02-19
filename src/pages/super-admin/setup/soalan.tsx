@@ -1,13 +1,10 @@
 import Layout from "@/components/layout/super-admin-layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
 	Select,
 	SelectContent,
-	SelectGroup,
 	SelectItem,
-	SelectLabel,
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
@@ -15,41 +12,50 @@ import { useToast } from "@/hooks/use-toast";
 import { api } from "@/utils/axios";
 import { Plus, Trash } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Form } from "react-router-dom";
+import { useFieldArray, useForm } from "react-hook-form";
+import { z } from "zod";
+import { soalanSchema } from "@/lib/formSchema";
+import {
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+	Form,
+} from "@/components/ui/form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
 
 export default function SetupSoalan() {
-	const [soalan, setSoalan] = useState([{ id: 0, soalan: "" }]);
-	const [kategori, setKategori] = useState([]);
-	const [selected, setSelected] = useState("");
 	const { toast } = useToast();
+	const [kategori, setKategori] = useState<
+		{ id: string; kategori: string }[] | []
+	>([]);
+	const form = useForm<z.infer<typeof soalanSchema>>({
+		resolver: zodResolver(soalanSchema),
+		defaultValues: {
+			listSoalan: [
+				{
+					soalan: "",
+					skor: "",
+				},
+			],
+		},
+	});
+	const { fields, append, remove } = useFieldArray({
+		name: "listSoalan",
+		control: form.control,
+	});
 
-	const tambahSoalan = () => {
-		const newId = soalan.length;
-		const newSoalan = { id: newId, soalan: "" };
-		setSoalan([...soalan, newSoalan]);
-	};
+	console.log(fields);
 
-	const buangSoalan = (id: number) => {
-		const updatedSoalan = soalan.filter((item) => item.id !== id);
-		setSoalan(updatedSoalan);
-		api.delete(`/setup/soalan/${id}`).then((res) => {
-			toast({
-				title: "Berjaya",
-				description: res.data.message,
-			});
-		});
-	};
-
-	const onSoalan = (id: number, value: string) => {
-		const updatedSoalan = soalan.map((item) =>
-			item.id === id ? { ...item, soalan: value } : item
-		);
-		setSoalan(updatedSoalan);
-	};
-
-	const onSimpan = async () => {
+	const onSimpan = async (data: z.infer<typeof soalanSchema>) => {
 		try {
-			const res = await api.post(`/setup/soalan/${selected}`, { soalan });
+			const res = await api.post(`/setup/soalan/${data.kategori}`, {
+				...data,
+			});
 			toast({
 				title: "Berjaya",
 				description: res.data.message,
@@ -59,10 +65,32 @@ export default function SetupSoalan() {
 		}
 	};
 
+	type SoalanT = {
+		id: string;
+		soalan: string;
+		skor: string;
+		kategori_oku: {
+			id: string;
+			kategori: string;
+		};
+		created_at: string;
+	};
+
 	const onSelect = (value: string) => {
-		setSelected(value);
-		api.get(`/setup/soalan/${value}`).then((res) => {
-			setSoalan(res.data);
+		api.get(`/setup/soalan/${value}`).then(({ data }: { data: SoalanT[] }) => {
+			form.setValue(
+				"listSoalan",
+				data.map((d) => ({ sId: d.id, skor: d.skor, soalan: d.soalan }))
+			);
+		});
+	};
+
+	const deleteSoalan = (id: string) => {
+		api.delete(`/setup/soalan/${id}`).then((res) => {
+			toast({
+				title: "Berjaya",
+				description: res.data.message,
+			});
 		});
 	};
 
@@ -74,68 +102,139 @@ export default function SetupSoalan() {
 
 	return (
 		<Layout>
-			<Form>
-				<div>
-					<Label>Kategori soalan</Label>
-					<Select onValueChange={onSelect}>
-						<SelectTrigger>
-							<SelectValue placeholder="Pilih kategori" />
-						</SelectTrigger>
-						<SelectContent>
-							<SelectGroup>
-								<SelectLabel>Kategori OKU</SelectLabel>
-								{kategori?.map((k) => (
-									<SelectItem key={k.id} value={k.id}>
-										{k.kategori}
-									</SelectItem>
-								))}
-							</SelectGroup>
-						</SelectContent>
-					</Select>
-					<div className="grid gap-2 mt-4">
-						{soalan.map((s, i) => (
-							<div key={s.id}>
-								<Label>Soalan {i + 1}</Label>
-								<div className="flex gap-1">
-									<Input
-										value={s.soalan}
-										onChange={(e) =>
-											onSoalan(s.id, e.target.value)
-										}
-									/>
-									<Button
-										onClick={() => buangSoalan(s.id)}
-										type="button"
-										variant="outline"
-										size="icon"
-									>
-										<Trash className="text-red-500" />
-									</Button>
+			<Card>
+				<CardHeader>
+					<CardTitle>Setup soalan</CardTitle>
+				</CardHeader>
+				<CardContent>
+					<Form {...form}>
+						<form onSubmit={form.handleSubmit(onSimpan)} className="space-y-4">
+							<FormField
+								control={form.control}
+								name="kategori"
+								render={({ field }) => (
+									<FormItem>
+										<Select
+											onValueChange={(val) => {
+												field.onChange(val);
+												onSelect(val);
+											}}
+											defaultValue={field.value}
+											{...field}
+										>
+											<FormLabel>Kategori soalan</FormLabel>
+											<FormControl>
+												<SelectTrigger>
+													<SelectValue placeholder="Pilih satu" />
+												</SelectTrigger>
+											</FormControl>
+											<SelectContent>
+												{kategori.map((kat) => (
+													<SelectItem key={kat.id} value={kat.id}>
+														{kat.kategori}
+													</SelectItem>
+												))}
+											</SelectContent>
+										</Select>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+
+							<div>
+								<div className="flex justify-end pt-4">
+									<Label className="text-center">Skala/Skor</Label>
+								</div>
+								<div className="space-y-4">
+									{fields.map((item, i) => (
+										<div key={item.id} className="flex items-end gap-5">
+											<FormField
+												control={form.control}
+												name={`listSoalan.${i}.soalan`}
+												render={({ field }) => (
+													<FormItem className="w-full">
+														<FormLabel>Soalan {i + 1}</FormLabel>
+														<FormControl>
+															<div className="flex gap-2">
+																<Button
+																	onClick={() => {
+																		remove(i);
+																		deleteSoalan(item.sId ?? "");
+																	}}
+																	type="button"
+																	variant="outline"
+																	size="icon"
+																>
+																	<Trash className="text-red-500" />
+																</Button>
+																<Input {...field} />
+															</div>
+														</FormControl>
+														<FormMessage />
+													</FormItem>
+												)}
+											/>
+											<FormField
+												control={form.control}
+												name={`listSoalan.${i}.skor`}
+												render={({ field }) => (
+													<FormItem>
+														<FormControl>
+															<RadioGroup
+																onValueChange={field.onChange}
+																defaultValue={field.value}
+																className="grid-cols-5 gap-4"
+															>
+																{Array(5)
+																	.fill(null)
+																	.map((v, i) => (
+																		<FormItem
+																			key={i}
+																			className="flex flex-col items-center"
+																		>
+																			<FormLabel>{i}</FormLabel>
+																			<FormControl>
+																				<RadioGroupItem value={i.toString()} />
+																			</FormControl>
+																		</FormItem>
+																	))}
+															</RadioGroup>
+														</FormControl>
+														<FormMessage />
+													</FormItem>
+												)}
+											/>
+										</div>
+									))}
 								</div>
 							</div>
-						))}
-					</div>
-					<div className="flex justify-center mt-4">
-						<Button
-							onClick={tambahSoalan}
-							type="button"
-							variant="outline"
-							size="icon"
-						>
-							<Plus />
-						</Button>
-					</div>
 
-					<div className="flex justify-end mt-4 gap-2">
-						<Button type="reset" variant="outline">
-							Batal
-						</Button>
-						<Button type="submit" onClick={onSimpan}>
-							Simpan
-						</Button>
-					</div>
-				</div>
-			</Form>
+							<div className="flex justify-center mt-4">
+								<Button
+									onClick={() =>
+										append({
+											soalan: "",
+											skor: "",
+										})
+									}
+									type="button"
+									variant="outline"
+									size="icon"
+								>
+									<Plus />
+								</Button>
+							</div>
+
+							<div className="flex justify-end mt-4 gap-2">
+								<Button type="reset" variant="outline">
+									Batal
+								</Button>
+								<Button type="submit">Simpan</Button>
+							</div>
+						</form>
+					</Form>
+				</CardContent>
+			</Card>
 		</Layout>
 	);
 }

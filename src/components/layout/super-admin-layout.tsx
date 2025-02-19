@@ -58,7 +58,6 @@ const items: NavItemType[] = [
 
 export default function Layout({ children }: { children: React.ReactNode }) {
 	const location = useLocation();
-	console.log(location);
 
 	return (
 		<SidebarProvider>
