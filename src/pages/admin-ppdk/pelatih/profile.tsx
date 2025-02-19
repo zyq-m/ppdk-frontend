@@ -3,6 +3,7 @@ import PenjagaForm from "@/components/form/pelatih/penjaga";
 import PeribadiForm from "@/components/form/pelatih/peribadi";
 import TambahanForm from "@/components/form/pelatih/tambahan";
 import Layout from "@/components/layout/admin-ppdk-layout";
+import TablePenilaian from "@/components/table/table-penilaian";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -14,23 +15,22 @@ import {
 } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-// import { toast } from "@/hooks/use-toast";
 import { formSchema } from "@/lib/formSchema";
-import { PelatihResT } from "@/lib/type";
+import { PelatihResT, PenilaianType } from "@/lib/type";
 import { api } from "@/utils/axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import {
-	// useNavigate,
-	useParams,
-} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { z } from "zod";
+
+type ResponseT = PelatihResT & { assessment: PenilaianType[] };
 
 export default function Profile() {
 	const { id } = useParams();
 	const [tab, setTab] = useState("peribadi");
-	// const navigate = useNavigate();
+	const [profile, setProfile] = useState<ResponseT>();
+
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 	});
@@ -40,10 +40,11 @@ export default function Profile() {
 	}
 
 	useEffect(() => {
-		api.get(`/pelatih/${id}`).then(({ data }: { data: PelatihResT }) => {
+		api.get(`/pelatih/${id}`).then(({ data }: { data: ResponseT }) => {
 			for (const [key, value] of Object.entries(data)) {
 				form.setValue(key, value);
 			}
+			setProfile(data);
 		});
 		console.log("run");
 	}, [form, id]);
@@ -58,6 +59,7 @@ export default function Profile() {
 							<TabsTrigger value="penjaga">Butiran penjaga</TabsTrigger>
 							<TabsTrigger value="keupayaan">Tahap keupayaan</TabsTrigger>
 							<TabsTrigger value="tambahan">Maklumat tambahan</TabsTrigger>
+							<TabsTrigger value="penilaian">Penilaian</TabsTrigger>
 						</TabsList>
 						<TabsContent value="peribadi">
 							<Card>
@@ -134,6 +136,31 @@ export default function Profile() {
 									</Button>
 									<Button type="submit">Daftar</Button>
 								</CardFooter>
+							</Card>
+						</TabsContent>
+						<TabsContent value="penilaian">
+							<Card>
+								<CardHeader>
+									<CardTitle>Senarai penilaian</CardTitle>
+									<CardDescription>
+										Penilaian ini telah dilakukan oleh penyelia
+									</CardDescription>
+									<CardContent className="p-0">
+										{profile?.assessment && (
+											<TablePenilaian
+												showProfile={false}
+												data={profile.assessment.map((d) => ({
+													...d,
+													pelatih: {
+														id: profile.id,
+														nama: profile.nama,
+														umur: profile.umur,
+													},
+												}))}
+											/>
+										)}
+									</CardContent>
+								</CardHeader>
 							</Card>
 						</TabsContent>
 					</Tabs>

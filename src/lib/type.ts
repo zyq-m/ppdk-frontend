@@ -56,7 +56,10 @@ export type TKategori = {
 	maxUmur: number;
 };
 
-export type PelatihResT = z.infer<typeof formSchema> & { umur: number };
+export type PelatihResT = z.infer<typeof formSchema> & {
+	umur: number;
+	id: string;
+};
 
 export type PelatihFormProps = {
 	form: UseFormReturn<z.infer<typeof formSchema>>;
@@ -66,6 +69,22 @@ export type SoalanT = {
 	id: string;
 	soalan: string;
 	skor: string | string[];
+	kategori_oku: {
+		id: string;
+		kategori: string;
+	};
+	created_at: string;
+};
+
+export type PenilaianType = {
+	id: string;
+	pelatih: {
+		id: string;
+		nama: string;
+		umur: number;
+	};
+	skor: number;
+	indicator: string;
 	kategori_oku: {
 		id: string;
 		kategori: string;

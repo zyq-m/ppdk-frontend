@@ -31,6 +31,7 @@ import {
 	DropdownMenuLabel,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { PenilaianType } from "@/lib/type";
 
 const chartConfig = {
 	k1: {
@@ -61,22 +62,6 @@ const chartData = [
 		k3: 18,
 	},
 ];
-
-type PenilaianType = {
-	id: string;
-	pelatih: {
-		id: string;
-		nama: string;
-		umur: number;
-	};
-	skor: number;
-	indicator: string;
-	kategori_oku: {
-		id: string;
-		kategori: string;
-	};
-	created_at: string;
-};
 
 export default function DashboardPenilaian() {
 	const [assessment, setAssessment] = useState([]);
