@@ -181,7 +181,7 @@ export default function DashboardPenilaian() {
 
 	useEffect(() => {
 		api
-			.get("/assessment/")
+			.get("/assessment")
 			.then((res) => {
 				setAssessment(res.data);
 			})

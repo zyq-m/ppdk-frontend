@@ -61,3 +61,14 @@ export type PelatihResT = z.infer<typeof formSchema> & { umur: number };
 export type PelatihFormProps = {
 	form: UseFormReturn<z.infer<typeof formSchema>>;
 };
+
+export type SoalanT = {
+	id: string;
+	soalan: string;
+	skor: string | string[];
+	kategori_oku: {
+		id: string;
+		kategori: string;
+	};
+	created_at: string;
+};

@@ -16,6 +16,7 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { useToast } from "@/hooks/use-toast";
+import { SoalanT } from "@/lib/type";
 import { api } from "@/utils/axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -23,7 +24,7 @@ import { useParams } from "react-router-dom";
 
 export default function NilaiPelatih() {
 	const { id, kategori } = useParams();
-	const [soalan, setSoalan] = useState([]);
+	const [soalan, setSoalan] = useState<SoalanT[] | []>([]);
 	const { toast } = useToast();
 	const {
 		register,
@@ -31,27 +32,31 @@ export default function NilaiPelatih() {
 		formState: { errors },
 	} = useForm();
 
-	const onSubmit = async (data) => {
-		api.post(`/assessment/${kategori}`, {
-			jawapan: JSON.stringify(data),
-			pelatih_id: id,
-		}).then((res) => {
-			toast({
-				title: "Berjaya",
-				description: res.data.message,
+	const onSubmit = async (data: { [key: number]: string }) => {
+		api
+			.post(`/assessment/${kategori}`, {
+				jawapan: JSON.stringify(data),
+				pelatih_id: id,
+			})
+			.then((res) => {
+				toast({
+					title: "Berjaya",
+					description: res.data.message,
+				});
 			});
-		});
 	};
 
 	useEffect(() => {
-		api.get(`/setup/soalan/${kategori}`).then((res) => {
-			setSoalan(
-				res.data.map((d) => ({
-					...d,
-					options: [1, 2, 3],
-				}))
-			);
-		});
+		api
+			.get(`/setup/soalan/${kategori}`)
+			.then(({ data }: { data: SoalanT[] }) => {
+				setSoalan(
+					data.map((d) => ({
+						...d,
+						skor: d.skor.toString().split(","),
+					}))
+				);
+			});
 	}, [kategori]);
 
 	return (
@@ -62,13 +67,12 @@ export default function NilaiPelatih() {
 						Soal selidik {soalan?.[0]?.kategori_oku?.kategori}
 					</CardTitle>
 					<CardDescription>
-						Bagi setiap perkara dibawah, sila tandakan petak Tidak
-						Benar, Sedikit Benar, atau Memang Benar. Anda boleh
-						membantu kami jika anda dapat menjawab semua perkara
-						sebaik baiknya yang boleh walaupun anda tidak pasti atau
-						perkara itu nampak bodoh. Sila beri jawapan anda
-						berasaskan kelakuan kanak-kanak itu dalam enam bulan
-						yang lalu atau tahun sekolah ini.
+						Bagi setiap perkara dibawah, sila tandakan petak Tidak Benar,
+						Sedikit Benar, atau Memang Benar. Anda boleh membantu kami jika anda
+						dapat menjawab semua perkara sebaik baiknya yang boleh walaupun anda
+						tidak pasti atau perkara itu nampak bodoh. Sila beri jawapan anda
+						berasaskan kelakuan kanak-kanak itu dalam enam bulan yang lalu atau
+						tahun sekolah ini.
 					</CardDescription>
 				</CardHeader>
 				<CardContent>
@@ -79,13 +83,19 @@ export default function NilaiPelatih() {
 									<TableRow>
 										<TableHead></TableHead>
 										<TableHead>Soalan</TableHead>
-										<TableHead className="text-center w-20">
+										<TableHead
+											className={`text-center w-20 ${Object.keys(errors).length && "text-destructive"}`}
+										>
 											Tidak benar
 										</TableHead>
-										<TableHead className="text-center w-20">
+										<TableHead
+											className={`text-center w-20 ${Object.keys(errors).length && "text-destructive"}`}
+										>
 											Sedikit benar
 										</TableHead>
-										<TableHead className="text-center w-20">
+										<TableHead
+											className={`text-center w-20 ${Object.keys(errors).length && "text-destructive"}`}
+										>
 											Memang benar
 										</TableHead>
 									</TableRow>
@@ -96,30 +106,23 @@ export default function NilaiPelatih() {
 											<TableCell className="text-muted-foreground">
 												{i + 1}
 											</TableCell>
-											<TableCell
-												className={
-													errors[s.id] &&
-													"text-destructive"
-												}
-											>
+											<TableCell className={errors[s.id] && "text-destructive"}>
 												{s.soalan}
 											</TableCell>
-											{s.options?.map((option, i) => (
-												<TableCell
-													key={i}
-													className="text-center"
-												>
-													<div>
-														<input
-															type="radio"
-															value={option}
-															{...register(s.id, {
-																required: true,
-															})}
-														/>
-													</div>
-												</TableCell>
-											))}
+											{Array.isArray(s.skor) &&
+												s.skor.map((val, i) => (
+													<TableCell key={i} className="text-center">
+														<div>
+															<input
+																type="radio"
+																value={val}
+																{...register(s.id, {
+																	required: true,
+																})}
+															/>
+														</div>
+													</TableCell>
+												))}
 										</TableRow>
 									))}
 								</TableBody>

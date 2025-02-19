@@ -26,6 +26,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
+import { SoalanT } from "@/lib/type";
 
 export default function SetupSoalan() {
 	const { toast } = useToast();
@@ -62,17 +63,6 @@ export default function SetupSoalan() {
 		} catch (error) {
 			console.log(error);
 		}
-	};
-
-	type SoalanT = {
-		id: string;
-		soalan: string;
-		skor: string;
-		kategori_oku: {
-			id: string;
-			kategori: string;
-		};
-		created_at: string;
 	};
 
 	const onSelect = (value: string) => {
