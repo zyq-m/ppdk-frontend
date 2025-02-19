@@ -84,6 +84,7 @@ export default function TablePelatih({
 					<Assessment
 						kategori={kategori}
 						displayAssess={displayAssess}
+						umur={row.getValue("umur")}
 						id={row.original.id}
 					/>
 				);
@@ -128,10 +129,12 @@ const Assessment = ({
 	id,
 	displayAssess,
 	kategori,
+	umur,
 }: {
 	id: string;
 	displayAssess: boolean;
 	kategori: TKategori[];
+	umur: number;
 }) => {
 	const navigate = useNavigate();
 
@@ -153,13 +156,18 @@ const Assessment = ({
 				{displayAssess && (
 					<>
 						<DropdownMenuSeparator />
-						{kategori?.map((k) => (
-							<DropdownMenuItem key={k.id}>
-								<Link to={`/app/admin-ppdk/penilaian/${id}/${k.id}`}>
-									{k.kategori}
-								</Link>
-							</DropdownMenuItem>
-						))}
+						{kategori?.map((k) => {
+							console.log(umur >= k.minUmur && umur <= k.maxUmur);
+							return (
+								<DropdownMenuItem key={k.id}>
+									<Link to={`/app/admin-ppdk/penilaian/${id}/${k.id}`}>
+										{umur >= k.minUmur && umur <= k.maxUmur
+											? "Nilai"
+											: k.kategori}
+									</Link>
+								</DropdownMenuItem>
+							);
+						})}
 					</>
 				)}
 			</DropdownMenuContent>

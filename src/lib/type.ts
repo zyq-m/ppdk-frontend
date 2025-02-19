@@ -52,6 +52,8 @@ export type TPenilaian = {
 export type TKategori = {
 	id: string;
 	kategori: string;
+	minUmur: number;
+	maxUmur: number;
 };
 
 export type PelatihResT = z.infer<typeof formSchema> & { umur: number };
