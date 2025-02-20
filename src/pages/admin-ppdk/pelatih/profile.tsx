@@ -21,13 +21,14 @@ import { api } from "@/utils/axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { z } from "zod";
 
 type ResponseT = PelatihResT & { assessment: PenilaianType[] };
 
 export default function Profile() {
 	const { id } = useParams();
+	const [query] = useSearchParams();
 	const [tab, setTab] = useState("peribadi");
 	const [profile, setProfile] = useState<ResponseT>();
 
@@ -46,8 +47,14 @@ export default function Profile() {
 			}
 			setProfile(data);
 		});
-		console.log("run");
 	}, [form, id]);
+
+	useEffect(() => {
+		const qTab = query.get("tab");
+		if (qTab) {
+			setTab(qTab);
+		}
+	}, [query]);
 
 	return (
 		<Layout>

@@ -78,6 +78,34 @@ export default function TablePelatih({
 			header: "Negeri",
 		},
 		{
+			accessorKey: "isAssess",
+			header: ({ column }) => (
+				<Button
+					variant="ghost"
+					className="w-full"
+					onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+				>
+					Sudah dinilai
+					<ArrowUpDown />
+				</Button>
+			),
+			cell: ({ row }) => {
+				const isAssess = row.original.isAssess;
+				if (isAssess) {
+					return (
+						<Link
+							to={`/app/admin-ppdk/pelatih/${row.original.id}?tab=penilaian`}
+							className="text-green-500 text-center block"
+						>
+							Sudah
+						</Link>
+					);
+				} else {
+					<div className="text-red-500 font-semibold text-center">Belum</div>;
+				}
+			},
+		},
+		{
 			id: "action",
 			cell: ({ row }) => {
 				return (
@@ -157,7 +185,6 @@ const Assessment = ({
 					<>
 						<DropdownMenuSeparator />
 						{kategori?.map((k) => {
-							console.log(umur >= k.minUmur && umur <= k.maxUmur);
 							return (
 								<DropdownMenuItem key={k.id}>
 									<Link to={`/app/admin-ppdk/penilaian/${id}/${k.id}`}>

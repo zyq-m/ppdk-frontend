@@ -31,6 +31,7 @@ export type PelatihType = {
 	umur: number;
 	jantina: string;
 	negeri: string;
+	isAssess?: boolean;
 };
 
 export type TPenilaian = {
