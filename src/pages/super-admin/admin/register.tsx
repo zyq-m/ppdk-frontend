@@ -72,7 +72,7 @@ export default function RegisterAdminPPDK() {
 	const [data, setData] = useState([]);
 
 	useEffect(() => {
-		api.get("/ppdk/").then((res) => {
+		api.get("/ppdk").then((res) => {
 			setData(res.data);
 		});
 	}, []);
@@ -93,11 +93,7 @@ export default function RegisterAdminPPDK() {
 								<FormItem>
 									<FormLabel>Email</FormLabel>
 									<FormControl>
-										<Input
-											placeholder="Email"
-											type="email"
-											{...field}
-										/>
+										<Input placeholder="Email" type="email" {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -124,11 +120,7 @@ export default function RegisterAdminPPDK() {
 									<FormLabel>No telefon</FormLabel>
 
 									<FormControl>
-										<Input
-											placeholder="No Telefon"
-											type="tel"
-											{...field}
-										/>
+										<Input placeholder="No Telefon" type="tel" {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -141,10 +133,7 @@ export default function RegisterAdminPPDK() {
 								<FormItem>
 									<FormLabel>Jawatan</FormLabel>
 									<FormControl>
-										<Input
-											placeholder="Jawatan"
-											{...field}
-										/>
+										<Input placeholder="Jawatan" {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -167,14 +156,9 @@ export default function RegisterAdminPPDK() {
 										</FormControl>
 										<SelectContent>
 											<SelectGroup>
-												<SelectLabel>
-													Cawangan PPDK
-												</SelectLabel>
+												<SelectLabel>Cawangan PPDK</SelectLabel>
 												{data?.map((item) => (
-													<SelectItem
-														key={item.id}
-														value={item.id}
-													>
+													<SelectItem key={item.id} value={item.id}>
 														{item.nama}
 													</SelectItem>
 												))}
