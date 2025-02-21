@@ -118,11 +118,27 @@ export const formSchema = z
 
 export const soalanSchema = z.object({
 	kategori: z.string().min(1, "Pilih salah satu"),
-	listSoalan: z.array(
+	listKriteria: z.array(
 		z.object({
-			sId: z.string().optional(),
-			soalan: z.string().min(10, "Sekurang-kurangnya 10 patah perkataan"),
-			skor: z.string().min(2, "Sila letak skor").or(z.array(z.string())),
+			kriteria: z.string(),
+			soalan: z.array(
+				z.object({
+					sId: z.string().optional(),
+					soalan: z.string().min(10, "Sekurang-kurangnya 10 patah perkataan"),
+					skor: z.string().min(2, "Sila letak skor").or(z.array(z.string())),
+				})
+			),
 		})
 	),
 });
+
+// {
+// 	listSoalan:[{
+// 		subKategori: "1",
+// 		soalan: [{
+// 			sId:"1",
+// 			soalan: "soalan",
+// 			skor: "0,1,2"
+// 		}]
+// 	}]
+// }

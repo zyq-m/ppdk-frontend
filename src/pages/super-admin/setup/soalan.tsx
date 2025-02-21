@@ -25,7 +25,6 @@ import {
 } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
 import { SoalanT } from "@/lib/type";
 
 export default function SetupSoalan() {
@@ -33,23 +32,16 @@ export default function SetupSoalan() {
 	const [kategori, setKategori] = useState<
 		{ id: string; kategori: string }[] | []
 	>([]);
+	const [kriteria, setKriteria] = useState<
+		{ id: string; kriteria: string }[] | []
+	>([]);
 	const form = useForm<z.infer<typeof soalanSchema>>({
 		resolver: zodResolver(soalanSchema),
-		defaultValues: {
-			listSoalan: [
-				{
-					soalan: "",
-					skor: "",
-				},
-			],
-		},
 	});
-	const { fields, append, remove } = useFieldArray({
-		name: "listSoalan",
+	const { fields, append, remove, update } = useFieldArray({
+		name: "listKriteria",
 		control: form.control,
 	});
-
-	console.log(fields);
 
 	const onSimpan = async (data: z.infer<typeof soalanSchema>) => {
 		try {
@@ -66,10 +58,18 @@ export default function SetupSoalan() {
 	};
 
 	const onSelect = (value: string) => {
-		api.get(`/setup/soalan/${value}`).then(({ data }: { data: SoalanT[] }) => {
+		api.get(`/setup/soalan/${value}`).then(({ data }: { data: SoalanT }) => {
+			setKriteria(data.kriteria);
 			form.setValue(
-				"listSoalan",
-				data.map((d) => ({ sId: d.id, skor: d.skor, soalan: d.soalan }))
+				"listKriteria",
+				data.listKriteria.map((d) => ({
+					kriteria: data.id,
+					soalan: d.soalan.map((s) => ({
+						sId: s.id,
+						skor: s.skor,
+						soalan: s.soalan,
+					})),
+				}))
 			);
 		});
 	};
@@ -130,71 +130,132 @@ export default function SetupSoalan() {
 								)}
 							/>
 
-							<div>
-								<div className="flex justify-end pt-4">
-									<Label className="text-center">Skala/Skor</Label>
-								</div>
-								<div className="space-y-4">
-									{fields.map((item, i) => (
-										<div key={item.id} className="flex items-end gap-4">
-											<FormField
-												control={form.control}
-												name={`listSoalan.${i}.soalan`}
-												render={({ field }) => (
-													<FormItem className="w-full">
-														<FormLabel>Soalan {i + 1}</FormLabel>
-														<FormControl>
-															<div className="flex gap-4">
-																<Button
-																	onClick={() => {
-																		remove(i);
-																		deleteSoalan(item.sId ?? "");
-																	}}
-																	type="button"
-																	variant="outline"
-																	size="icon"
-																>
-																	<Trash className="text-red-500" />
-																</Button>
+							{fields?.map((item, i) => (
+								<div key={item.id} className="space-y-4">
+									<FormField
+										control={form.control}
+										name={`listKriteria.${i}.kriteria`}
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Kriteria</FormLabel>
+												<Select
+													onValueChange={field.onChange}
+													defaultValue={field.value}
+													{...field}
+												>
+													<FormControl>
+														<SelectTrigger>
+															<SelectValue placeholder="Pilih satu" />
+														</SelectTrigger>
+													</FormControl>
+													<SelectContent>
+														{kriteria?.map((k) => (
+															<SelectItem value={k.id}>{k.kriteria}</SelectItem>
+														))}
+													</SelectContent>
+												</Select>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+									<div className="space-y-4">
+										{item.soalan.map((s, is) => (
+											<div key={s.sId} className="flex items-end gap-4">
+												<FormField
+													control={form.control}
+													name={`listKriteria.${i}.soalan.${is}.soalan`}
+													render={({ field }) => (
+														<FormItem className="w-full">
+															<FormLabel>Soalan {is + 1}</FormLabel>
+															<FormControl>
 																<Input {...field} />
-															</div>
-														</FormControl>
-														<FormMessage />
-													</FormItem>
-												)}
-											/>
-											<FormField
-												control={form.control}
-												name={`listSoalan.${i}.skor`}
-												render={({ field }) => (
-													<FormItem>
-														<FormControl>
-															<Input placeholder="0,1,2,..." {...field} />
-														</FormControl>
-														<FormMessage />
-													</FormItem>
-												)}
-											/>
+															</FormControl>
+															<FormMessage />
+														</FormItem>
+													)}
+												/>
+												<FormField
+													control={form.control}
+													name={`listKriteria.${i}.soalan.${is}.skor`}
+													render={({ field }) => (
+														<FormItem>
+															<FormLabel>Skala/skor</FormLabel>
+															<FormControl>
+																<Input placeholder="0,1,2,..." {...field} />
+															</FormControl>
+															<FormMessage />
+														</FormItem>
+													)}
+												/>
+												<div>
+													<Button
+														onClick={() => {
+															const idSoalan = item.soalan[i].sId;
+															update(i, {
+																kriteria: item.kriteria,
+																soalan: item.soalan.filter(
+																	(ds, idx) => idx != is
+																),
+															});
+															if (idSoalan) deleteSoalan(idSoalan);
+														}}
+														type="button"
+														variant="outline"
+														size="icon"
+													>
+														<Trash className="text-red-500" />
+													</Button>
+												</div>
+											</div>
+										))}
+										<div className="flex justify-center">
+											<Button
+												type="button"
+												variant="outline"
+												size="icon"
+												onClick={() => {
+													update(i, {
+														kriteria: item.kriteria,
+														soalan: [...item.soalan, { soalan: "", skor: "" }],
+													});
+												}}
+											>
+												<Plus />
+											</Button>
 										</div>
-									))}
+									</div>
+									<div className="flex justify-center">
+										<Button
+											onClick={() => remove(i)}
+											type="button"
+											variant="ghost"
+											className="hover:bg-red-400 hover:text-white"
+										>
+											Hapus
+										</Button>
+										<Button
+											onClick={() =>
+												append({
+													kriteria: "",
+													soalan: [
+														{
+															skor: "",
+															soalan: "",
+														},
+													],
+												})
+											}
+											type="button"
+											variant="ghost"
+											className="hover:bg-green-400"
+										>
+											Tambah set soalan
+										</Button>
+									</div>
 								</div>
-							</div>
+							))}
 
-							<div className="flex justify-center mt-4">
-								<Button
-									onClick={() =>
-										append({
-											soalan: "",
-											skor: "",
-										})
-									}
-									type="button"
-									variant="outline"
-									size="icon"
-								>
-									<Plus />
-								</Button>
-							</div>
+							<div className="flex justify-center mt-4"></div>
 
 							<div className="flex justify-end mt-4 gap-2">
 								<Button type="reset" variant="outline">
