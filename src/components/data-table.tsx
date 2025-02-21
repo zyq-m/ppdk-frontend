@@ -18,13 +18,14 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
 	data: TData[];
 	colName: string;
 	placeholder?: string;
+	children?: ReactNode;
 }
 
 export default function DataTable<TData, TValue>({
@@ -32,6 +33,7 @@ export default function DataTable<TData, TValue>({
 	data,
 	colName,
 	placeholder = "",
+	children,
 }: DataTableProps<TData, TValue>) {
 	const [sorting, setSorting] = useState<SortingState>([]);
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -51,7 +53,7 @@ export default function DataTable<TData, TValue>({
 
 	return (
 		<div>
-			<div className="flex items-center py-4">
+			<div className="flex items-center justify-between py-4">
 				<Input
 					placeholder={placeholder}
 					value={(table.getColumn(colName)?.getFilterValue() as string) ?? ""}
@@ -60,6 +62,7 @@ export default function DataTable<TData, TValue>({
 					}
 					className="max-w-sm"
 				/>
+				{children}
 			</div>
 			<Table>
 				<TableHeader>

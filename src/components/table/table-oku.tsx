@@ -1,84 +1,81 @@
-import { TPPDK } from "@/lib/type";
-import DataTable from "../data-table";
-import { ColumnDef } from "@tanstack/react-table";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
+import DataTable from "@/components/data-table";
+import { api } from "@/utils/axios";
 import { ArrowUpDown, ChevronsUpDown } from "lucide-react";
 import { useEffect, useState } from "react";
-import { api } from "@/utils/axios";
 import {
 	Card,
 	CardContent,
 	CardDescription,
 	CardHeader,
 	CardTitle,
-} from "../ui/card";
+} from "@/components/ui/card";
 import {
 	Collapsible,
 	CollapsibleContent,
 	CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import { Badge } from "../ui/badge";
 
-export default function TablePPDK() {
-	const columns: ColumnDef<TPPDK>[] = [
+import { ColumnDef } from "@tanstack/react-table";
+import { TKategori } from "@/lib/type";
+import KategoriOku from "../dialog/kategori-oku";
+
+export default function TableOKU() {
+	const [kategori, setKategori] = useState<TKategori[]>([]);
+	const columns: ColumnDef<TKategori>[] = [
 		{
 			id: "bil",
 			header: "Bil",
 			cell: ({ row }) => <div>{row.index + 1}</div>,
 		},
 		{
-			accessorKey: "nama",
+			accessorKey: "kategori",
 			header: ({ column }) => (
 				<Button
 					variant="ghost"
 					onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+					className="w-full"
 				>
-					Nama PPDK
+					Ketegori
 					<ArrowUpDown />
 				</Button>
 			),
 		},
 		{
-			accessorKey: "negeri",
+			accessorKey: "minUmur",
 			header: ({ column }) => (
 				<Button
 					variant="ghost"
 					onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+					className="w-full"
 				>
-					Negeri
+					Minimum umur
 					<ArrowUpDown />
 				</Button>
 			),
+			cell: ({ row }) => (
+				<div className="text-center">{row.original.minUmur} tahun</div>
+			),
 		},
 		{
-			accessorKey: "alamat",
+			accessorKey: "maxUmur",
 			header: ({ column }) => (
 				<Button
 					variant="ghost"
 					onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+					className="w-full"
 				>
-					Alamat
+					Maximum umur
 					<ArrowUpDown />
 				</Button>
 			),
-			cell: ({ row }) => <div className="max-w-40">{row.original.alamat}</div>,
-		},
-		{
-			accessorKey: "no_tel",
-			header: ({ column }) => (
-				<Button
-					variant="ghost"
-					onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-				>
-					No. tel
-					<ArrowUpDown />
-				</Button>
+			cell: ({ row }) => (
+				<div className="text-center">{row.original.maxUmur} tahun</div>
 			),
-			cell: ({ row }) => <div>{row.original.no_tel.no_tel}</div>,
 		},
 		{
-			accessorKey: "admins",
-			header: "Penyelia / Petugas",
+			accessorKey: "kriteria",
+			header: "Kriteria",
 			cell: ({ row }) => (
 				<Collapsible>
 					<CollapsibleTrigger asChild>
@@ -89,10 +86,8 @@ export default function TablePPDK() {
 					</CollapsibleTrigger>
 					<CollapsibleContent>
 						<ol className="my-6 ml-6 list-decimal [&>li]:mt-2">
-							{row.original.admins.map((admin) => (
-								<li>
-									{admin.nama} <Badge variant="outline">{admin.jawatan}</Badge>
-								</li>
+							{row.original.kriteria.map((kr) => (
+								<li key={kr.id}>{kr.kriteria}</li>
 							))}
 						</ol>
 					</CollapsibleContent>
@@ -100,29 +95,31 @@ export default function TablePPDK() {
 			),
 		},
 	];
-	const [list, setList] = useState<TPPDK[] | []>([]);
 
 	useEffect(() => {
-		api.get("/ppdk").then((res) => {
-			setList(res.data);
+		api.get("/setup/oku").then((res) => {
+			setKategori(res.data);
 		});
 	}, []);
 
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle>Senarai PPDK</CardTitle>
+				<CardTitle>Senarai Kategori OKU</CardTitle>
 				<CardDescription>
-					Senarai ini telah didaftar oleh Super Admin
+					Senarai ini telah didaftarkan oleh Super Admin & digunakan untuk setup
+					soalan
 				</CardDescription>
 			</CardHeader>
 			<CardContent>
 				<DataTable
+					data={kategori}
 					columns={columns}
-					colName="nama"
-					placeholder="Cari nama..."
-					data={list}
-				/>
+					colName="kategori"
+					placeholder="Cari kategori..."
+				>
+					<KategoriOku />
+				</DataTable>
 			</CardContent>
 		</Card>
 	);

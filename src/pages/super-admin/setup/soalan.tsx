@@ -24,8 +24,15 @@ import {
 	Form,
 } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
 import { SoalanT } from "@/lib/type";
+import TableOKU from "@/components/table/table-oku";
 
 export default function SetupSoalan() {
 	const { toast } = useToast();
@@ -91,18 +98,25 @@ export default function SetupSoalan() {
 
 	return (
 		<Layout>
+			<TableOKU />
 			<Card>
 				<CardHeader>
 					<CardTitle>Setup soalan</CardTitle>
+					<CardDescription>
+						Isi maklumat yang diperlukan dengan lengkap
+					</CardDescription>
 				</CardHeader>
-				<CardContent>
+				<CardContent className="flex gap-2">
 					<Form {...form}>
-						<form onSubmit={form.handleSubmit(onSimpan)} className="space-y-4">
+						<form
+							onSubmit={form.handleSubmit(onSimpan)}
+							className="space-y-4 flex-1"
+						>
 							<FormField
 								control={form.control}
 								name="kategori"
 								render={({ field }) => (
-									<FormItem>
+									<FormItem className="flex-1">
 										<Select
 											onValueChange={(val) => {
 												field.onChange(val);
@@ -129,7 +143,6 @@ export default function SetupSoalan() {
 									</FormItem>
 								)}
 							/>
-
 							{fields?.map((item, i) => (
 								<div key={item.id} className="space-y-4">
 									<FormField
@@ -254,9 +267,7 @@ export default function SetupSoalan() {
 									</div>
 								</div>
 							))}
-
 							<div className="flex justify-center mt-4"></div>
-
 							<div className="flex justify-end mt-4 gap-2">
 								<Button type="reset" variant="outline">
 									Batal

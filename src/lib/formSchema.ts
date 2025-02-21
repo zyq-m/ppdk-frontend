@@ -132,13 +132,14 @@ export const soalanSchema = z.object({
 	),
 });
 
-// {
-// 	listSoalan:[{
-// 		subKategori: "1",
-// 		soalan: [{
-// 			sId:"1",
-// 			soalan: "soalan",
-// 			skor: "0,1,2"
-// 		}]
-// 	}]
-// }
+export const okuSchema = z.object({
+	kategori: z.string(),
+	minUmur: z.string().optional(),
+	maxUmur: z.string().optional(),
+	kriteria: z.array(
+		z.object({
+			kriteria: z.string().min(5, "Sila isi kriteria"),
+			purataSkor: z.string().min(5, "Sila isi purata skor"),
+		})
+	),
+});
