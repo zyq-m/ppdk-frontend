@@ -36,11 +36,11 @@ export default function RegisterPPDK() {
 
 	async function onSubmit(values: z.infer<typeof formSchema>) {
 		try {
-			await api.post("/ppdk/", values);
+			const res = await api.post("/ppdk", values);
 
 			toast({
 				title: "Berjaya",
-				description: "Cawangan PPDK baharu berjaya didaftarkan",
+				description: res.data.message,
 			});
 
 			form.reset();
@@ -64,10 +64,7 @@ export default function RegisterPPDK() {
 							render={({ field }) => (
 								<FormItem>
 									<FormControl>
-										<Input
-											placeholder="Nama Cawangan PPDK"
-											{...field}
-										/>
+										<Input placeholder="Nama Cawangan PPDK" {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -79,10 +76,7 @@ export default function RegisterPPDK() {
 							render={({ field }) => (
 								<FormItem>
 									<FormControl>
-										<Textarea
-											placeholder="Alamat"
-											{...field}
-										/>
+										<Textarea placeholder="Alamat" {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>

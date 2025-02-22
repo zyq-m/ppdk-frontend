@@ -3,6 +3,7 @@ import { z } from "zod";
 import { formSchema } from "./formSchema";
 
 export type TPPDK = {
+	id: string;
 	nama: string;
 	alamat: string;
 	negeri: string;
@@ -31,7 +32,7 @@ export type PelatihType = {
 	umur: number;
 	jantina: string;
 	negeri: string;
-	isAssess?: boolean;
+	assessment: TPenilaian[];
 };
 
 export type TPenilaian = {

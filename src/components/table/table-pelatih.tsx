@@ -75,7 +75,15 @@ export default function TablePelatih({
 		},
 		{
 			accessorKey: "negeri",
-			header: "Negeri",
+			header: ({ column }) => (
+				<Button
+					variant="ghost"
+					onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+				>
+					Negeri
+					<ArrowUpDown />
+				</Button>
+			),
 		},
 		{
 			accessorKey: "isAssess",
@@ -90,8 +98,8 @@ export default function TablePelatih({
 				</Button>
 			),
 			cell: ({ row }) => {
-				const isAssess = row.original.isAssess;
-				if (isAssess) {
+				const isAssess = row.original.assessment;
+				if (isAssess.length) {
 					return (
 						<div className="flex justify-center">
 							<CheckCheck className="text-green-500 text-center" />
@@ -104,6 +112,23 @@ export default function TablePelatih({
 						</div>
 					);
 				}
+			},
+		},
+		{
+			accessorKey: "assessment",
+			header: "Sejarah penilaian",
+			cell: ({ row }) => {
+				return row.original.assessment?.map((so) => (
+					<ol key={so.id} className="my-6 ml-6 list-decimal [&>li]:mt-2">
+						<li>
+							<Link to={`/app/admin-ppdk/pelatih/2?tab=penilaian`}>
+								{so.kategori_oku.kategori}
+								{so.kategori_oku.minUmur > 0 &&
+									` (${so.kategori_oku.minUmur}-${so.kategori_oku.maxUmur} tahun)`}
+							</Link>
+						</li>
+					</ol>
+				));
 			},
 		},
 		{

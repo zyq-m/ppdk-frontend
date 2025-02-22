@@ -26,19 +26,12 @@ const items: NavItemType[] = [
 	},
 	{
 		title: "PPDK",
-		subItem: [
-			{ title: "Senarai", url: "/app/super-admin/ppdk" },
-			{ title: "Daftar", url: "/app/super-admin/ppdk/register" },
-		],
 		url: "/app/super-admin/ppdk",
 		icon: Landmark,
 	},
 	{
 		title: "Admin PPDK",
-		subItem: [
-			{ title: "Senarai", url: "/app/super-admin/admin" },
-			{ title: "Daftar", url: "/app/super-admin/admin/register" },
-		],
+		url: "/app/super-admin/admin",
 		icon: UserPlus,
 	},
 	{

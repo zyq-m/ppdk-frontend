@@ -18,6 +18,7 @@ import {
 	CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { Badge } from "../ui/badge";
+import PpdkDialog from "../dialog/ppdk-dialog";
 
 export default function TablePPDK() {
 	const columns: ColumnDef<TPPDK>[] = [
@@ -122,7 +123,9 @@ export default function TablePPDK() {
 					colName="nama"
 					placeholder="Cari nama..."
 					data={list}
-				/>
+				>
+					<PpdkDialog />
+				</DataTable>
 			</CardContent>
 		</Card>
 	);

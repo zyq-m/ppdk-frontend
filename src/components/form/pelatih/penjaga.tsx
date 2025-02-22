@@ -125,8 +125,9 @@ export default function PenjagaForm({ form }: PelatihFormProps) {
 										</SelectTrigger>
 									</FormControl>
 									<SelectContent>
-										<SelectItem value="ibu/bapa">Ibu/Penjaga</SelectItem>
-										<SelectItem value="penjaga">Bapa/Penjaga</SelectItem>
+										<SelectItem value="ibu">Ibu</SelectItem>
+										<SelectItem value="bapa">Bapa</SelectItem>
+										<SelectItem value="penjaga">Penjaga</SelectItem>
 									</SelectContent>
 								</Select>
 								<FormMessage />
@@ -234,7 +235,7 @@ export default function PenjagaForm({ form }: PelatihFormProps) {
 				className="w-full"
 				variant="secondary"
 				type="button"
-				disabled={fields.length === 2}
+				disabled={fields.length === 3}
 				onClick={() =>
 					append({
 						nama: "",

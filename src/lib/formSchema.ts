@@ -144,3 +144,18 @@ export const okuSchema = z.object({
 		})
 	),
 });
+
+export const ppdkSchema = z.object({
+	nama: z.string(),
+	alamat: z.string(),
+	negeri: z.string(),
+	notel: z.string().min(10).max(12),
+});
+
+export const adminSchema = z.object({
+	nama: z.string(),
+	email: z.string().email(),
+	jawatan: z.string(),
+	notel: z.string().min(10).max(12),
+	ppdk: z.string(),
+});
