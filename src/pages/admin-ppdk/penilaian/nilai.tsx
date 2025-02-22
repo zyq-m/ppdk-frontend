@@ -1,20 +1,7 @@
+import AssessmentCard from "@/components/card/assessment-card";
+import Quationaire from "@/components/form/assessment/quationaire";
 import Layout from "@/components/layout/admin-ppdk-layout";
 import { Button } from "@/components/ui/button";
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
-import {
-	Table,
-	TableBody,
-	TableCell,
-	TableHead,
-	TableHeader,
-	TableRow,
-} from "@/components/ui/table";
 import { useToast } from "@/hooks/use-toast";
 import { SoalanT } from "@/lib/type";
 import { api } from "@/utils/axios";
@@ -24,13 +11,9 @@ import { useParams } from "react-router-dom";
 
 export default function NilaiPelatih() {
 	const { id, kategori } = useParams();
-	const [soalan, setSoalan] = useState<SoalanT[] | []>([]);
+	const [soalan, setSoalan] = useState<SoalanT>();
 	const { toast } = useToast();
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm();
+	const form = useForm();
 
 	const onSubmit = async (data: { [key: number]: string }) => {
 		api
@@ -47,86 +30,27 @@ export default function NilaiPelatih() {
 	};
 
 	useEffect(() => {
-		api
-			.get(`/setup/soalan/${kategori}`)
-			.then(({ data }: { data: SoalanT[] }) => {
-				setSoalan(
-					data.map((d) => ({
-						...d,
-						skor: d.skor.toString().split(","),
-					}))
-				);
+		api.get(`/setup/soalan/${kategori}`).then(({ data }: { data: SoalanT }) => {
+			setSoalan({
+				...data,
+				listKriteria: data.listKriteria.map((k) => ({
+					...k,
+					soalan: k.soalan.map((s) => ({
+						...s,
+						skor: s.skor.toString().split(","),
+					})),
+				})),
 			});
+		});
 	}, [kategori]);
 
 	return (
 		<Layout>
-			<Card>
-				<CardHeader>
-					<CardTitle>
-						Soal selidik {soalan?.[0]?.kategori_oku?.kategori}
-					</CardTitle>
-					<CardDescription>
-						Bagi setiap perkara dibawah, sila tandakan petak Tidak Benar,
-						Sedikit Benar, atau Memang Benar. Anda boleh membantu kami jika anda
-						dapat menjawab semua perkara sebaik baiknya yang boleh walaupun anda
-						tidak pasti atau perkara itu nampak bodoh. Sila beri jawapan anda
-						berasaskan kelakuan kanak-kanak itu dalam enam bulan yang lalu atau
-						tahun sekolah ini.
-					</CardDescription>
-				</CardHeader>
-				<CardContent>
-					<form onSubmit={handleSubmit(onSubmit)}>
+			{soalan && (
+				<AssessmentCard soalan={soalan}>
+					<form onSubmit={form.handleSubmit(onSubmit)}>
 						<div className="mb-8">
-							<Table>
-								<TableHeader>
-									<TableRow>
-										<TableHead></TableHead>
-										<TableHead>Soalan</TableHead>
-										<TableHead
-											className={`text-center w-20 ${Object.keys(errors).length && "text-destructive"}`}
-										>
-											Tidak benar
-										</TableHead>
-										<TableHead
-											className={`text-center w-20 ${Object.keys(errors).length && "text-destructive"}`}
-										>
-											Sedikit benar
-										</TableHead>
-										<TableHead
-											className={`text-center w-20 ${Object.keys(errors).length && "text-destructive"}`}
-										>
-											Memang benar
-										</TableHead>
-									</TableRow>
-								</TableHeader>
-								<TableBody>
-									{soalan?.map((s, i) => (
-										<TableRow key={i}>
-											<TableCell className="text-muted-foreground">
-												{i + 1}
-											</TableCell>
-											<TableCell className={errors[s.id] && "text-destructive"}>
-												{s.soalan}
-											</TableCell>
-											{Array.isArray(s.skor) &&
-												s.skor.map((val, i) => (
-													<TableCell key={i} className="text-center">
-														<div>
-															<input
-																type="radio"
-																value={val}
-																{...register(s.id, {
-																	required: true,
-																})}
-															/>
-														</div>
-													</TableCell>
-												))}
-										</TableRow>
-									))}
-								</TableBody>
-							</Table>
+							<Quationaire form={form} soalan={soalan} />
 						</div>
 						<div className="flex justify-end gap-2">
 							<Button type="reset" variant="outline">
@@ -135,8 +59,8 @@ export default function NilaiPelatih() {
 							<Button type="submit">Simpan</Button>
 						</div>
 					</form>
-				</CardContent>
-			</Card>
+				</AssessmentCard>
+			)}
 		</Layout>
 	);
 }
