@@ -1,6 +1,4 @@
 import Dashboard from "./super-admin/dashboard";
-import RegisterPPDK from "./super-admin/ppdk/register";
-import RegisterAdminPPDK from "./super-admin/admin/register";
 import ListPPDK from "./super-admin/ppdk/list";
 import ListAdmin from "./super-admin/admin/list";
 import SetupSoalan from "./super-admin/setup/soalan";
@@ -20,9 +18,7 @@ import Login from "./login";
 export {
 	// super admin
 	Dashboard,
-	RegisterPPDK,
 	ListPPDK,
-	RegisterAdminPPDK,
 	ListAdmin,
 	SetupSoalan,
 

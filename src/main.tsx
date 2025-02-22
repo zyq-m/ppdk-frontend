@@ -26,18 +26,8 @@ const router = createBrowserRouter([
 		loader: protectedLoader,
 	},
 	{
-		path: "/app/super-admin/ppdk/register",
-		element: <Page.RegisterPPDK />,
-		loader: protectedLoader,
-	},
-	{
 		path: "/app/super-admin/admin",
 		element: <Page.ListAdmin />,
-		loader: protectedLoader,
-	},
-	{
-		path: "/app/super-admin/admin/register",
-		element: <Page.RegisterAdminPPDK />,
 		loader: protectedLoader,
 	},
 	{
