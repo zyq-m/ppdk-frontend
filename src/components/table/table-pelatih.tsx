@@ -9,7 +9,7 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, CheckCheck, MoreHorizontal, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -85,7 +85,7 @@ export default function TablePelatih({
 					className="w-full"
 					onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
 				>
-					Sudah dinilai
+					Penilaian
 					<ArrowUpDown />
 				</Button>
 			),
@@ -93,26 +93,29 @@ export default function TablePelatih({
 				const isAssess = row.original.isAssess;
 				if (isAssess) {
 					return (
-						<Link
-							to={`/app/admin-ppdk/pelatih/${row.original.id}?tab=penilaian`}
-							className="text-green-500 text-center block"
-						>
-							Sudah
-						</Link>
+						<div className="flex justify-center">
+							<CheckCheck className="text-green-500 text-center" />
+						</div>
 					);
 				} else {
-					<div className="text-red-500 font-semibold text-center">Belum</div>;
+					return (
+						<div className="flex justify-center">
+							<X className="text-red-500 text-center" />
+						</div>
+					);
 				}
 			},
 		},
 		{
 			id: "action",
 			cell: ({ row }) => {
+				const umur = row.original.umur;
 				return (
 					<Assessment
-						kategori={kategori}
+						kategori={kategori.filter(
+							(d) => (umur >= d.minUmur && umur <= d.maxUmur) || d.minUmur == 0
+						)}
 						displayAssess={displayAssess}
-						umur={row.getValue("umur")}
 						id={row.original.id}
 					/>
 				);
@@ -157,12 +160,10 @@ const Assessment = ({
 	id,
 	displayAssess,
 	kategori,
-	umur,
 }: {
 	id: string;
 	displayAssess: boolean;
 	kategori: TKategori[];
-	umur: number;
 }) => {
 	const navigate = useNavigate();
 
@@ -188,9 +189,8 @@ const Assessment = ({
 							return (
 								<DropdownMenuItem key={k.id}>
 									<Link to={`/app/admin-ppdk/penilaian/${id}/${k.id}`}>
-										{umur >= k.minUmur && umur <= k.maxUmur
-											? "Nilai"
-											: k.kategori}
+										{k.kategori}{" "}
+										{k.minUmur > 0 && `(${k.minUmur}-${k.maxUmur})`}
 									</Link>
 								</DropdownMenuItem>
 							);

@@ -74,12 +74,15 @@ export type SoalanT = {
 	kategori: string;
 	kriteria: TKriteria[];
 	listKriteria: {
+		id: string;
 		kriteria: string;
-		soalan: {
-			id: string;
-			soalan: string;
-			skor: string | string[];
-		}[];
+		soalan:
+			| {
+					id: string;
+					soalan: string;
+					skor: string | string[];
+			  }[]
+			| [];
 	}[];
 };
 

@@ -31,14 +31,12 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { SoalanT } from "@/lib/type";
+import { SoalanT, TKategori } from "@/lib/type";
 import TableOKU from "@/components/table/table-oku";
 
 export default function SetupSoalan() {
 	const { toast } = useToast();
-	const [kategori, setKategori] = useState<
-		{ id: string; kategori: string }[] | []
-	>([]);
+	const [kategori, setKategori] = useState<TKategori[] | []>([]);
 	const [kriteria, setKriteria] = useState<
 		{ id: string; kriteria: string }[] | []
 	>([]);
@@ -70,12 +68,14 @@ export default function SetupSoalan() {
 			form.setValue(
 				"listKriteria",
 				data.listKriteria.map((d) => ({
-					kriteria: data.id,
-					soalan: d.soalan.map((s) => ({
-						sId: s.id,
-						skor: s.skor,
-						soalan: s.soalan,
-					})),
+					kriteria: d.id,
+					soalan: d.soalan.length
+						? d.soalan.map((s) => ({
+								sId: s.id,
+								skor: s.skor,
+								soalan: s.soalan,
+							}))
+						: [{ skor: "", soalan: "" }],
 				}))
 			);
 		});
@@ -98,7 +98,7 @@ export default function SetupSoalan() {
 
 	return (
 		<Layout>
-			<TableOKU />
+			<TableOKU kategori={kategori} />
 			<Card>
 				<CardHeader>
 					<CardTitle>Setup soalan</CardTitle>
@@ -163,7 +163,9 @@ export default function SetupSoalan() {
 													</FormControl>
 													<SelectContent>
 														{kriteria?.map((k) => (
-															<SelectItem value={k.id}>{k.kriteria}</SelectItem>
+															<SelectItem key={k.id} value={k.id}>
+																{k.kriteria}
+															</SelectItem>
 														))}
 													</SelectContent>
 												</Select>

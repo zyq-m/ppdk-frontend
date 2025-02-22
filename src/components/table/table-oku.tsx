@@ -1,8 +1,6 @@
 import { Button } from "@/components/ui/button";
 import DataTable from "@/components/data-table";
-import { api } from "@/utils/axios";
-import { ArrowUpDown, ChevronsUpDown } from "lucide-react";
-import { useEffect, useState } from "react";
+import { ArrowUpDown, ChevronsUpDown, Pencil } from "lucide-react";
 import {
 	Card,
 	CardContent,
@@ -20,8 +18,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { TKategori } from "@/lib/type";
 import KategoriOku from "../dialog/kategori-oku";
 
-export default function TableOKU() {
-	const [kategori, setKategori] = useState<TKategori[]>([]);
+export default function TableOKU({ kategori }: { kategori: TKategori[] }) {
 	const columns: ColumnDef<TKategori>[] = [
 		{
 			id: "bil",
@@ -53,9 +50,12 @@ export default function TableOKU() {
 					<ArrowUpDown />
 				</Button>
 			),
-			cell: ({ row }) => (
-				<div className="text-center">{row.original.minUmur} tahun</div>
-			),
+			cell: ({ row }) => {
+				const umur = row.original.maxUmur;
+				return (
+					<div className="text-center">{umur > 0 ? `${umur} tahun` : "-"}</div>
+				);
+			},
 		},
 		{
 			accessorKey: "maxUmur",
@@ -69,9 +69,12 @@ export default function TableOKU() {
 					<ArrowUpDown />
 				</Button>
 			),
-			cell: ({ row }) => (
-				<div className="text-center">{row.original.maxUmur} tahun</div>
-			),
+			cell: ({ row }) => {
+				const umur = row.original.maxUmur;
+				return (
+					<div className="text-center">{umur > 0 ? `${umur} tahun` : "-"}</div>
+				);
+			},
 		},
 		{
 			accessorKey: "kriteria",
@@ -94,13 +97,18 @@ export default function TableOKU() {
 				</Collapsible>
 			),
 		},
+		{
+			id: "action",
+			header: "Action",
+			cell: () => {
+				return (
+					<Button variant="ghost" size="sm">
+						<Pencil className="h-4 w-4" />
+					</Button>
+				);
+			},
+		},
 	];
-
-	useEffect(() => {
-		api.get("/setup/oku").then((res) => {
-			setKategori(res.data);
-		});
-	}, []);
 
 	return (
 		<Card>
