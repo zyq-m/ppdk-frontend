@@ -22,3 +22,15 @@ npm install
 ```bash
 npm run dev
 ```
+
+2. Deploy
+
+Execute this command one-by-one
+
+```bash
+cd var/www/ppdk-front
+npm install
+cd server
+npm run build
+sudo systemctl restart nginx
+```
