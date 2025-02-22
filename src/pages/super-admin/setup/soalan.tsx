@@ -209,7 +209,7 @@ export default function SetupSoalan() {
 															update(i, {
 																kriteria: item.kriteria,
 																soalan: item.soalan.filter(
-																	(ds, idx) => idx != is
+																	(_ds, idx) => idx != is
 																),
 															});
 															if (idSoalan) deleteSoalan(idSoalan);
