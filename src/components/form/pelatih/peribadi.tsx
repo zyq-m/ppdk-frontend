@@ -68,7 +68,7 @@ export default function PeribadiForm({
 							size="sm"
 							onClick={() => fileInput.current?.click()}
 						>
-							Upload
+							Muat naik
 						</Button>
 						<Button
 							type="button"
@@ -76,7 +76,7 @@ export default function PeribadiForm({
 							variant="destructive"
 							onClick={() => setImg(null)}
 						>
-							Buang
+							Padam
 						</Button>
 					</div>
 					<Input
