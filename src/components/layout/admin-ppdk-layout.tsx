@@ -16,6 +16,7 @@ import {
 import { Gauge, UserPlus, TextSearch } from "lucide-react";
 import { Toaster } from "@/components/ui/toaster";
 import { Separator } from "@/components/ui/separator";
+import { Link, useLocation } from "react-router-dom";
 
 const items = [
 	{
@@ -39,6 +40,8 @@ const items = [
 ];
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+	const { pathname } = useLocation();
+
 	return (
 		<SidebarProvider>
 			<AppSidebar items={items} />
@@ -46,23 +49,27 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 				<header className="flex h-16 shrink-0 items-center gap-2 border-b">
 					<div className="flex items-center gap-2 px-3">
 						<SidebarTrigger />
-						<Separator
-							orientation="vertical"
-							className="mr-2 h-4"
-						/>
+						<Separator orientation="vertical" className="mr-2 h-4" />
 						<Breadcrumb>
 							<BreadcrumbList>
 								<BreadcrumbItem className="hidden md:block">
-									<BreadcrumbLink href="#">
-										Building Your Application
+									<BreadcrumbLink asChild>
+										<Link to="/app/admin-ppdk">App</Link>
 									</BreadcrumbLink>
 								</BreadcrumbItem>
 								<BreadcrumbSeparator className="hidden md:block" />
-								<BreadcrumbItem>
-									<BreadcrumbPage>
-										Data Fetching
-									</BreadcrumbPage>
-								</BreadcrumbItem>
+								{items
+									.filter(
+										(item) =>
+											item.url === pathname ||
+											(item.subItem &&
+												item.subItem.some((sub) => sub.url === pathname))
+									)
+									.map((nav) => (
+										<BreadcrumbItem key={nav.url}>
+											<BreadcrumbPage>{nav.title}</BreadcrumbPage>
+										</BreadcrumbItem>
+									))}
 							</BreadcrumbList>
 						</Breadcrumb>
 					</div>

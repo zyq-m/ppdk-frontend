@@ -48,16 +48,13 @@ const items: NavItemType[] = [
 	},
 	{
 		title: "Setting",
-		subItem: [
-			{ title: "Setup soalan", url: "/app/super-admin/setup/soalan" },
-			{ title: "Kategori OKU", url: "/app/super-admin/setup/kategori" },
-		],
+		subItem: [{ title: "Soalan", url: "/app/super-admin/setup/soalan" }],
 		icon: Settings,
 	},
 ];
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-	const location = useLocation();
+	const { pathname } = useLocation();
 
 	return (
 		<SidebarProvider>
@@ -71,13 +68,22 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 							<BreadcrumbList>
 								<BreadcrumbItem className="hidden md:block">
 									<BreadcrumbLink asChild>
-										<Link to="/app/super-admin">Dahsboard</Link>
+										<Link to="/app/super-admin">App</Link>
 									</BreadcrumbLink>
 								</BreadcrumbItem>
 								<BreadcrumbSeparator className="hidden md:block" />
-								<BreadcrumbItem>
-									<BreadcrumbPage>Data Fetching</BreadcrumbPage>
-								</BreadcrumbItem>
+								{items
+									.filter(
+										(item) =>
+											item.url === pathname ||
+											(item.subItem &&
+												item.subItem.some((sub) => sub.url === pathname))
+									)
+									.map((nav) => (
+										<BreadcrumbItem key={nav.url}>
+											<BreadcrumbPage>{nav.title}</BreadcrumbPage>
+										</BreadcrumbItem>
+									))}
 							</BreadcrumbList>
 						</Breadcrumb>
 					</div>

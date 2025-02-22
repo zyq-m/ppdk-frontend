@@ -4,7 +4,6 @@ import RegisterAdminPPDK from "./super-admin/admin/register";
 import ListPPDK from "./super-admin/ppdk/list";
 import ListAdmin from "./super-admin/admin/list";
 import SetupSoalan from "./super-admin/setup/soalan";
-import SetupKategori from "./super-admin/setup/kategoriOKU";
 import Report from "./super-admin/report/report";
 
 import DashboardAdminPPK from "./admin-ppdk";
@@ -26,7 +25,6 @@ export {
 	RegisterAdminPPDK,
 	ListAdmin,
 	SetupSoalan,
-	SetupKategori,
 
 	// admin ppdk
 	DashboardAdminPPK,

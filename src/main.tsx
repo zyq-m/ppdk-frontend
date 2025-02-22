@@ -50,11 +50,6 @@ const router = createBrowserRouter([
 		element: <Page.SetupSoalan />,
 		loader: protectedLoader,
 	},
-	{
-		path: "/app/super-admin/setup/kategori",
-		element: <Page.SetupKategori />,
-		loader: protectedLoader,
-	},
 
 	// Admin PPDK
 	{
