@@ -94,6 +94,19 @@ export default function KategoriOkuForm({ children }: { children: ReactNode }) {
 						</FormItem>
 					)}
 				/>
+				<FormField
+					control={form.control}
+					name="skorKeseluruhan"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Skor keseluruhan</FormLabel>
+							<FormControl>
+								<Input placeholder="0-9,10-19,..." {...field} />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
 				{fields.map((item, i) => (
 					<div key={item.id} className="flex gap-2 items-end">
 						<FormField

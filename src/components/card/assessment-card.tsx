@@ -18,7 +18,12 @@ export default function AssessmentCard({
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle>Soal selidik {soalan?.kategori}</CardTitle>
+				<CardTitle>
+					Soal selidik {soalan?.kategori}
+					{soalan.maxUmur > 1
+						? ` (${soalan.minUmur}-${soalan.maxUmur} tahun)`
+						: ""}
+				</CardTitle>
 				<CardDescription>
 					Bagi setiap perkara dibawah, sila tandakan petak Tidak Benar, Sedikit
 					Benar, atau Memang Benar. Anda boleh membantu kami jika anda dapat

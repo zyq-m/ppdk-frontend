@@ -36,21 +36,18 @@ export type PelatihType = {
 
 export type TPenilaian = {
 	id: string;
-	pelatih: {
-		id: string;
-		nama: string;
-		umur: number;
-	};
+	jawapan: string;
 	skor: number;
 	indicator: string;
-	kategori_oku: {
-		id: string;
-		kategori: string;
-	};
+	kategori_oku: SoalanT;
 	created_at: string;
 };
 
-export type TKriteria = { id: string; kriteria: string; purataSkor: string };
+export type TKriteria = {
+	id: string;
+	kriteria: string;
+	purataSkor: [number[]];
+};
 
 export type TKategori = {
 	id: string;
@@ -72,6 +69,9 @@ export type PelatihFormProps = {
 export type SoalanT = {
 	id: string;
 	kategori: string;
+	minUmur: number;
+	maxUmur: number;
+	skor: [number[]];
 	kriteria: TKriteria[];
 	listKriteria: {
 		id: string;

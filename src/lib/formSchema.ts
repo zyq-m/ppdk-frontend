@@ -136,6 +136,7 @@ export const okuSchema = z.object({
 	kategori: z.string(),
 	minUmur: z.string().optional(),
 	maxUmur: z.string().optional(),
+	skorKeseluruhan: z.string(),
 	kriteria: z.array(
 		z.object({
 			kriteria: z.string().min(5, "Sila isi kriteria"),

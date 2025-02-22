@@ -51,7 +51,7 @@ export default function TableOKU({ kategori }: { kategori: TKategori[] }) {
 				</Button>
 			),
 			cell: ({ row }) => {
-				const umur = row.original.maxUmur;
+				const umur = row.original.minUmur;
 				return (
 					<div className="text-center">{umur > 0 ? `${umur} tahun` : "-"}</div>
 				);

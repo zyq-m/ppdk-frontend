@@ -1,6 +1,7 @@
 import AssessmentCard from "@/components/card/assessment-card";
 import Quationaire from "@/components/form/assessment/quationaire";
 import Layout from "@/components/layout/admin-ppdk-layout";
+import TableSkor from "@/components/table/table-skor";
 import {
 	Card,
 	CardContent,
@@ -9,7 +10,7 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 
-import { SoalanT } from "@/lib/type";
+import { TPenilaian } from "@/lib/type";
 import { api } from "@/utils/axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -17,21 +18,19 @@ import { useParams } from "react-router-dom";
 
 export default function ViewAssessment() {
 	const { id, kategori } = useParams();
-	const [soalan, setSoalan] = useState<SoalanT>();
+	const [soalan, setSoalan] = useState<TPenilaian>();
 	const form = useForm();
 
 	useEffect(() => {
-		api.get(`/setup/soalan/${kategori}`).then((res) => {
-			setSoalan(res.data);
-		});
 		api
 			.get(`/assessment/${kategori}`, {
 				params: {
 					pelatih_id: id,
 				},
 			})
-			.then((res) => {
-				const answer = JSON.parse(res.data?.jawapan);
+			.then(({ data }: { data: TPenilaian }) => {
+				setSoalan(data);
+				const answer = JSON.parse(data?.jawapan);
 				Object.entries(answer).forEach(([key, value]) => {
 					form.setValue(key, value);
 				});
@@ -41,18 +40,26 @@ export default function ViewAssessment() {
 
 	return (
 		<Layout>
-			{soalan && (
-				<AssessmentCard soalan={soalan}>
-					<Quationaire soalan={soalan} form={form} disabled={true} />
-				</AssessmentCard>
+			{soalan?.kategori_oku && (
+				<>
+					<AssessmentCard soalan={soalan.kategori_oku}>
+						<Quationaire
+							soalan={soalan.kategori_oku}
+							form={form}
+							disabled={true}
+						/>
+					</AssessmentCard>
+					<Card>
+						<CardHeader>
+							<CardTitle>Keputusan penilaian</CardTitle>
+							<CardDescription>Skor penilaian yang diperoleh</CardDescription>
+						</CardHeader>
+						<CardContent>
+							<TableSkor soalan={soalan} />
+						</CardContent>
+					</Card>
+				</>
 			)}
-			<Card>
-				<CardHeader>
-					<CardTitle>Keputusan penilaian</CardTitle>
-					<CardDescription>Skor penilaian yang diperoleh</CardDescription>
-				</CardHeader>
-				<CardContent></CardContent>
-			</Card>
 		</Layout>
 	);
 }
