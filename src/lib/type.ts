@@ -38,6 +38,7 @@ export type TPenilaian = {
 	id: string;
 	jawapan: string;
 	skor: number;
+	skorKriteria: string;
 	indicator: string;
 	kategori_oku: SoalanT;
 	created_at: string;

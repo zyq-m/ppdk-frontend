@@ -12,6 +12,8 @@ type TableSKorProps = {
 	soalan: TPenilaian;
 };
 
+type SkorKriteria = { [key: string]: number };
+
 export default function TableSkor({ soalan }: TableSKorProps) {
 	return (
 		<Table>
@@ -51,6 +53,13 @@ export default function TableSkor({ soalan }: TableSKorProps) {
 								{skor[0]}-{skor[1]}
 							</TableCell>
 						))}
+						{Object.entries(JSON.parse(soalan.skorKriteria) as SkorKriteria)
+							.filter(([key]) => key == so.id)
+							.map(([k, v]) => (
+								<TableCell key={k} className="text-center font-semibold">
+									{v}
+								</TableCell>
+							))}
 					</TableRow>
 				))}
 			</TableBody>

@@ -31,12 +31,20 @@ export default function TableOKU({ kategori }: { kategori: TKategori[] }) {
 				<Button
 					variant="ghost"
 					onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-					className="w-full"
 				>
 					Ketegori
 					<ArrowUpDown />
 				</Button>
 			),
+			cell: ({ row }) => {
+				const umur = row.original.minUmur;
+				return (
+					<div>
+						{row.original.kategori}
+						{umur > 0 && ` (${umur}-${row.original.maxUmur} tahun)`}
+					</div>
+				);
+			},
 		},
 		{
 			accessorKey: "minUmur",
