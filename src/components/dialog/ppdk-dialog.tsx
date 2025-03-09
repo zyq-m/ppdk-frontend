@@ -8,25 +8,39 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/dialog";
-import { Plus } from "lucide-react";
 import PpdkForm from "../form/ppdk/ppdk-form";
+import { ReactNode } from "react";
+import { TPPDK } from "@/lib/type";
 
-export default function PpdkDialog() {
+export default function PpdkDialog({
+	children,
+	title,
+	desc,
+	ppdk,
+	add = false,
+	edit = false,
+	isOpen,
+	setOpen,
+}: {
+	children?: ReactNode;
+	title: string;
+	desc: string;
+	add?: boolean;
+	edit?: boolean;
+	remove?: boolean;
+	ppdk?: TPPDK;
+	isOpen?: boolean;
+	setOpen?: (bol: boolean) => void;
+}) {
 	return (
-		<Dialog>
-			<DialogTrigger asChild>
-				<Button variant="outline" type="button">
-					<Plus /> PPDK
-				</Button>
-			</DialogTrigger>
+		<Dialog open={isOpen} onOpenChange={setOpen}>
+			<DialogTrigger asChild>{children}</DialogTrigger>
 			<DialogContent className="max-w-3xl">
 				<DialogHeader>
-					<DialogTitle>Daftar PPDK</DialogTitle>
-					<DialogDescription>
-						Sila isi maklumat yang diperlukan
-					</DialogDescription>
+					<DialogTitle>{title}</DialogTitle>
+					<DialogDescription>{desc}</DialogDescription>
 				</DialogHeader>
-				<PpdkForm>
+				<PpdkForm add={add} edit={edit} ppdk={ppdk}>
 					<DialogFooter>
 						<Button type="submit">Submit</Button>
 					</DialogFooter>

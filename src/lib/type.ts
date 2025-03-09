@@ -1,6 +1,6 @@
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
-import { formSchema } from "./formSchema";
+import { formSchema, ppdkSchema } from "./formSchema";
 
 export type TPPDK = {
 	id: string;
@@ -110,3 +110,5 @@ export type TOverall = {
 	pelatih: number;
 	penilaian: number;
 };
+
+export type TPpdkForm = z.infer<typeof ppdkSchema>;

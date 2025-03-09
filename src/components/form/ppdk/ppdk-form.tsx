@@ -10,15 +10,22 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { ppdkSchema } from "@/lib/formSchema";
+import { TPPDK, TPpdkForm } from "@/lib/type";
 import { api } from "@/utils/axios";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 
-export default function PpdkForm({ children }: { children: ReactNode }) {
+type PropsPpdkForm = {
+	children: ReactNode;
+	ppdk?: TPPDK;
+	add: boolean;
+	edit: boolean;
+};
+
+export default function PpdkForm(props: PropsPpdkForm) {
 	const { toast } = useToast();
-	const form = useForm<z.infer<typeof ppdkSchema>>({
+	const form = useForm<TPpdkForm>({
 		resolver: zodResolver(ppdkSchema),
 		defaultValues: {
 			nama: "",
@@ -26,18 +33,41 @@ export default function PpdkForm({ children }: { children: ReactNode }) {
 		},
 	});
 
-	async function onSubmit(values: z.infer<typeof ppdkSchema>) {
+	async function onSubmit(values: TPpdkForm) {
+		const { add, edit, ppdk } = props;
 		try {
-			const res = await api.post("/ppdk", values);
+			let message: string = "";
+			if (add) {
+				const res = await api.post("/ppdk", values);
+				message = res.data.message;
+			}
+
+			if (edit) {
+				const res = await api.put(`/ppdk/${ppdk?.id}`, values);
+				message = res.data.message;
+			}
 
 			toast({
 				title: "Berjaya",
-				description: res.data.message,
+				description: message,
 			});
 		} catch (error) {
 			console.log(error);
 		}
 	}
+
+	useEffect(() => {
+		if (props?.ppdk) {
+			const {
+				ppdk: { alamat, nama, negeri, no_tel },
+			} = props;
+			form.setValue("nama", nama);
+			form.setValue("negeri", negeri);
+			form.setValue("alamat", alamat);
+			form.setValue("notel", no_tel.no_tel);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [props]);
 
 	return (
 		<Form {...form}>
@@ -94,7 +124,7 @@ export default function PpdkForm({ children }: { children: ReactNode }) {
 						</FormItem>
 					)}
 				/>
-				{children}
+				{props.children}
 			</form>
 		</Form>
 	);
