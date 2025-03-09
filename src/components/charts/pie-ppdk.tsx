@@ -2,7 +2,6 @@ import { Pie, PieChart } from "recharts";
 import {
 	Card,
 	CardContent,
-	CardDescription,
 	CardFooter,
 	CardHeader,
 	CardTitle,
@@ -29,8 +28,7 @@ export default function PiePPDK() {
 	return (
 		<Card className="flex flex-col">
 			<CardHeader className="items-center pb-0">
-				<CardTitle>Carta Pie</CardTitle>
-				<CardDescription>Tahun 2025</CardDescription>
+				<CardTitle>Jumlah PPDK</CardTitle>
 			</CardHeader>
 			<CardContent className="flex-1 pb-0">
 				<ChartContainer
@@ -45,7 +43,7 @@ export default function PiePPDK() {
 			</CardContent>
 			<CardFooter className="flex-col gap-2 text-sm">
 				<div className="flex items-center gap-2 font-medium leading-none">
-					Jumlah PPDK (negeri)
+					Mengikut negeri
 				</div>
 			</CardFooter>
 		</Card>

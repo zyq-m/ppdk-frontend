@@ -11,29 +11,21 @@ import { useEffect, useState } from "react";
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 
 const chartConfig = {
-	rendah: {
-		label: "Skor Rendah",
+	perempuan: {
+		label: "Perempuan",
 		color: "hsl(var(--chart-1))",
 	},
-	sederhana: {
-		label: "Skor Serdahana",
+	lelaki: {
+		label: "Lelaki",
 		color: "hsl(var(--chart-2))",
-	},
-	tinggi: {
-		label: "Skor Tinggi",
-		color: "hsl(var(--chart-3))",
-	},
-	keseluruhan: {
-		label: "Skor keseluruhan",
-		color: "hsl(var(--chart-4))",
 	},
 } satisfies ChartConfig;
 
-export default function BarPenilaian() {
+export default function BarPelatih() {
 	const [chartData, setData] = useState();
 
 	useEffect(() => {
-		api.get("/analytic/penilaian").then(({ data }) => {
+		api.get("/analytic/pelatih").then(({ data }) => {
 			setData(data);
 		});
 	}, []);
@@ -43,17 +35,15 @@ export default function BarPenilaian() {
 			<BarChart accessibilityLayer data={chartData}>
 				<CartesianGrid vertical={false} />
 				<XAxis
-					dataKey="kategori"
+					dataKey="negeri"
 					tickLine={false}
 					tickMargin={10}
 					axisLine={false}
 				/>
 				<ChartTooltip content={<ChartTooltipContent />} />
 				<ChartLegend content={<ChartLegendContent />} />
-				<Bar dataKey="rendah" fill="var(--color-rendah)" radius={4} />
-				<Bar dataKey="sederhana" fill="var(--color-sederhana)" radius={4} />
-				<Bar dataKey="tinggi" fill="var(--color-tinggi)" radius={4} />
-				<Bar dataKey="keseluruhan" fill="var(--color-keseluruhan)" radius={4} />
+				<Bar dataKey="perempuan" fill="var(--color-perempuan)" radius={4} />
+				<Bar dataKey="lelaki" fill="var(--color-lelaki)" radius={4} />
 			</BarChart>
 		</ChartContainer>
 	);

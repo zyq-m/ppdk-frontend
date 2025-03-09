@@ -19,7 +19,7 @@ export default function AdminDialog() {
 					<Plus /> Admin
 				</Button>
 			</DialogTrigger>
-			<DialogContent className="sm:max-w-[425px]">
+			<DialogContent className="max-w-3xl">
 				<DialogHeader>
 					<DialogTitle>Daftar Admin PPDK</DialogTitle>
 					<DialogDescription>

@@ -113,7 +113,7 @@ export default function KategoriOkuForm({ children }: { children: ReactNode }) {
 							control={form.control}
 							name={`kriteria.${i}.kriteria`}
 							render={({ field }) => (
-								<FormItem>
+								<FormItem className="flex-1">
 									<FormLabel>Kriteria</FormLabel>
 									<FormControl>
 										<Input {...field} />

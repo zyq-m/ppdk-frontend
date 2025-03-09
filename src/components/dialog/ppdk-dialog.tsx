@@ -19,7 +19,7 @@ export default function PpdkDialog() {
 					<Plus /> PPDK
 				</Button>
 			</DialogTrigger>
-			<DialogContent className="sm:max-w-[425px]">
+			<DialogContent className="max-w-3xl">
 				<DialogHeader>
 					<DialogTitle>Daftar PPDK</DialogTitle>
 					<DialogDescription>

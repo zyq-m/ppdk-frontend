@@ -103,3 +103,10 @@ export type PenilaianType = {
 	};
 	created_at: string;
 };
+
+export type TOverall = {
+	ppdk: number;
+	petugas: number;
+	pelatih: number;
+	penilaian: number;
+};

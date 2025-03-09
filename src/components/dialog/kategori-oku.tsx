@@ -19,7 +19,7 @@ export default function KategoriOku() {
 					<Plus /> Kategori
 				</Button>
 			</DialogTrigger>
-			<DialogContent className="sm:max-w-[425px]">
+			<DialogContent className="max-w-3xl overflow-auto max-h-[80vh]">
 				<DialogHeader>
 					<DialogTitle>Daftar kategori</DialogTitle>
 					<DialogDescription>
