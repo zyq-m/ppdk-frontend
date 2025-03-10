@@ -17,6 +17,7 @@ export type TNoTel = {
 };
 
 export type TAdmin = {
+	id: string;
 	email: string;
 	nama: string;
 	jawatan: string;

@@ -16,27 +16,44 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { adminSchema } from "@/lib/formSchema";
-import { TPPDK } from "@/lib/type";
+import { TAdmin, TPPDK } from "@/lib/type";
 import { api } from "@/utils/axios";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-export default function AdminForm({ children }: { children: ReactNode }) {
+type PropsAdminForm = {
+	children: ReactNode;
+	admin?: TAdmin;
+	add: boolean;
+	edit: boolean;
+	listPpdk: TPPDK[];
+};
+
+export default function AdminForm(props: PropsAdminForm) {
 	const { toast } = useToast();
-	const [ppdk, setPpdk] = useState<TPPDK[]>();
 	const form = useForm<z.infer<typeof adminSchema>>({
 		resolver: zodResolver(adminSchema),
 	});
 
 	async function onSubmit(values: z.infer<typeof adminSchema>) {
+		const { add, edit, admin } = props;
 		try {
-			const res = await api.post("/admin-ppdk", values);
+			let message: string = "";
+			if (add) {
+				const res = await api.post("/admin-ppdk", values);
+				message = res.data.message;
+			}
+
+			if (edit) {
+				const res = await api.put(`/admin-ppdk/${admin?.id}`, values);
+				message = res.data.message;
+			}
 
 			toast({
 				title: "Berjaya",
-				description: res.data.message,
+				description: message,
 			});
 		} catch (error) {
 			console.log(error);
@@ -44,10 +61,19 @@ export default function AdminForm({ children }: { children: ReactNode }) {
 	}
 
 	useEffect(() => {
-		api.get("/ppdk").then(({ data }: { data: TPPDK[] }) => {
-			setPpdk(data);
-		});
-	}, []);
+		if (props.admin) {
+			const {
+				admin: { email, jawatan, nama, no_tel, ppdk },
+			} = props;
+			console.log(ppdk);
+			form.setValue("email", email);
+			form.setValue("jawatan", jawatan);
+			form.setValue("nama", nama);
+			form.setValue("notel", no_tel[0].no_tel);
+			form.setValue("ppdk", ppdk.id);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [props]);
 
 	return (
 		<Form {...form}>
@@ -108,6 +134,7 @@ export default function AdminForm({ children }: { children: ReactNode }) {
 									</SelectTrigger>
 								</FormControl>
 								<SelectContent>
+									<SelectItem value="Super PPDK">Super PPDK</SelectItem>
 									<SelectItem value="Penyelia">Penyelia</SelectItem>
 									<SelectItem value="Petugas">Petugas</SelectItem>
 								</SelectContent>
@@ -133,7 +160,7 @@ export default function AdminForm({ children }: { children: ReactNode }) {
 									</SelectTrigger>
 								</FormControl>
 								<SelectContent>
-									{ppdk?.map((pp) => (
+									{props.listPpdk.map((pp) => (
 										<SelectItem key={pp.id} value={pp.id}>
 											{pp.nama}
 										</SelectItem>
@@ -144,7 +171,7 @@ export default function AdminForm({ children }: { children: ReactNode }) {
 						</FormItem>
 					)}
 				/>
-				{children}
+				{props.children}
 			</form>
 		</Form>
 	);
