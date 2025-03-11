@@ -13,34 +13,40 @@ export default function TotalBasedQuestion({
 	form,
 	disabled = false,
 }: QuationaireT) {
-	return soalan?.listKriteria?.map((s) => (
-		<div className="space-y-4" key={s.id}>
-			<div className="space-y-1">
-				<div>
-					<Label className={form.formState.errors[s.id] && "text-destructive"}>
-						{s.kriteria}
-					</Label>
-				</div>
-
-				<div className="space-y-2">
-					{s.soalan.map((so) => (
-						<div key={so.id} className="flex items-center space-x-2">
-							<input
-								id={so.id}
-								type="radio"
-								value={so.skor}
-								disabled={disabled}
-								{...form.register(s.id, {
-									required: { value: true, message: "Pilih salah satu" },
-								})}
-							/>
-							<Label htmlFor={so.id} className="font-normal">
-								{so.soalan}
+	return (
+		<div className="space-y-4">
+			{soalan?.listKriteria?.map((s) => (
+				<div key={s.id}>
+					<div className="space-y-1">
+						<div>
+							<Label
+								className={form.formState.errors[s.id] && "text-destructive"}
+							>
+								{s.kriteria}
 							</Label>
 						</div>
-					))}
+
+						<div className="space-y-2">
+							{s.soalan.map((so) => (
+								<div key={so.id} className="flex items-center space-x-2">
+									<input
+										id={so.id}
+										type="radio"
+										value={so.skor}
+										disabled={disabled}
+										{...form.register(s.id, {
+											required: { value: true, message: "Pilih salah satu" },
+										})}
+									/>
+									<Label htmlFor={so.id} className="font-normal">
+										{so.soalan}
+									</Label>
+								</div>
+							))}
+						</div>
+					</div>
 				</div>
-			</div>
+			))}
 		</div>
-	));
+	);
 }
