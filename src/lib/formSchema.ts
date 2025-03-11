@@ -124,7 +124,7 @@ export const soalanSchema = z.object({
 			soalan: z.array(
 				z.object({
 					sId: z.string().optional(),
-					soalan: z.string().min(10, "Sekurang-kurangnya 10 patah perkataan"),
+					soalan: z.string().min(3, "Sekurang-kurangnya 3 patah perkataan"),
 					skor: z.string().min(1, "Sila letak skor").or(z.array(z.string())),
 				})
 			),
