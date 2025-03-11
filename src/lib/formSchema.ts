@@ -125,7 +125,7 @@ export const soalanSchema = z.object({
 				z.object({
 					sId: z.string().optional(),
 					soalan: z.string().min(10, "Sekurang-kurangnya 10 patah perkataan"),
-					skor: z.string().min(2, "Sila letak skor").or(z.array(z.string())),
+					skor: z.string().min(1, "Sila letak skor").or(z.array(z.string())),
 				})
 			),
 		})
@@ -142,7 +142,7 @@ export const okuSchema = z.object({
 		z.object({
 			kId: z.string().optional(),
 			kriteria: z.string().min(2, "Sila isi kriteria"),
-			purataSkor: z.string().min(2, "Sila isi purata skor"),
+			purataSkor: z.string().min(1, "Sila isi purata skor"),
 		})
 	),
 });

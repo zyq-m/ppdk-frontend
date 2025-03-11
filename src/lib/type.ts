@@ -49,7 +49,7 @@ export type TPenilaian = {
 export type TKriteria = {
 	id: string;
 	kriteria: string;
-	purataSkor: [number[]];
+	purataSkor: string;
 };
 
 export type TKategori = {

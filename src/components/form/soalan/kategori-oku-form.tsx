@@ -83,11 +83,16 @@ export default function KategoriOkuForm(props: PropsKategoriOkuForm) {
 			form.setValue("pemarkahan", pemarkahan);
 			form.setValue(
 				"kriteria",
-				kriteria.map((k) => ({
-					kId: k.id,
-					kriteria: k.kriteria,
-					purataSkor: k.purataSkor.map((purata) => purata.join("-")).join(","),
-				}))
+				kriteria.map((k) => {
+					const purata: number | [number[]] = JSON.parse(k.purataSkor);
+					return {
+						kId: k.id,
+						kriteria: k.kriteria,
+						purataSkor: Array.isArray(purata)
+							? purata.map((purata) => purata.join("-")).join(",")
+							: purata.toString(),
+					};
+				})
 			);
 			form.setValue(
 				"skorKeseluruhan",
