@@ -1,6 +1,8 @@
 import AssessmentCard from "@/components/card/assessment-card";
 import Quationaire from "@/components/form/assessment/quationaire";
+import TotalBasedQuestion from "@/components/form/assessment/total-based-question";
 import Layout from "@/components/layout/admin-ppdk-layout";
+import TableTotalBasedScore from "@/components/table/skor/total-based";
 import TableSkor from "@/components/table/table-skor";
 import {
 	Card,
@@ -43,11 +45,20 @@ export default function ViewAssessment() {
 			{soalan?.kategori_oku && (
 				<>
 					<AssessmentCard soalan={soalan.kategori_oku}>
-						<Quationaire
-							soalan={soalan.kategori_oku}
-							form={form}
-							disabled={true}
-						/>
+						{soalan.kategori_oku.pemarkahan == 1 && (
+							<Quationaire
+								soalan={soalan.kategori_oku}
+								form={form}
+								disabled={true}
+							/>
+						)}
+						{soalan.kategori_oku.pemarkahan == 2 && (
+							<TotalBasedQuestion
+								soalan={soalan.kategori_oku}
+								form={form}
+								disabled={true}
+							/>
+						)}
 					</AssessmentCard>
 					<Card>
 						<CardHeader>
@@ -55,7 +66,12 @@ export default function ViewAssessment() {
 							<CardDescription>Skor penilaian yang diperoleh</CardDescription>
 						</CardHeader>
 						<CardContent>
-							<TableSkor soalan={soalan} />
+							{soalan.kategori_oku.pemarkahan == 1 && (
+								<TableSkor soalan={soalan} />
+							)}
+							{soalan.kategori_oku.pemarkahan == 2 && (
+								<TableTotalBasedScore soalan={soalan} />
+							)}
 						</CardContent>
 					</Card>
 				</>

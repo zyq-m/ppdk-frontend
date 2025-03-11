@@ -80,7 +80,7 @@ export default function KategoriOkuForm(props: PropsKategoriOkuForm) {
 			form.setValue("kategori", kategori);
 			form.setValue("maxUmur", maxUmur.toString());
 			form.setValue("minUmur", minUmur.toString());
-			form.setValue("pemarkahan", pemarkahan);
+			form.setValue("pemarkahan", pemarkahan.toString());
 			form.setValue(
 				"kriteria",
 				kriteria.map((k) => {

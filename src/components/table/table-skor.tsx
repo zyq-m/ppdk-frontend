@@ -20,6 +20,9 @@ export default function TableSkor({ soalan }: TableSKorProps) {
 			<TableHeader>
 				<TableRow>
 					<TableHead>Kriteria</TableHead>
+					<TableHead className="text-center text-blue-500">
+						Skor diperoleh
+					</TableHead>
 					<TableHead className="text-center">Hampir kepada Purata</TableHead>
 					<TableHead className="text-center">
 						Sedikit Meningkat (/Menurun)
@@ -28,40 +31,44 @@ export default function TableSkor({ soalan }: TableSKorProps) {
 					<TableHead className="text-center">
 						Sangat Tinggi (/Sangat Rendah)
 					</TableHead>
-					<TableHead className="text-center text-black">
-						Skor diperoleh
-					</TableHead>
 				</TableRow>
 			</TableHeader>
 			<TableBody>
+				{soalan.kategori_oku.kriteria.map((so) => {
+					const purata: number | [number[]] = JSON.parse(so.purataSkor);
+					return (
+						<TableRow key={so.id}>
+							<TableCell>{so.kriteria}</TableCell>
+							{Object.entries(JSON.parse(soalan.skorKriteria) as SkorKriteria)
+								.filter(([key]) => key == so.id)
+								.map(([k, v]) => (
+									<TableCell
+										key={k}
+										className="text-center font-semibold text-blue-500"
+									>
+										{v}
+									</TableCell>
+								))}
+							{Array.isArray(purata) &&
+								purata.map((skor) => (
+									<TableCell className="text-center">
+										{skor[0]}-{skor[1]}
+									</TableCell>
+								))}
+						</TableRow>
+					);
+				})}
 				<TableRow>
-					<TableCell>Keseluruhan</TableCell>
+					<TableCell>Jumlah Skor Keseluruhan</TableCell>
+					<TableCell className="text-center font-semibold text-blue-500">
+						{soalan.skor}
+					</TableCell>
 					{soalan.kategori_oku.skor.map((skor) => (
 						<TableCell className="text-center">
 							{skor[0]}-{skor[1]}
 						</TableCell>
 					))}
-					<TableCell className="text-center font-semibold">
-						{soalan.skor}
-					</TableCell>
 				</TableRow>
-				{soalan.kategori_oku.kriteria.map((so) => (
-					<TableRow key={so.id}>
-						<TableCell>{so.kriteria}</TableCell>
-						{so.purataSkor.map((skor) => (
-							<TableCell className="text-center">
-								{skor[0]}-{skor[1]}
-							</TableCell>
-						))}
-						{Object.entries(JSON.parse(soalan.skorKriteria) as SkorKriteria)
-							.filter(([key]) => key == so.id)
-							.map(([k, v]) => (
-								<TableCell key={k} className="text-center font-semibold">
-									{v}
-								</TableCell>
-							))}
-					</TableRow>
-				))}
 			</TableBody>
 		</Table>
 	);

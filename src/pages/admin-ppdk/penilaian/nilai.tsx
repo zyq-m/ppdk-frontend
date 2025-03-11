@@ -1,5 +1,6 @@
 import AssessmentCard from "@/components/card/assessment-card";
 import Quationaire from "@/components/form/assessment/quationaire";
+import TotalBasedQuestion from "@/components/form/assessment/total-based-question";
 import Layout from "@/components/layout/admin-ppdk-layout";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
@@ -20,6 +21,7 @@ export default function NilaiPelatih() {
 			.post(`/assessment/${kategori}`, {
 				jawapan: JSON.stringify(data),
 				pelatih_id: id,
+				pemarkahan: soalan?.pemarkahan,
 			})
 			.then((res) => {
 				toast({
@@ -50,7 +52,11 @@ export default function NilaiPelatih() {
 				<AssessmentCard soalan={soalan}>
 					<form onSubmit={form.handleSubmit(onSubmit)}>
 						<div className="mb-8">
-							<Quationaire form={form} soalan={soalan} />
+							{soalan?.pemarkahan == 1 ? (
+								<Quationaire form={form} soalan={soalan} />
+							) : (
+								<TotalBasedQuestion form={form} soalan={soalan} />
+							)}
 						</div>
 						<div className="flex justify-end gap-2">
 							<Button type="reset" variant="outline">

@@ -57,7 +57,7 @@ export type TKategori = {
 	kategori: string;
 	minUmur: number;
 	maxUmur: number;
-	pemarkahan: string;
+	pemarkahan: number;
 	skor: [number[]];
 	kriteria: TKriteria[];
 };
@@ -71,12 +71,7 @@ export type PelatihFormProps = {
 	form: UseFormReturn<z.infer<typeof formSchema>>;
 };
 
-export type SoalanT = {
-	id: string;
-	kategori: string;
-	minUmur: number;
-	maxUmur: number;
-	skor: [number[]];
+export type SoalanT = TKategori & {
 	kriteria: TKriteria[];
 	listKriteria: {
 		id: string;
