@@ -72,8 +72,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 											(item.subItem &&
 												item.subItem.some((sub) => sub.url === pathname))
 									)
-									.map((nav) => (
-										<BreadcrumbItem key={nav.url}>
+									.map((nav, i) => (
+										<BreadcrumbItem key={i}>
 											<BreadcrumbPage>{nav.title}</BreadcrumbPage>
 										</BreadcrumbItem>
 									))}

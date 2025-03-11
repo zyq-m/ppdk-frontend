@@ -57,6 +57,8 @@ export type TKategori = {
 	kategori: string;
 	minUmur: number;
 	maxUmur: number;
+	pemarkahan: string;
+	skor: [number[]];
 	kriteria: TKriteria[];
 };
 

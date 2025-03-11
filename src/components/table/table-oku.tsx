@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import DataTable from "@/components/data-table";
-import { ArrowUpDown, ChevronsUpDown, Pencil } from "lucide-react";
+import { ArrowUpDown, ChevronsUpDown, Plus } from "lucide-react";
 import {
 	Card,
 	CardContent,
@@ -17,8 +17,15 @@ import {
 import { ColumnDef } from "@tanstack/react-table";
 import { TKategori } from "@/lib/type";
 import KategoriOku from "../dialog/kategori-oku";
+import ActionDropdown from "../dropdown/action-dropdown";
+import { DropdownMenuItem } from "../ui/dropdown-menu";
+import { useState } from "react";
+import { api } from "@/utils/axios";
+import { toast } from "@/hooks/use-toast";
 
 export default function TableOKU({ kategori }: { kategori: TKategori[] }) {
+	const [isOpen, setOpen] = useState(false);
+	const [tempKategori, setTemp] = useState<TKategori>();
 	const columns: ColumnDef<TKategori>[] = [
 		{
 			id: "bil",
@@ -107,16 +114,40 @@ export default function TableOKU({ kategori }: { kategori: TKategori[] }) {
 		},
 		{
 			id: "action",
-			header: "Action",
-			cell: () => {
+			cell: ({ row }) => {
 				return (
-					<Button variant="ghost" size="sm">
-						<Pencil className="h-4 w-4" />
-					</Button>
+					<ActionDropdown>
+						<DropdownMenuItem
+							onSelect={(e) => {
+								e.stopPropagation();
+								setOpen(true);
+								setTemp(row.original);
+							}}
+						>
+							Kemas kini
+						</DropdownMenuItem>
+						<DropdownMenuItem onClick={() => deleteKategori(row.original)}>
+							Padam
+						</DropdownMenuItem>
+					</ActionDropdown>
 				);
 			},
 		},
 	];
+
+	async function deleteKategori(kategori: TKategori) {
+		api
+			.put(`/setup/oku/${kategori.id}`, { ...kategori, active: false })
+			.then(({ data }) => {
+				toast({
+					title: "Berjaya",
+					description: data.message,
+				});
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}
 
 	return (
 		<Card>
@@ -134,8 +165,24 @@ export default function TableOKU({ kategori }: { kategori: TKategori[] }) {
 					colName="kategori"
 					placeholder="Cari kategori..."
 				>
-					<KategoriOku />
+					<KategoriOku
+						title="Daftar Kategori OKU"
+						desc="Isi maklumat yang diperlukan"
+						add={true}
+					>
+						<Button variant="outline" type="button">
+							<Plus /> Kategori
+						</Button>
+					</KategoriOku>
 				</DataTable>
+				<KategoriOku
+					title="Kemas kini Kategori OKU"
+					desc="Isi maklumat yang diperlukan"
+					kategoriOku={tempKategori}
+					edit={true}
+					isOpen={isOpen}
+					setOpen={setOpen}
+				/>
 			</CardContent>
 		</Card>
 	);

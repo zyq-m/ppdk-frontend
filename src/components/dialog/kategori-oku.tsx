@@ -9,24 +9,38 @@ import {
 	DialogTrigger,
 } from "@/components/ui/dialog";
 import KategoriOkuForm from "../form/soalan/kategori-oku-form";
-import { Plus } from "lucide-react";
+import { ReactNode } from "react";
+import { TKategori } from "@/lib/type";
 
-export default function KategoriOku() {
+export default function KategoriOku({
+	children,
+	title,
+	desc,
+	kategoriOku,
+	add = false,
+	edit = false,
+	isOpen,
+	setOpen,
+}: {
+	children?: ReactNode;
+	title: string;
+	desc: string;
+	add?: boolean;
+	edit?: boolean;
+	remove?: boolean;
+	kategoriOku?: TKategori;
+	isOpen?: boolean;
+	setOpen?: (bol: boolean) => void;
+}) {
 	return (
-		<Dialog>
-			<DialogTrigger asChild>
-				<Button variant="outline" type="button">
-					<Plus /> Kategori
-				</Button>
-			</DialogTrigger>
+		<Dialog open={isOpen} onOpenChange={setOpen}>
+			<DialogTrigger asChild>{children}</DialogTrigger>
 			<DialogContent className="max-w-3xl overflow-auto max-h-[80vh]">
 				<DialogHeader>
-					<DialogTitle>Daftar kategori</DialogTitle>
-					<DialogDescription>
-						Sila isi maklumat yang diperlukan
-					</DialogDescription>
+					<DialogTitle>{title}</DialogTitle>
+					<DialogDescription>{desc}</DialogDescription>
 				</DialogHeader>
-				<KategoriOkuForm>
+				<KategoriOkuForm add={add} edit={edit} kategoriOku={kategoriOku}>
 					<DialogFooter>
 						<Button type="submit">Submit</Button>
 					</DialogFooter>

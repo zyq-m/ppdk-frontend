@@ -136,11 +136,13 @@ export const okuSchema = z.object({
 	kategori: z.string(),
 	minUmur: z.string().optional(),
 	maxUmur: z.string().optional(),
+	pemarkahan: z.string(),
 	skorKeseluruhan: z.string(),
 	kriteria: z.array(
 		z.object({
-			kriteria: z.string().min(5, "Sila isi kriteria"),
-			purataSkor: z.string().min(5, "Sila isi purata skor"),
+			kId: z.string().optional(),
+			kriteria: z.string().min(2, "Sila isi kriteria"),
+			purataSkor: z.string().min(2, "Sila isi purata skor"),
 		})
 	),
 });
