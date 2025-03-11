@@ -30,8 +30,8 @@ export default function LinePPDK() {
 				accessibilityLayer
 				data={chartData}
 				margin={{
-					left: 16,
-					right: 16,
+					left: 24,
+					right: 24,
 				}}
 			>
 				<CartesianGrid vertical={false} />
@@ -40,6 +40,7 @@ export default function LinePPDK() {
 					tickLine={false}
 					axisLine={false}
 					tickMargin={10}
+					tickFormatter={(value) => value.slice(0, 3)}
 				/>
 				<ChartTooltip content={<ChartTooltipContent />} />
 				<Line

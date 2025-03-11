@@ -16,11 +16,12 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 
-import { Landmark, Users } from "lucide-react";
+import { Landmark, TextSearch, Users } from "lucide-react";
 import BarPelatih from "@/components/charts/bar-pelatih";
 import { useEffect, useState } from "react";
 import { api } from "@/utils/axios";
 import { TOverall } from "@/lib/type";
+import { Link } from "react-router-dom";
 
 export default function Report() {
 	const [overallTotal, setOverall] = useState<TOverall>();
@@ -41,8 +42,10 @@ export default function Report() {
 						</div>
 					</CardHeader>
 					<CardContent>
-						<h2 className="text-3xl font-semibold">{overallTotal?.ppdk}</h2>
-						<CardDescription>Setakat tahun 2025</CardDescription>
+						<Link to="/app/super-admin/ppdk">
+							<h2 className="text-3xl font-semibold">{overallTotal?.ppdk}</h2>
+							<CardDescription>Setakat tahun 2025</CardDescription>
+						</Link>
 					</CardContent>
 				</Card>
 				<Card className="col-span-2">
@@ -53,8 +56,12 @@ export default function Report() {
 						</div>
 					</CardHeader>
 					<CardContent>
-						<h2 className="text-3xl font-semibold">{overallTotal?.petugas}</h2>
-						<CardDescription>Setakat tahun 2025</CardDescription>
+						<Link to="/app/super-admin/admin">
+							<h2 className="text-3xl font-semibold">
+								{overallTotal?.petugas}
+							</h2>
+							<CardDescription>Setakat tahun 2025</CardDescription>
+						</Link>
 					</CardContent>
 				</Card>
 				<Card className="col-span-2">
@@ -65,22 +72,28 @@ export default function Report() {
 						</div>
 					</CardHeader>
 					<CardContent>
-						<h2 className="text-3xl font-semibold">{overallTotal?.pelatih}</h2>
-						<CardDescription>Setakat tahun 2025</CardDescription>
+						<Link to="/app/admin-ppdk/pelatih">
+							<h2 className="text-3xl font-semibold">
+								{overallTotal?.pelatih}
+							</h2>
+							<CardDescription>Setakat tahun 2025</CardDescription>
+						</Link>
 					</CardContent>
 				</Card>
 				<Card className="col-span-2">
 					<CardHeader>
 						<div className="flex justify-between">
 							<CardTitle>Jumlah Penilaian</CardTitle>
-							<Users className="text-muted-foreground size-5" />
+							<TextSearch className="text-muted-foreground size-5" />
 						</div>
 					</CardHeader>
 					<CardContent>
-						<h2 className="text-3xl font-semibold">
-							{overallTotal?.penilaian}
-						</h2>
-						<CardDescription>Setakat tahun 2025</CardDescription>
+						<Link to="/app/admin-ppdk/penilaian">
+							<h2 className="text-3xl font-semibold">
+								{overallTotal?.penilaian}
+							</h2>
+							<CardDescription>Setakat tahun 2025</CardDescription>
+						</Link>
 					</CardContent>
 				</Card>
 				<Card className="col-span-8">
@@ -91,7 +104,9 @@ export default function Report() {
 						</CardDescription>
 					</CardHeader>
 					<CardContent>
-						<LinePPDK />
+						<Link to="/app/super-admin/ppdk">
+							<LinePPDK />
+						</Link>
 					</CardContent>
 				</Card>
 				<Card className="col-span-8">
@@ -102,7 +117,9 @@ export default function Report() {
 						</CardDescription>
 					</CardHeader>
 					<CardContent>
-						<BarPelatih />
+						<Link to="/app/admin-ppdk/pelatih">
+							<BarPelatih />
+						</Link>
 					</CardContent>
 				</Card>
 				<Card className="col-span-8">
@@ -139,7 +156,9 @@ export default function Report() {
 						</div>
 					</CardHeader>
 					<CardContent>
-						<BarPenilaian />
+						<Link to="/app/admin-ppdk/penilaian">
+							<BarPenilaian />
+						</Link>
 					</CardContent>
 				</Card>
 			</div>

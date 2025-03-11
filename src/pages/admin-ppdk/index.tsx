@@ -40,9 +40,7 @@ export default function DashboardAdminPPK() {
 			<Card>
 				<CardHeader>
 					<CardTitle>Graf Bar - Pelatih</CardTitle>
-					<CardDescription>
-						Bilangan pelatih berdaftar
-					</CardDescription>
+					<CardDescription>Bilangan pelatih berdaftar</CardDescription>
 				</CardHeader>
 				<CardContent>
 					<ChartContainer config={chartConfig}>
@@ -61,9 +59,7 @@ export default function DashboardAdminPPK() {
 								tickMargin={10}
 								axisLine={false}
 								tickFormatter={(value) =>
-									chartConfig[
-										value as keyof typeof chartConfig
-									]?.label
+									chartConfig[value as keyof typeof chartConfig]?.label
 								}
 							/>
 							<XAxis dataKey="pelatih" type="number" hide />
@@ -71,18 +67,13 @@ export default function DashboardAdminPPK() {
 								cursor={false}
 								content={<ChartTooltipContent hideLabel />}
 							/>
-							<Bar
-								dataKey="pelatih"
-								layout="vertical"
-								radius={5}
-							/>
+							<Bar dataKey="pelatih" layout="vertical" radius={5} />
 						</BarChart>
 					</ChartContainer>
 				</CardContent>
 				<CardFooter className="flex-col items-start gap-2 text-sm">
 					<div className="flex gap-2 font-medium leading-none">
-						Trending up by 5.2% this month{" "}
-						<TrendingUp className="h-4 w-4" />
+						Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
 					</div>
 					<div className="leading-none text-muted-foreground">
 						Menunjukkan jumlah pelatih mengikut jantina

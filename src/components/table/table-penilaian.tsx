@@ -122,13 +122,11 @@ export default function TablePenilaian({
 	];
 
 	return (
-		<>
-			<DataTable
-				columns={columns}
-				data={data}
-				colName="kategori_oku_kategori"
-				placeholder="Cari penilaian..."
-			/>
-		</>
+		<DataTable
+			columns={columns}
+			data={data}
+			colName="kategori_oku_kategori"
+			placeholder="Cari penilaian..."
+		/>
 	);
 }

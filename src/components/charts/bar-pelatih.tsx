@@ -39,6 +39,7 @@ export default function BarPelatih() {
 					tickLine={false}
 					tickMargin={10}
 					axisLine={false}
+					tickFormatter={(value) => value.slice(0, 3)}
 				/>
 				<ChartTooltip content={<ChartTooltipContent />} />
 				<ChartLegend content={<ChartLegendContent />} />
