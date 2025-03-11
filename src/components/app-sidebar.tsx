@@ -74,7 +74,7 @@ export function AppSidebar({ items }: { items: NavItemType[] }) {
 									<Accessibility className="size-4" />
 								</div>
 								<div className="flex flex-col gap-0.5 leading-none">
-									<span className="font-semibold">PPDK InfoSys</span>
+									<span className="font-semibold">Inklusif OKU</span>
 									<span>v{version}</span>
 								</div>
 							</a>
