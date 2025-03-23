@@ -135,8 +135,6 @@ export default function SetupSoalan() {
 												{kategori.map((kat) => (
 													<SelectItem key={kat.id} value={kat.id}>
 														{kat.kategori}
-														{kat.minUmur > 0 &&
-															` (${kat.minUmur}-${kat.maxUmur} tahun)`}
 													</SelectItem>
 												))}
 											</SelectContent>

@@ -20,15 +20,20 @@ import { Landmark, TextSearch, Users } from "lucide-react";
 import BarPelatih from "@/components/charts/bar-pelatih";
 import { useEffect, useState } from "react";
 import { api } from "@/utils/axios";
-import { TOverall } from "@/lib/type";
+import { TKategori, TOverall } from "@/lib/type";
 import { Link } from "react-router-dom";
+import { STATES } from "@/utils/CONSTANT";
 
 export default function Dashboard() {
 	const [overallTotal, setOverall] = useState<TOverall>();
+	const [oku, setOku] = useState<TKategori[]>();
 
 	useEffect(() => {
 		api.get("/analytic").then(({ data }) => {
 			setOverall(data);
+		});
+		api.get("/setup/oku").then(({ data }) => {
+			setOku(data);
 		});
 	}, []);
 
@@ -138,9 +143,13 @@ export default function Dashboard() {
 										<SelectValue placeholder="Pilih kategori" />
 									</SelectTrigger>
 									<SelectContent>
-										<SelectItem value="i">1</SelectItem>
-										<SelectItem value="i">1</SelectItem>
-										<SelectItem value="i">1</SelectItem>
+										{oku?.map((ok) => {
+											return (
+												<SelectItem key={ok.id} value={ok.id}>
+													{ok.kategori}
+												</SelectItem>
+											);
+										})}
 									</SelectContent>
 								</Select>
 								<Select>
@@ -148,9 +157,13 @@ export default function Dashboard() {
 										<SelectValue placeholder="Pilih negeri" />
 									</SelectTrigger>
 									<SelectContent>
-										<SelectItem value="i">1</SelectItem>
-										<SelectItem value="i">1</SelectItem>
-										<SelectItem value="i">1</SelectItem>
+										{Object.keys(STATES).map((key, i) => {
+											return (
+												<SelectItem key={i} value={key}>
+													{key}
+												</SelectItem>
+											);
+										})}
 									</SelectContent>
 								</Select>
 							</div>
