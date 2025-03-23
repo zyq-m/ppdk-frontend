@@ -13,7 +13,7 @@ import {
 	BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 
-import { Gauge, UserPlus, ChartLine, Landmark, Settings } from "lucide-react";
+import { Gauge, UserPlus, Landmark, Settings } from "lucide-react";
 import { Toaster } from "@/components/ui/toaster";
 import { Separator } from "@/components/ui/separator";
 import { Link, useLocation } from "react-router-dom";
@@ -33,11 +33,6 @@ const items: NavItemType[] = [
 		title: "Admin PPDK",
 		url: "/app/super-admin/admin",
 		icon: UserPlus,
-	},
-	{
-		title: "Report",
-		url: "/app/super-admin/report",
-		icon: ChartLine,
 	},
 	{
 		title: "Setting",
@@ -61,7 +56,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 							<BreadcrumbList>
 								<BreadcrumbItem className="hidden md:block">
 									<BreadcrumbLink asChild>
-										<Link to="/app/super-admin">App</Link>
+										<Link to="/app/super-admin">Laman Utama</Link>
 									</BreadcrumbLink>
 								</BreadcrumbItem>
 								<BreadcrumbSeparator className="hidden md:block" />

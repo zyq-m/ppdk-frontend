@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/chart";
 import { api } from "@/utils/axios";
 import { useEffect, useState } from "react";
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts";
 
 const chartConfig = {
 	rendah: {
@@ -40,7 +40,13 @@ export default function BarPenilaian() {
 
 	return (
 		<ChartContainer config={chartConfig} className="max-h-[35vh] w-full">
-			<BarChart accessibilityLayer data={chartData}>
+			<BarChart
+				accessibilityLayer
+				data={chartData}
+				margin={{
+					top: 20,
+				}}
+			>
 				<CartesianGrid vertical={false} />
 				<XAxis
 					dataKey="kategori"
@@ -50,10 +56,38 @@ export default function BarPenilaian() {
 				/>
 				<ChartTooltip content={<ChartTooltipContent />} />
 				<ChartLegend content={<ChartLegendContent />} />
-				<Bar dataKey="rendah" fill="var(--color-rendah)" radius={4} />
-				<Bar dataKey="sederhana" fill="var(--color-sederhana)" radius={4} />
-				<Bar dataKey="tinggi" fill="var(--color-tinggi)" radius={4} />
-				<Bar dataKey="keseluruhan" fill="var(--color-keseluruhan)" radius={4} />
+				<Bar dataKey="rendah" fill="var(--color-rendah)" radius={4}>
+					<LabelList
+						position="top"
+						offset={12}
+						className="fill-foreground"
+						fontSize={12}
+					/>
+				</Bar>
+				<Bar dataKey="sederhana" fill="var(--color-sederhana)" radius={4}>
+					<LabelList
+						position="top"
+						offset={12}
+						className="fill-foreground"
+						fontSize={12}
+					/>
+				</Bar>
+				<Bar dataKey="tinggi" fill="var(--color-tinggi)" radius={4}>
+					<LabelList
+						position="top"
+						offset={12}
+						className="fill-foreground"
+						fontSize={12}
+					/>
+				</Bar>
+				<Bar dataKey="keseluruhan" fill="var(--color-keseluruhan)" radius={4}>
+					<LabelList
+						position="top"
+						offset={12}
+						className="fill-foreground"
+						fontSize={12}
+					/>
+				</Bar>
 			</BarChart>
 		</ChartContainer>
 	);

@@ -2,6 +2,7 @@ import AssessmentCard from "@/components/card/assessment-card";
 import Quationaire from "@/components/form/assessment/quationaire";
 import TotalBasedQuestion from "@/components/form/assessment/total-based-question";
 import Layout from "@/components/layout/admin-ppdk-layout";
+import TableRubrikSkor from "@/components/table/skor/rubrik-skor";
 import TableTotalBasedScore from "@/components/table/skor/total-based";
 import TableSkor from "@/components/table/table-skor";
 import {
@@ -41,7 +42,13 @@ export default function ViewAssessment() {
 	}, [kategori, id]);
 
 	return (
-		<Layout>
+		<Layout
+			breadcrumbs={[
+				"Pelatih",
+				"Penilaian",
+				soalan?.kategori_oku.kategori ?? "",
+			]}
+		>
 			{soalan?.kategori_oku && (
 				<>
 					<AssessmentCard soalan={soalan.kategori_oku}>
@@ -60,20 +67,37 @@ export default function ViewAssessment() {
 							/>
 						)}
 					</AssessmentCard>
-					<Card>
-						<CardHeader>
-							<CardTitle>Keputusan penilaian</CardTitle>
-							<CardDescription>Skor penilaian yang diperoleh</CardDescription>
-						</CardHeader>
-						<CardContent>
-							{soalan.kategori_oku.pemarkahan == 1 && (
-								<TableSkor soalan={soalan} />
-							)}
-							{soalan.kategori_oku.pemarkahan == 2 && (
-								<TableTotalBasedScore soalan={soalan} />
-							)}
-						</CardContent>
-					</Card>
+					<div className="flex gap-4">
+						<Card
+							className={`${soalan.kategori_oku.pemarkahan == 2 ? "flex-1" : "block"}`}
+						>
+							<CardHeader>
+								<CardTitle>Keputusan penilaian</CardTitle>
+								<CardDescription>Skor penilaian yang diperoleh</CardDescription>
+							</CardHeader>
+							<CardContent>
+								{soalan.kategori_oku.pemarkahan == 1 && (
+									<TableSkor soalan={soalan} />
+								)}
+								{soalan.kategori_oku.pemarkahan == 2 && (
+									<TableTotalBasedScore soalan={soalan} />
+								)}
+							</CardContent>
+						</Card>
+						{soalan.kategori_oku.pemarkahan == 1 && (
+							<Card className="flex-1">
+								<CardHeader>
+									<CardTitle>Rubrik penilaian</CardTitle>
+									<CardDescription>
+										Rubrik penilaian ini telah ditetapkan oleh Admin
+									</CardDescription>
+								</CardHeader>
+								<CardContent>
+									<TableRubrikSkor soalan={soalan} />
+								</CardContent>
+							</Card>
+						)}
+					</div>
 				</>
 			)}
 		</Layout>

@@ -31,11 +31,6 @@ const router = createBrowserRouter([
 		loader: protectedLoader,
 	},
 	{
-		path: "/app/super-admin/report",
-		element: <Page.Report />,
-		loader: protectedLoader,
-	},
-	{
 		path: "/app/super-admin/setup/soalan",
 		element: <Page.SetupSoalan />,
 		loader: protectedLoader,
@@ -53,7 +48,7 @@ const router = createBrowserRouter([
 		loader: protectedLoader,
 	},
 	{
-		path: "/app/admin-ppdk/pelatih/register",
+		path: "/app/admin-ppdk/pelatih/daftar",
 		element: <Page.RegisterPelatih />,
 		loader: protectedLoader,
 	},

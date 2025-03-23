@@ -47,7 +47,7 @@ export default function NilaiPelatih() {
 	}, [kategori]);
 
 	return (
-		<Layout>
+		<Layout breadcrumbs={["pelatih", "penilaian", soalan?.kategori ?? ""]}>
 			{soalan && (
 				<AssessmentCard soalan={soalan}>
 					<form onSubmit={form.handleSubmit(onSubmit)}>

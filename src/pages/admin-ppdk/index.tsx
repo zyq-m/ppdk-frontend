@@ -1,85 +1,89 @@
+import BarPenilaian from "@/components/charts/bar-penilaian";
 import Layout from "@/components/layout/admin-ppdk-layout";
-import {
-	ChartContainer,
-	ChartConfig,
-	ChartTooltip,
-	ChartTooltipContent,
-} from "@/components/ui/chart";
 import {
 	Card,
 	CardContent,
 	CardDescription,
-	CardFooter,
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { Bar, BarChart, XAxis, YAxis } from "recharts";
-import { TrendingUp } from "lucide-react";
-
-const chartData = [
-	{ jantina: "lelaki", pelatih: 275, fill: "var(--color-lelaki)" },
-	{ jantina: "perempuan", pelatih: 200, fill: "var(--color-perempuan)" },
-];
-const chartConfig = {
-	pelatih: {
-		label: "Pelatih",
-	},
-	lelaki: {
-		label: "Lelaki",
-		color: "hsl(var(--chart-1))",
-	},
-	perempuan: {
-		label: "Perempuan",
-		color: "hsl(var(--chart-2))",
-	},
-} satisfies ChartConfig;
+import { TOverall } from "@/lib/type";
+import { api } from "@/utils/axios";
+import { TextSearch, Users } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function DashboardAdminPPK() {
+	const [overallTotal, setOverall] = useState<TOverall>();
+
+	useEffect(() => {
+		api.get("/analytic").then(({ data }) => {
+			setOverall(data);
+		});
+	}, []);
+
 	return (
 		<Layout>
-			<Card>
-				<CardHeader>
-					<CardTitle>Graf Bar - Pelatih</CardTitle>
-					<CardDescription>Bilangan pelatih berdaftar</CardDescription>
-				</CardHeader>
-				<CardContent>
-					<ChartContainer config={chartConfig}>
-						<BarChart
-							accessibilityLayer
-							data={chartData}
-							layout="vertical"
-							margin={{
-								left: 48,
-							}}
-						>
-							<YAxis
-								dataKey="jantina"
-								type="category"
-								tickLine={false}
-								tickMargin={10}
-								axisLine={false}
-								tickFormatter={(value) =>
-									chartConfig[value as keyof typeof chartConfig]?.label
-								}
-							/>
-							<XAxis dataKey="pelatih" type="number" hide />
-							<ChartTooltip
-								cursor={false}
-								content={<ChartTooltipContent hideLabel />}
-							/>
-							<Bar dataKey="pelatih" layout="vertical" radius={5} />
-						</BarChart>
-					</ChartContainer>
-				</CardContent>
-				<CardFooter className="flex-col items-start gap-2 text-sm">
-					<div className="flex gap-2 font-medium leading-none">
-						Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-					</div>
-					<div className="leading-none text-muted-foreground">
-						Menunjukkan jumlah pelatih mengikut jantina
-					</div>
-				</CardFooter>
-			</Card>
+			<div className="grid grid-cols-3 gap-4">
+				<Card className="col-span-1">
+					<CardHeader>
+						<div className="flex justify-between">
+							<CardTitle>Jumlah Petugas</CardTitle>
+							<Users className="text-muted-foreground size-5" />
+						</div>
+					</CardHeader>
+					<CardContent>
+						<h2 className="text-3xl font-semibold">{overallTotal?.petugas}</h2>
+						<CardDescription>Setakat tahun 2025</CardDescription>
+					</CardContent>
+				</Card>
+				<Card className="col-span-1">
+					<CardHeader>
+						<div className="flex justify-between">
+							<CardTitle>Jumlah Pelatih</CardTitle>
+							<Users className="text-muted-foreground size-5" />
+						</div>
+					</CardHeader>
+					<CardContent>
+						<Link to="/app/admin-ppdk/pelatih">
+							<h2 className="text-3xl font-semibold">
+								{overallTotal?.pelatih}
+							</h2>
+							<CardDescription>Setakat tahun 2025</CardDescription>
+						</Link>
+					</CardContent>
+				</Card>
+				<Card className="col-span-1">
+					<CardHeader>
+						<div className="flex justify-between">
+							<CardTitle>Jumlah Penilaian</CardTitle>
+							<TextSearch className="text-muted-foreground size-5" />
+						</div>
+					</CardHeader>
+					<CardContent>
+						<Link to="/app/admin-ppdk/penilaian">
+							<h2 className="text-3xl font-semibold">
+								{overallTotal?.penilaian}
+							</h2>
+							<CardDescription>Setakat tahun 2025</CardDescription>
+						</Link>
+					</CardContent>
+				</Card>
+
+				<Card className="col-span-3">
+					<CardHeader>
+						<CardTitle>Jumlah Penilain</CardTitle>
+						<CardDescription>
+							Penilaian yang dibuat oleh petugas
+						</CardDescription>
+					</CardHeader>
+					<CardContent>
+						<Link to="/app/admin-ppdk/penilaian">
+							<BarPenilaian />
+						</Link>
+					</CardContent>
+				</Card>
+			</div>
 		</Layout>
 	);
 }

@@ -28,7 +28,7 @@ const items = [
 		title: "Pelatih",
 		subItem: [
 			{ title: "Senarai", url: "/app/admin-ppdk/pelatih" },
-			{ title: "Daftar", url: "/app/admin-ppdk/pelatih/register" },
+			{ title: "Daftar", url: "/app/admin-ppdk/pelatih/daftar" },
 		],
 		icon: UserPlus,
 	},
@@ -39,7 +39,13 @@ const items = [
 	},
 ];
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function Layout({
+	children,
+	breadcrumbs,
+}: {
+	children: React.ReactNode;
+	breadcrumbs?: string[];
+}) {
 	const { pathname } = useLocation();
 
 	return (
@@ -54,22 +60,30 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 							<BreadcrumbList>
 								<BreadcrumbItem className="hidden md:block">
 									<BreadcrumbLink asChild>
-										<Link to="/app/admin-ppdk">App</Link>
+										<Link to="/app/admin-ppdk">Laman Utama</Link>
 									</BreadcrumbLink>
 								</BreadcrumbItem>
-								<BreadcrumbSeparator className="hidden md:block" />
-								{items
-									.filter(
-										(item) =>
-											item.url === pathname ||
-											(item.subItem &&
-												item.subItem.some((sub) => sub.url === pathname))
-									)
-									.map((nav) => (
-										<BreadcrumbItem key={nav.url}>
-											<BreadcrumbPage>{nav.title}</BreadcrumbPage>
-										</BreadcrumbItem>
-									))}
+								{breadcrumbs
+									? breadcrumbs.map((nav, idx) => (
+											<BreadcrumbItem key={idx}>
+												<BreadcrumbSeparator className="hidden md:block" />
+												<BreadcrumbPage className="capitalize">
+													{nav}
+												</BreadcrumbPage>
+											</BreadcrumbItem>
+										))
+									: pathname
+											.split("/")
+											.filter((url) => url !== "")
+											.slice(2)
+											.map((nav, idx) => (
+												<BreadcrumbItem key={idx}>
+													<BreadcrumbSeparator className="hidden md:block" />
+													<BreadcrumbPage className="capitalize">
+														{nav}
+													</BreadcrumbPage>
+												</BreadcrumbItem>
+											))}
 							</BreadcrumbList>
 						</Breadcrumb>
 					</div>

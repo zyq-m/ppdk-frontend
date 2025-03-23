@@ -1,0 +1,18 @@
+export const STATES: { [key: string]: string } = {
+	Johor: "Jhr",
+	Kedah: "Kdh",
+	Kelantan: "Ktn",
+	"Kuala Lumpur": "Kul",
+	Labuan: "Lbn",
+	Melaka: "Mlk",
+	"Negeri Sembilan": "Nsn",
+	Pahang: "Phg",
+	Penang: "Png",
+	Perak: "Prk",
+	Perlis: "Pls",
+	Putrajaya: "Pjy",
+	Sabah: "Sbh",
+	Sarawak: "Swk",
+	Selangor: "Sgr",
+	Terengganu: "Trg",
+};

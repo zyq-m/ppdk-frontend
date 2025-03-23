@@ -5,8 +5,9 @@ import {
 	ChartTooltipContent,
 } from "@/components/ui/chart";
 import { api } from "@/utils/axios";
+import { STATES } from "@/utils/CONSTANT";
 import { useEffect, useState } from "react";
-import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
+import { CartesianGrid, LabelList, Line, LineChart, XAxis } from "recharts";
 
 const chartConfig = {
 	count: {
@@ -30,6 +31,7 @@ export default function LinePPDK() {
 				accessibilityLayer
 				data={chartData}
 				margin={{
+					top: 20,
 					left: 24,
 					right: 24,
 				}}
@@ -40,7 +42,7 @@ export default function LinePPDK() {
 					tickLine={false}
 					axisLine={false}
 					tickMargin={10}
-					tickFormatter={(value) => value.slice(0, 3)}
+					tickFormatter={(value) => STATES[value].toUpperCase()}
 				/>
 				<ChartTooltip content={<ChartTooltipContent />} />
 				<Line
@@ -48,8 +50,20 @@ export default function LinePPDK() {
 					type="bump"
 					stroke="var(--color-count)"
 					strokeWidth={2}
-					dot={false}
-				/>
+					dot={{
+						fill: "var(--color-count)",
+					}}
+					activeDot={{
+						r: 6,
+					}}
+				>
+					<LabelList
+						position="top"
+						offset={12}
+						className="fill-foreground"
+						fontSize={12}
+					/>
+				</Line>
 			</LineChart>
 		</ChartContainer>
 	);

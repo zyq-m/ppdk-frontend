@@ -57,7 +57,7 @@ export default function Profile() {
 	}, [query]);
 
 	return (
-		<Layout>
+		<Layout breadcrumbs={["pelatih", "profil"]}>
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onSubmit)}>
 					<Tabs value={tab} onValueChange={(v) => setTab(v)}>

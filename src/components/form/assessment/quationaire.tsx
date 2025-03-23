@@ -24,6 +24,7 @@ export default function Quationaire({
 		<Table>
 			<TableHeader>
 				<TableRow>
+					<TableHead></TableHead>
 					<TableHead>Soalan</TableHead>
 					<TableHead
 						className={`text-center w-20 ${Object.keys(form.formState.errors).length && "text-destructive"}`}
@@ -43,9 +44,11 @@ export default function Quationaire({
 				</TableRow>
 			</TableHeader>
 			<TableBody>
-				{soalan?.listKriteria?.map((s) =>
-					s.soalan.map((so) => (
+				{soalan.listKriteria
+					.flatMap((s) => s.soalan)
+					.map((so, idx) => (
 						<TableRow key={so.id}>
+							<TableCell className="text-center">{idx + 1}</TableCell>
 							<TableCell
 								className={form.formState.errors[so.id] && "text-destructive"}
 							>
@@ -67,8 +70,7 @@ export default function Quationaire({
 									</TableCell>
 								))}
 						</TableRow>
-					))
-				)}
+					))}
 			</TableBody>
 		</Table>
 	);

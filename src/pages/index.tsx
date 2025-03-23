@@ -2,7 +2,6 @@ import Dashboard from "./super-admin/dashboard";
 import ListPPDK from "./super-admin/ppdk/list";
 import ListAdmin from "./super-admin/admin/list";
 import SetupSoalan from "./super-admin/setup/soalan";
-import Report from "./super-admin/report/report";
 
 import DashboardAdminPPK from "./admin-ppdk";
 import ListPelatih from "./admin-ppdk/pelatih/list";
@@ -32,5 +31,4 @@ export {
 	Profile,
 	ViewAssessment,
 	DashboardPenilaian,
-	Report,
 };

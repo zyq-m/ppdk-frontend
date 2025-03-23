@@ -121,7 +121,9 @@ export default function TablePelatih({
 				return row.original.assessment?.map((so) => (
 					<ol key={so.id} className="my-6 ml-6 list-decimal [&>li]:mt-2">
 						<li>
-							<Link to={`/app/admin-ppdk/pelatih/2?tab=penilaian`}>
+							<Link
+								to={`/app/admin-ppdk/pelatih/${row.original.id}?tab=penilaian`}
+							>
 								{so.kategori_oku.kategori}
 								{so.kategori_oku.minUmur > 0 &&
 									` (${so.kategori_oku.minUmur}-${so.kategori_oku.maxUmur} tahun)`}
