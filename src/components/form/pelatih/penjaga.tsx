@@ -56,19 +56,6 @@ export default function PenjagaForm({ form }: PelatihFormProps) {
 					/>
 					<FormField
 						control={form.control}
-						name={`penjaga.${i}.dob`}
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Tarikh lahir</FormLabel>
-								<FormControl>
-									<Input type="date" {...field} />
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-					<FormField
-						control={form.control}
 						name={`penjaga.${i}.pekerjaan`}
 						render={({ field }) => (
 							<FormItem>
@@ -241,7 +228,6 @@ export default function PenjagaForm({ form }: PelatihFormProps) {
 						nama: "",
 						hubungan: "",
 						noKp: "",
-						dob: "",
 						pekerjaan: "",
 						pendapatan: "",
 						ketidakUpayaan: "",

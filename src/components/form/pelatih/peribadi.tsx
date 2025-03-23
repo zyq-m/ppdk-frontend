@@ -130,19 +130,6 @@ export default function PeribadiForm({
 			/>
 			<FormField
 				control={form.control}
-				name="dob"
-				render={({ field }) => (
-					<FormItem>
-						<FormLabel>Tarikh lahir</FormLabel>
-						<FormControl>
-							<Input type="date" {...field} />
-						</FormControl>
-						<FormMessage />
-					</FormItem>
-				)}
-			/>
-			<FormField
-				control={form.control}
 				name="jantina"
 				render={({ field }) => (
 					<FormItem>
@@ -253,7 +240,7 @@ export default function PeribadiForm({
 				control={form.control}
 				name="negeri"
 				render={({ field }) => (
-					<FormItem>
+					<FormItem className="md:col-span-2">
 						<FormLabel>Negeri</FormLabel>
 						<FormControl>
 							<Input placeholder="Negeri" {...field} />

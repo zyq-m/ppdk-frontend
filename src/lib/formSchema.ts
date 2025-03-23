@@ -11,7 +11,6 @@ export const formSchema = z
 		no_pendaftaran: z.string().min(2, {
 			message: "Sila isi no pendaftakan oku",
 		}),
-		dob: z.string(),
 		agama: z.string(),
 		dtgSendiri: z.string(),
 		yaDtg: z.string().optional(),
@@ -43,7 +42,6 @@ export const formSchema = z
 			z.object({
 				nama: z.string().min(1, "Required"),
 				noKp: z.string().min(1, "Required"),
-				dob: z.string().min(1, "Required"),
 				pekerjaan: z.string().min(1, "Required"),
 				pendapatan: z.string().min(1, "Required"),
 				hubungan: z.string().min(1, "Required"),

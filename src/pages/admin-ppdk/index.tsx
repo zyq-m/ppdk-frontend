@@ -23,7 +23,7 @@ export default function DashboardAdminPPK() {
 	}, []);
 
 	return (
-		<Layout>
+		<Layout breadcrumbs={["Dashboard"]}>
 			<div className="grid grid-cols-3 gap-4">
 				<Card className="col-span-1">
 					<CardHeader>
