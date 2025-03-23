@@ -33,7 +33,7 @@ export default function BarPelatih() {
 
 	return (
 		<ChartContainer config={chartConfig} className="max-h-[35vh] w-full">
-			<BarChart accessibilityLayer data={chartData} margin={{ top: 20 }}>
+			<BarChart accessibilityLayer data={chartData} margin={{ top: 24 }}>
 				<CartesianGrid vertical={false} />
 				<XAxis
 					dataKey="negeri"

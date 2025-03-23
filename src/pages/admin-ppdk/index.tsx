@@ -72,7 +72,7 @@ export default function DashboardAdminPPK() {
 
 				<Card className="col-span-3">
 					<CardHeader>
-						<CardTitle>Jumlah Penilain</CardTitle>
+						<CardTitle>Jumlah Penilaian</CardTitle>
 						<CardDescription>
 							Penilaian yang dibuat oleh petugas
 						</CardDescription>

@@ -31,7 +31,7 @@ export default function LinePPDK() {
 				accessibilityLayer
 				data={chartData}
 				margin={{
-					top: 20,
+					top: 24,
 					left: 24,
 					right: 24,
 				}}

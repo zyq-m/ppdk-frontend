@@ -44,7 +44,7 @@ export default function BarPenilaian() {
 				accessibilityLayer
 				data={chartData}
 				margin={{
-					top: 20,
+					top: 24,
 				}}
 			>
 				<CartesianGrid vertical={false} />
