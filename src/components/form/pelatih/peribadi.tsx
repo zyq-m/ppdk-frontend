@@ -50,7 +50,7 @@ export default function PeribadiForm({
 
 	return (
 		<div className="grid gap-4 md:grid-cols-2">
-			<div className="space-y-2.5 md:col-span-2">
+			<div className="space-y-2.5">
 				<div>
 					<Label htmlFor="picture">Gambar</Label>
 					<p className="text-[.8rem] text-muted-foreground">
@@ -62,6 +62,42 @@ export default function PeribadiForm({
 						<AvatarImage src={img?.preview} />
 						<AvatarFallback>Pic</AvatarFallback>
 					</Avatar>
+					<div className="space-x-1.5">
+						<Button
+							type="button"
+							size="sm"
+							onClick={() => fileInput.current?.click()}
+						>
+							Muat naik
+						</Button>
+						<Button
+							type="button"
+							size="sm"
+							variant="destructive"
+							onClick={() => setImg(null)}
+						>
+							Padam
+						</Button>
+					</div>
+					<Input
+						accept="image/jpeg, image/png"
+						ref={fileInput}
+						id="picture"
+						type="file"
+						className="hidden"
+						onChange={handleFile}
+					/>
+				</div>
+			</div>
+			<div className="space-y-2.5">
+				<div>
+					<Label htmlFor="picture">Gambar Kad OKU</Label>
+					<p className="text-[.8rem] text-muted-foreground">
+						Tangkap gambar kad pelatih dan muat naik
+					</p>
+				</div>
+				<div className="flex items-center gap-4">
+					<div className="w-36 h-20 bg-muted rounded-sm"></div>
 					<div className="space-x-1.5">
 						<Button
 							type="button"
