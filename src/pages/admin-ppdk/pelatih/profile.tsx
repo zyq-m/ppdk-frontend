@@ -15,16 +15,21 @@ import {
 } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { toast } from "@/hooks/use-toast";
 import { formSchema } from "@/lib/formSchema";
 import { PelatihResT, PenilaianType } from "@/lib/type";
 import { api } from "@/utils/axios";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useParams, useSearchParams } from "react-router-dom";
-import { z } from "zod";
+import { object, z } from "zod";
 
-type ResponseT = PelatihResT & { assessment: PenilaianType[] };
+type ResponseT = PelatihResT & {
+	assessment: PenilaianType[];
+	avatar: string;
+	kadOku: string;
+};
 
 export default function Profile() {
 	const { id } = useParams();
@@ -32,22 +37,93 @@ export default function Profile() {
 	const [tab, setTab] = useState("peribadi");
 	const [profile, setProfile] = useState<ResponseT>();
 
+	const [img, setImg] = useState<File | null>(null); // avatar img file
+	const [imgCard, setImgCard] = useState<File | null>(null); // kad oku img file
+	const [avatar, setAvatar] = useState<string | null>(null);
+	const [okuCard, setOkuCard] = useState<string | null>(null);
+
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 	});
 
 	async function onSubmit(values: z.infer<typeof formSchema>) {
-		console.log(values);
+		const fd = new FormData();
+		if (!avatar) {
+			toast({
+				title: "Error",
+				description: "Sila upload gambar berukuran passport",
+				variant: "destructive",
+			});
+			return;
+		}
+		if (!okuCard) {
+			toast({
+				title: "Error",
+				description: "Sila upload gambar kad OKU",
+				variant: "destructive",
+			});
+			return;
+		}
+
+		if (img) fd.append("avatar", img);
+		if (imgCard) fd.append("okuImg", imgCard);
+		fd.append("json", JSON.stringify(values));
+
+		try {
+			const res = await api.put(`/pelatih/${id}`, fd, {
+				headers: {
+					"Content-Type": "multipart/form-data",
+				},
+			});
+
+			toast({
+				title: "Berjaya",
+				description: res.data.message,
+			});
+			// form.reset();
+		} catch (error) {
+			console.log(error);
+		}
 	}
+
+	const handleAvatarChange = useCallback((file: File) => {
+		if (file) {
+			setImg(file);
+			setAvatar(URL.createObjectURL(file));
+		}
+	}, []);
+	const handleCardChange = useCallback((file: File) => {
+		if (file) {
+			setImgCard(file);
+			setOkuCard(URL.createObjectURL(file));
+		}
+	}, []);
 
 	useEffect(() => {
 		api.get(`/pelatih/${id}`).then(({ data }: { data: ResponseT }) => {
 			for (const [key, value] of Object.entries(data)) {
-				form.setValue(key, value);
+				if (Array.isArray(value)) {
+					const filtered = value.map((val) =>
+						Object.fromEntries(
+							Object.entries(val).filter(([_, value]) => value !== null)
+						)
+					);
+					form.setValue(key, filtered);
+				} else if (typeof value === "object") {
+					// const filtered = Object.entries(
+					// 	Object.entries(value).filter(([_, val]) => val !== null)
+					// );
+					// form.setValue(key, filtered);
+				} else {
+					form.setValue(key, value ?? "");
+				}
 			}
 			setProfile(data);
+			setAvatar(`${import.meta.env.VITE_API}/images/${data.avatar}`);
+			setOkuCard(`${import.meta.env.VITE_API}/images/${data.kadOku}`);
 		});
-	}, [form, id]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [id]);
 
 	useEffect(() => {
 		const qTab = query.get("tab");
@@ -55,6 +131,8 @@ export default function Profile() {
 			setTab(qTab);
 		}
 	}, [query]);
+
+	console.log(form.formState.errors);
 
 	return (
 		<Layout breadcrumbs={["pelatih", "profil"]}>
@@ -77,7 +155,13 @@ export default function Profile() {
 									</CardDescription>
 								</CardHeader>
 								<CardContent>
-									<PeribadiForm form={form} />
+									<PeribadiForm
+										form={form}
+										avatar={avatar}
+										sendImg={handleAvatarChange}
+										okuCard={okuCard}
+										sendCardImg={handleCardChange}
+									/>
 								</CardContent>
 								<CardFooter className="justify-end">
 									<Button type="button" onClick={() => setTab("penjaga")}>
@@ -141,7 +225,7 @@ export default function Profile() {
 									>
 										Padam
 									</Button>
-									<Button type="submit">Daftar</Button>
+									<Button type="submit">Kemaskini</Button>
 								</CardFooter>
 							</Card>
 						</TabsContent>

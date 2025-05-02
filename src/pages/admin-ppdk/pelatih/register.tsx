@@ -18,13 +18,18 @@ import { toast } from "@/hooks/use-toast";
 import { formSchema } from "@/lib/formSchema";
 import { api } from "@/utils/axios";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 export default function RegisterPelatih() {
 	const [tab, setTab] = useState("peribadi");
+	// img files
 	const [img, setImg] = useState<File | null>(null);
+	const [imgCard, setImgCard] = useState<File | null>(null);
+	// img previews
+	const [avatar, setAvatar] = useState<string | null>(null);
+	const [okuCard, setOkuCard] = useState<string | null>(null);
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -37,7 +42,6 @@ export default function RegisterPelatih() {
 					nama: "",
 					hubungan: "",
 					noKp: "",
-					dob: "",
 					pekerjaan: "",
 					pendapatan: "",
 					ketidakUpayaan: "",
@@ -56,12 +60,21 @@ export default function RegisterPelatih() {
 		if (!img) {
 			toast({
 				title: "Error",
-				description: "Sila upload gambar berukuran pasport",
+				description: "Sila upload gambar berukuran passport",
 				variant: "destructive",
 			});
 			return;
 		}
-		fd.append("img", img);
+		if (!imgCard) {
+			toast({
+				title: "Error",
+				description: "Sila upload gambar kad OKU",
+				variant: "destructive",
+			});
+			return;
+		}
+		fd.append("avatar", img);
+		fd.append("okuImg", imgCard);
 		fd.append("json", JSON.stringify(values));
 
 		try {
@@ -80,6 +93,19 @@ export default function RegisterPelatih() {
 			console.log(error);
 		}
 	}
+
+	const handleAvatarChange = useCallback((file: File) => {
+		if (file) {
+			setImg(file);
+			setAvatar(URL.createObjectURL(file));
+		}
+	}, []);
+	const handleCardChange = useCallback((file: File) => {
+		if (file) {
+			setImgCard(file);
+			setOkuCard(URL.createObjectURL(file));
+		}
+	}, []);
 
 	return (
 		<Layout>
@@ -101,7 +127,13 @@ export default function RegisterPelatih() {
 									</CardDescription>
 								</CardHeader>
 								<CardContent>
-									<PeribadiForm form={form} sendImg={(img) => setImg(img)} />
+									<PeribadiForm
+										form={form}
+										avatar={avatar}
+										sendImg={handleAvatarChange}
+										okuCard={okuCard}
+										sendCardImg={handleCardChange}
+									/>
 								</CardContent>
 								<CardFooter className="justify-end">
 									<Button type="button" onClick={() => setTab("penjaga")}>

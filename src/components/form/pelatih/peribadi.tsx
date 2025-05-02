@@ -25,10 +25,20 @@ import { useFieldArray } from "react-hook-form";
 
 export default function PeribadiForm({
 	form,
+	avatar,
+	okuCard,
 	sendImg,
-}: PelatihFormProps & { sendImg: (file: File) => void }) {
+	sendCardImg,
+}: PelatihFormProps & {
+	sendImg: (file: File) => void;
+	sendCardImg: (file: File) => void;
+	avatar: string | null;
+	okuCard: string | null;
+}) {
 	const fileInput = useRef<HTMLInputElement>(null);
-	const [img, setImg] = useState<(File & { preview: string }) | null>(null);
+	const fileInputCard = useRef<HTMLInputElement>(null);
+	const [img, setImg] = useState<string | null>(null);
+	const [cardImg, setCardImg] = useState<string | null>(null);
 
 	const { fields } = useFieldArray({
 		control: form.control,
@@ -37,16 +47,27 @@ export default function PeribadiForm({
 
 	const handleFile = (e: ChangeEvent<HTMLInputElement>) => {
 		const file = e.target.files?.[0];
-		if (file)
-			setImg(Object.assign(file, { preview: URL.createObjectURL(file) }));
+		if (file) {
+			setImg(URL.createObjectURL(file));
+			sendImg(file);
+		}
+	};
+	const handleFileCard = (e: ChangeEvent<HTMLInputElement>) => {
+		const file = e.target.files?.[0];
+		if (file) {
+			setCardImg(URL.createObjectURL(file));
+			sendCardImg(file);
+		}
 	};
 
 	useEffect(() => {
-		if (img) {
-			sendImg(img);
+		if (avatar) {
+			setImg(avatar);
 		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [img]);
+		if (okuCard) {
+			setCardImg(okuCard);
+		}
+	}, [avatar, okuCard]);
 
 	return (
 		<div className="grid gap-4 md:grid-cols-2">
@@ -59,7 +80,7 @@ export default function PeribadiForm({
 				</div>
 				<div className="flex items-center gap-4">
 					<Avatar className="w-20 h-20">
-						<AvatarImage src={img?.preview} />
+						{img && <AvatarImage src={img} />}
 						<AvatarFallback>Pic</AvatarFallback>
 					</Avatar>
 					<div className="space-x-1.5">
@@ -74,7 +95,7 @@ export default function PeribadiForm({
 							type="button"
 							size="sm"
 							variant="destructive"
-							onClick={() => setImg(null)}
+							onClick={() => setImg("")}
 						>
 							Padam
 						</Button>
@@ -97,12 +118,14 @@ export default function PeribadiForm({
 					</p>
 				</div>
 				<div className="flex items-center gap-4">
-					<div className="w-36 h-20 bg-muted rounded-sm"></div>
+					<div className="w-36 h-20 bg-muted rounded-sm overflow-clip">
+						{cardImg && <img src={cardImg} alt="Kad OKU" />}
+					</div>
 					<div className="space-x-1.5">
 						<Button
 							type="button"
 							size="sm"
-							onClick={() => fileInput.current?.click()}
+							onClick={() => fileInputCard.current?.click()}
 						>
 							Muat naik
 						</Button>
@@ -110,18 +133,18 @@ export default function PeribadiForm({
 							type="button"
 							size="sm"
 							variant="destructive"
-							onClick={() => setImg(null)}
+							onClick={() => setCardImg(null)}
 						>
 							Padam
 						</Button>
 					</div>
 					<Input
 						accept="image/jpeg, image/png"
-						ref={fileInput}
+						ref={fileInputCard}
 						id="picture"
 						type="file"
 						className="hidden"
-						onChange={handleFile}
+						onChange={handleFileCard}
 					/>
 				</div>
 			</div>

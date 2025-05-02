@@ -44,13 +44,7 @@ export default function TableOKU({ kategori }: { kategori: TKategori[] }) {
 				</Button>
 			),
 			cell: ({ row }) => {
-				const umur = row.original.minUmur;
-				return (
-					<div>
-						{row.original.kategori}
-						{umur > 0 && ` (${umur}-${row.original.maxUmur} tahun)`}
-					</div>
-				);
+				return <div>{row.original.kategori}</div>;
 			},
 		},
 		{
