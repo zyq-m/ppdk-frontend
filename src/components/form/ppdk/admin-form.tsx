@@ -134,7 +134,7 @@ export default function AdminForm(props: PropsAdminForm) {
 									</SelectTrigger>
 								</FormControl>
 								<SelectContent>
-									<SelectItem value="Super PPDK">Super PPDK</SelectItem>
+									<SelectItem value="Super Admin">Super Admin</SelectItem>
 									<SelectItem value="Penyelia">Penyelia</SelectItem>
 									<SelectItem value="Petugas">Petugas</SelectItem>
 								</SelectContent>
