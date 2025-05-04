@@ -137,6 +137,7 @@ export default function AdminForm(props: PropsAdminForm) {
 									<SelectItem value="Super Admin">Super Admin</SelectItem>
 									<SelectItem value="Penyelia">Penyelia</SelectItem>
 									<SelectItem value="Petugas">Petugas</SelectItem>
+									<SelectItem value="Pekerja Am">Pekerja Am</SelectItem>
 								</SelectContent>
 							</Select>
 							<FormMessage />
