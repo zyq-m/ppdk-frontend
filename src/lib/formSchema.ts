@@ -13,8 +13,8 @@ export const formSchema = z
 		}),
 		agama: z.string(),
 		dtgSendiri: z.string(),
-		yaDtg: z.string().optional(),
-		tidakDtg: z.string().optional(),
+		yaDtg: z.string().nullable().optional(),
+		tidakDtg: z.string().nullable().optional(),
 		jantina: z.string().min(1, {
 			message: "Sila isi pilih jantina",
 		}),
@@ -30,9 +30,10 @@ export const formSchema = z
 			message: "Sila isi negeri",
 		}),
 		sudahLawat: z.string(),
-		keperluan: z.string().optional(),
+		keperluan: z.string().nullable().optional(),
 		no_tel: z.array(
 			z.object({
+				id: z.string().nullable(),
 				no: z.string().min(10).max(12),
 				type: z.enum(["rumah", "bimbit"]),
 			})
@@ -45,24 +46,24 @@ export const formSchema = z
 				pekerjaan: z.string().min(1, "Required"),
 				pendapatan: z.string().min(1, "Required"),
 				hubungan: z.string().min(1, "Required"),
-				ketidakUpayaan: z.string().optional(),
+				ketidakUpayaan: z.string().nullable().optional(),
 				// penerima bantuan
 				isPenerima: z.string().min(1, "Required"),
-				bantuan: z.string().optional(),
-				kadar: z.string().optional(),
-				agensi: z.string().optional(),
+				bantuan: z.string().nullable().optional(),
+				kadar: z.string().nullable().optional(),
+				agensi: z.string().nullable().optional(),
 			})
 		),
 
 		keupayaan: z.object({
 			tahapOKU: z.string(),
 			isBantuan: z.string(),
-			alatBantuan: z.string().optional(),
+			alatBantuan: z.string().nullable().optional(),
 
-			penyakit: z.string().optional(),
+			penyakit: z.string().nullable().optional(),
 
 			sikap: z.string(),
-			lainSikap: z.string().optional(),
+			lainSikap: z.string().nullable().optional(),
 
 			urusDiri: z
 				.array(z.string())
@@ -78,17 +79,17 @@ export const formSchema = z
 
 		tambahan: z.object({
 			isSekolah: z.string(),
-			namaSek: z.string().optional(),
-			tahapSek: z.string().optional(),
-			tempohSek: z.string().optional(),
-			mulaSek: z.string().optional(),
-			tamatSek: z.string().optional(),
+			namaSek: z.string().nullable().optional(),
+			tahapSek: z.string().nullable().optional(),
+			tempohSek: z.string().nullable().optional(),
+			mulaSek: z.string().nullable().optional(),
+			tamatSek: z.string().nullable().optional(),
 
 			isInsitusi: z.string(),
-			namaIns: z.string().optional(),
-			tempohIns: z.string().optional(),
-			mulaIns: z.string().optional(),
-			tamatIns: z.string().optional(),
+			namaIns: z.string().nullable().optional(),
+			tempohIns: z.string().nullable().optional(),
+			mulaIns: z.string().nullable().nullable().optional(),
+			tamatIns: z.string().nullable().nullable().optional(),
 		}),
 	})
 	.refine((data) => {

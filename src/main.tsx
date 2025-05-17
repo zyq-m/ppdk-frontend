@@ -58,11 +58,6 @@ const router = createBrowserRouter([
 		loader: protectedLoader,
 	},
 	{
-		path: "/app/admin-ppdk/pelatih-update/:id",
-		element: <Page.UpdateProfile />,
-		loader: protectedLoader,
-	},
-	{
 		path: "/app/admin-ppdk/penilaian",
 		element: <Page.DashboardPenilaian />,
 		loader: protectedLoader,

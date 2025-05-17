@@ -6,7 +6,6 @@ import SetupSoalan from "./super-admin/setup/soalan";
 import DashboardAdminPPK from "./admin-ppdk";
 import ListPelatih from "./admin-ppdk/pelatih/list";
 import RegisterPelatih from "./admin-ppdk/pelatih/register";
-import UpdateProfile from "./admin-ppdk/pelatih/updateProfile";
 import NilaiPelatih from "./admin-ppdk/penilaian/nilai";
 import Profile from "./admin-ppdk/pelatih/profile";
 import ViewAssessment from "./admin-ppdk/penilaian/viewAssessment";
@@ -25,7 +24,6 @@ export {
 	DashboardAdminPPK,
 	ListPelatih,
 	RegisterPelatih,
-	UpdateProfile,
 	NilaiPelatih,
 	Login,
 	Profile,

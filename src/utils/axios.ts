@@ -32,9 +32,8 @@ api.interceptors.response.use(
 
 			sessionStorage.setItem("accessToken", token.data.accessToken);
 
-			api.defaults.headers.common[
-				"Authorization"
-			] = `Bearer ${token.data.accessToken}`;
+			api.defaults.headers.common["Authorization"] =
+				`Bearer ${token.data.accessToken}`;
 
 			return api(originalRequest);
 		}
