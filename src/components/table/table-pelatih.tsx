@@ -216,8 +216,7 @@ const Assessment = ({
 							return (
 								<DropdownMenuItem key={k.id}>
 									<Link to={`/app/admin-ppdk/penilaian/${id}/${k.id}`}>
-										{k.kategori}{" "}
-										{k.minUmur > 0 && `(${k.minUmur}-${k.maxUmur})`}
+										{k.kategori}
 									</Link>
 								</DropdownMenuItem>
 							);
