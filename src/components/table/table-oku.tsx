@@ -39,7 +39,7 @@ export default function TableOKU({ kategori }: { kategori: TKategori[] }) {
 					variant="ghost"
 					onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
 				>
-					Ketegori
+					Kategori
 					<ArrowUpDown />
 				</Button>
 			),
