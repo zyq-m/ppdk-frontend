@@ -7,11 +7,13 @@ import { z } from "zod";
 import FormPelatih from "@/components/form/pelatih";
 import Layout from "@/components/layout/admin-ppdk-layout";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function RegisterPelatih() {
 	// img files
 	const [img, setImg] = useState<File | null>(null);
 	const [imgCard, setImgCard] = useState<File | null>(null);
+	const navigate = useNavigate();
 
 	async function onSubmit(values: z.infer<typeof formSchema>) {
 		const fd = new FormData();
@@ -46,6 +48,8 @@ export default function RegisterPelatih() {
 				title: "Berjaya",
 				description: res.data.message,
 			});
+
+			navigate("/app/admin-ppdk/pelatih");
 		} catch (error) {
 			if (axios.isAxiosError(error)) {
 				if (error.response) {

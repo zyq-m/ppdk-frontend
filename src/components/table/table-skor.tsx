@@ -43,12 +43,12 @@ export default function TableSkor({ soalan }: TableSKorProps) {
 						</TableRow>
 					);
 				})}
-				<TableRow>
+				{/* <TableRow>
 					<TableCell>Jumlah Skor Keseluruhan</TableCell>
 					<TableCell className="text-center font-semibold text-blue-500">
 						{soalan.skor}
 					</TableCell>
-				</TableRow>
+				</TableRow> */}
 			</TableBody>
 		</Table>
 	);

@@ -8,13 +8,14 @@ import { SoalanT } from "@/lib/type";
 import { api } from "@/utils/axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function NilaiPelatih() {
 	const { id, kategori } = useParams();
 	const [soalan, setSoalan] = useState<SoalanT>();
 	const { toast } = useToast();
 	const form = useForm();
+	const navigate = useNavigate();
 
 	const onSubmit = async (data: { [key: number]: string }) => {
 		api
@@ -28,6 +29,8 @@ export default function NilaiPelatih() {
 					title: "Berjaya",
 					description: res.data.message,
 				});
+
+				navigate("/app/admin-ppdk/penilaian");
 			});
 	};
 

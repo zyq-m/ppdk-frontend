@@ -15,7 +15,7 @@ import { PelatihResT, PenilaianType } from "@/lib/type";
 import { api } from "@/utils/axios";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { z } from "zod";
 
 type ResponseT = PelatihResT & {
@@ -27,6 +27,7 @@ type ResponseT = PelatihResT & {
 export default function Profile() {
 	const { id } = useParams();
 	const [query] = useSearchParams();
+	const navigate = useNavigate();
 	const [tab, setTab] = useState("peribadi");
 	const [profile, setProfile] = useState<ResponseT>();
 
@@ -67,7 +68,7 @@ export default function Profile() {
 				title: "Berjaya",
 				description: res.data.message,
 			});
-			// form.reset();
+			navigate("/app/admin-ppdk/pelatih");
 		} catch (error) {
 			if (axios.isAxiosError(error)) {
 				if (error.response) {

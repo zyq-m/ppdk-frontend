@@ -33,7 +33,7 @@ export const formSchema = z
 		keperluan: z.string().nullable().optional(),
 		no_tel: z.array(
 			z.object({
-				id: z.string().nullable(),
+				id: z.string().nullable().optional(),
 				no: z.string().min(10).max(12),
 				type: z.enum(["rumah", "bimbit"]),
 			})
