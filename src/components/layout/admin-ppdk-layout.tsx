@@ -13,7 +13,7 @@ import {
 	BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 
-import { Gauge, UserPlus, TextSearch } from "lucide-react";
+import { Gauge, UserPlus, TextSearch, Info } from "lucide-react";
 import { Toaster } from "@/components/ui/toaster";
 import { Separator } from "@/components/ui/separator";
 import { Link, useLocation } from "react-router-dom";
@@ -36,6 +36,11 @@ const items = [
 		title: "Penilaian",
 		url: "/app/admin-ppdk/penilaian",
 		icon: TextSearch,
+	},
+	{
+		title: "Info",
+		url: "/app/admin-ppdk/info",
+		icon: Info,
 	},
 ];
 

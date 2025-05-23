@@ -72,6 +72,11 @@ const router = createBrowserRouter([
 		element: <Page.ViewAssessment />,
 		loader: protectedLoader,
 	},
+	{
+		path: "/app/admin-ppdk/info",
+		element: <Page.Info />,
+		loader: protectedLoader,
+	},
 ]);
 
 function protectedLoader({ request }) {

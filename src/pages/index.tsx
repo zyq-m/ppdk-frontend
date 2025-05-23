@@ -10,6 +10,7 @@ import NilaiPelatih from "./admin-ppdk/penilaian/nilai";
 import Profile from "./admin-ppdk/pelatih/profile";
 import ViewAssessment from "./admin-ppdk/penilaian/viewAssessment";
 import DashboardPenilaian from "./admin-ppdk/penilaian";
+import Info from "./admin-ppdk/info";
 
 import Login from "./login";
 
@@ -29,4 +30,5 @@ export {
 	Profile,
 	ViewAssessment,
 	DashboardPenilaian,
+	Info,
 };
