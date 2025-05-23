@@ -35,6 +35,16 @@ const router = createBrowserRouter([
 		element: <Page.SetupSoalan />,
 		loader: protectedLoader,
 	},
+	{
+		path: "/app/super-admin/about",
+		element: <Page.AboutUs />,
+		loader: protectedLoader,
+	},
+	{
+		path: "/app/super-admin/contact",
+		element: <Page.ContactUs />,
+		loader: protectedLoader,
+	},
 
 	// Admin PPDK
 	{

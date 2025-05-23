@@ -2,6 +2,8 @@ import Dashboard from "./super-admin/dashboard";
 import ListPPDK from "./super-admin/ppdk/list";
 import ListAdmin from "./super-admin/admin/list";
 import SetupSoalan from "./super-admin/setup/soalan";
+import AboutUs from "./super-admin/aboutUs";
+import ContactUs from "./super-admin/contactUs";
 
 import DashboardAdminPPK from "./admin-ppdk";
 import ListPelatih from "./admin-ppdk/pelatih/list";
@@ -20,6 +22,8 @@ export {
 	ListPPDK,
 	ListAdmin,
 	SetupSoalan,
+	AboutUs,
+	ContactUs,
 
 	// admin ppdk
 	DashboardAdminPPK,

@@ -13,7 +13,7 @@ import {
 	BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 
-import { Gauge, UserPlus, Landmark, Settings } from "lucide-react";
+import { Gauge, UserPlus, Landmark, Settings, Info } from "lucide-react";
 import { Toaster } from "@/components/ui/toaster";
 import { Separator } from "@/components/ui/separator";
 import { Link, useLocation } from "react-router-dom";
@@ -38,6 +38,14 @@ const items: NavItemType[] = [
 		title: "Setting",
 		subItem: [{ title: "Soalan", url: "/app/super-admin/setup/soalan" }],
 		icon: Settings,
+	},
+	{
+		title: "Info",
+		subItem: [
+			{ title: "Mengenai kami", url: "/app/super-admin/about" },
+			{ title: "Hubungi kami", url: "/app/super-admin/contact" },
+		],
+		icon: Info,
 	},
 ];
 

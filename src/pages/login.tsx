@@ -17,6 +17,7 @@ import { api } from "@/utils/axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "@/hooks/use-toast";
 import { Toaster } from "@/components/ui/toaster";
+import { isAxiosError } from "axios";
 
 const formSchema = z.object({
 	email: z.string().email({
@@ -76,7 +77,7 @@ function LoginForm() {
 
 			navigate("/app");
 		} catch (error) {
-			if (error.response) {
+			if (isAxiosError(error) && error.response) {
 				toast({
 					variant: "destructive",
 					title: "Error",
@@ -92,7 +93,7 @@ function LoginForm() {
 				className="flex flex-col gap-2 justify-center min-h-screen px-4"
 			>
 				<h1 className="text-2xl font-bold text-center">
-					Selamat datang ke PPDK InfoSys
+					Selamat Datang ke Platform Inklusif OKU
 				</h1>
 				<p className="text-balance text-sm text-muted-foreground text-center">
 					Masukkan email untuk log masuk
