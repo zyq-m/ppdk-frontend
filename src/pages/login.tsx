@@ -96,7 +96,7 @@ function LoginForm() {
 					Selamat Datang ke Platform Inklusif OKU
 				</h1>
 				<p className="text-balance text-sm text-muted-foreground text-center">
-					Masukkan email & kata laluan untuk log masuk
+					Masukkan email & kata laluan anda
 				</p>
 				<FormField
 					control={form.control}
