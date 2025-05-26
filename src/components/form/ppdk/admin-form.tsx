@@ -19,6 +19,7 @@ import { adminSchema } from "@/lib/formSchema";
 import { TAdmin, TPPDK } from "@/lib/type";
 import { api } from "@/utils/axios";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { isAxiosError } from "axios";
 import { ReactNode, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -56,6 +57,12 @@ export default function AdminForm(props: PropsAdminForm) {
 				description: message,
 			});
 		} catch (error) {
+			if (isAxiosError(error) && error.response) {
+				toast({
+					title: "Ralat",
+					description: error.response.data.message ?? "Server error",
+				});
+			}
 			console.log(error);
 		}
 	}
