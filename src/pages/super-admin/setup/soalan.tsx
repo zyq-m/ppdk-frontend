@@ -40,6 +40,8 @@ export default function SetupSoalan() {
 	const [kriteria, setKriteria] = useState<
 		{ id: string; kriteria: string }[] | []
 	>([]);
+	const [soalan, setSoalan] =
+		useState<z.infer<typeof soalanSchema>["listKriteria"]>();
 	const form = useForm<z.infer<typeof soalanSchema>>({
 		resolver: zodResolver(soalanSchema),
 	});
@@ -65,19 +67,22 @@ export default function SetupSoalan() {
 	const onSelect = (value: string) => {
 		api.get(`/setup/soalan/${value}`).then(({ data }: { data: SoalanT }) => {
 			setKriteria(data.kriteria);
-			form.setValue(
-				"listKriteria",
-				data.listKriteria.map((d) => ({
-					kriteria: d.id,
-					soalan: d.soalan.length
-						? d.soalan.map((s) => ({
-								sId: s.id,
-								skor: s.skor,
-								soalan: s.soalan,
-							}))
-						: [{ skor: "", soalan: "" }],
-				}))
-			);
+			setSoalan(() => {
+				const filtered = data.listKriteria
+					.filter((li) => li.soalan.length)
+					.map((d) => {
+						return {
+							kriteria: d.id,
+							soalan: d.soalan.map((s) => ({ sId: s.id, ...s })),
+						};
+					});
+
+				if (!filtered.length) {
+					return [{ kriteria: "", soalan: [{ soalan: "", skor: "" }] }];
+				}
+
+				return filtered;
+			});
 		});
 	};
 
@@ -95,6 +100,12 @@ export default function SetupSoalan() {
 			setKategori(res.data);
 		});
 	}, []);
+
+	useEffect(() => {
+		if (soalan) {
+			form.setValue("listKriteria", soalan);
+		}
+	}, [form, soalan]);
 
 	return (
 		<Layout>

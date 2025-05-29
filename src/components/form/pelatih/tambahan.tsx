@@ -62,7 +62,11 @@ export default function TambahanForm({ form }: PelatihFormProps) {
 							<FormItem>
 								<FormLabel>Darjah / tingkatan</FormLabel>
 								<FormControl>
-									<Input placeholder="Darjah 1 atau Tingakatan 1" {...field} />
+									<Input
+										type="number"
+										placeholder="Darjah 1 atau Tingakatan 1"
+										{...field}
+									/>
 								</FormControl>
 								<FormMessage />
 							</FormItem>
