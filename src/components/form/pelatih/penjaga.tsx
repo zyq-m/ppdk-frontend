@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { PelatihFormProps } from "@/lib/type";
+import { handleNoKpChange } from "@/lib/utils";
 import { useFieldArray } from "react-hook-form";
 
 export default function PenjagaForm({ form }: PelatihFormProps) {
@@ -48,7 +49,12 @@ export default function PenjagaForm({ form }: PelatihFormProps) {
 							<FormItem>
 								<FormLabel>No. kad pengenalan</FormLabel>
 								<FormControl>
-									<Input {...field} />
+									<Input
+										maxLength={12}
+										inputMode="numeric"
+										{...field}
+										onChange={handleNoKpChange(field.onChange)}
+									/>
 								</FormControl>
 								<FormMessage />
 							</FormItem>

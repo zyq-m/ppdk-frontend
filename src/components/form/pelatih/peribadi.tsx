@@ -22,6 +22,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useFieldArray } from "react-hook-form";
+import { handleNoKpChange } from "@/lib/utils";
 
 export default function PeribadiForm({
 	form,
@@ -168,7 +169,13 @@ export default function PeribadiForm({
 					<FormItem>
 						<FormLabel>No kad pengenalan</FormLabel>
 						<FormControl>
-							<Input placeholder="No kad pengenalan" {...field} />
+							<Input
+								placeholder="No kad pengenalan"
+								maxLength={12}
+								inputMode="numeric"
+								{...field}
+								onChange={handleNoKpChange(field.onChange)}
+							/>
 						</FormControl>
 						<FormMessage />
 					</FormItem>
@@ -334,7 +341,13 @@ export default function PeribadiForm({
 						<FormItem>
 							<FormLabel>No. telefon {item.type}</FormLabel>
 							<FormControl>
-								<Input type="tel" {...field} />
+								<Input
+									type="tel"
+									inputMode="numeric"
+									maxLength={13}
+									{...field}
+									onChange={handleNoKpChange(field.onChange)}
+								/>
 							</FormControl>
 							<FormMessage />
 						</FormItem>

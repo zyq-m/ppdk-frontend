@@ -5,9 +5,13 @@ export const formSchema = z
 		nama: z.string().min(10, {
 			message: "Sila isi nama",
 		}),
-		no_kp: z.string().min(12, {
-			message: "Sila isi nama",
-		}),
+		no_kp: z
+			.string()
+			.min(12, {
+				message: "No kad pengenalan mesti 12 digit",
+			})
+			.max(12, { message: "No kad pengenalan mesti 12 digit" })
+			.regex(/^\d+$/, "Hanya nombor dibenarkan"),
 		no_pendaftaran: z.string().min(2, {
 			message: "Sila isi no pendaftakan oku",
 		}),
