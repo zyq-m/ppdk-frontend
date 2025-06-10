@@ -49,22 +49,22 @@ export default function TablePenilaian({
 			),
 			cell: ({ row }) => <div>{row.getValue("pelatih_umur")} tahun</div>,
 		},
-		{
-			accessorKey: "skor",
-			header: ({ column }) => (
-				<Button
-					variant="ghost"
-					onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-				>
-					Skor
-					<ArrowUpDown />
-				</Button>
-			),
-		},
-		{
-			accessorKey: "indicator",
-			header: "Indikator",
-		},
+		// {
+		// 	accessorKey: "skor",
+		// 	header: ({ column }) => (
+		// 		<Button
+		// 			variant="ghost"
+		// 			onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+		// 		>
+		// 			Skor
+		// 			<ArrowUpDown />
+		// 		</Button>
+		// 	),
+		// },
+		// {
+		// 	accessorKey: "indicator",
+		// 	header: "Indikator",
+		// },
 		{
 			accessorKey: "created_at",
 			header: ({ column }) => (
