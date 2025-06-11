@@ -1,5 +1,6 @@
 import {
 	FormControl,
+	FormDescription,
 	FormField,
 	FormItem,
 	FormLabel,
@@ -23,6 +24,30 @@ import { Button } from "@/components/ui/button";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useFieldArray } from "react-hook-form";
 import { handleNoKpChange } from "@/lib/utils";
+import { Checkbox } from "@/components/ui/checkbox";
+
+const kenderaan = [
+	{
+		id: "1",
+		label: "Berjalan",
+	},
+	{
+		id: "2",
+		label: "Basikal",
+	},
+	{
+		id: "3",
+		label: "Motosikal",
+	},
+	{
+		id: "4",
+		label: "Kereta",
+	},
+	{
+		id: "5",
+		label: "Kenderaan Awam",
+	},
+];
 
 export default function PeribadiForm({
 	form,
@@ -358,7 +383,7 @@ export default function PeribadiForm({
 				control={form.control}
 				name="dtgSendiri"
 				render={({ field }) => (
-					<FormItem className="self-end">
+					<FormItem>
 						<FormLabel>Adakah pelatih datang sendiri ke PDK?</FormLabel>
 						<Select
 							onValueChange={field.onChange}
@@ -397,30 +422,48 @@ export default function PeribadiForm({
 			{form.watch("dtgSendiri") === "0" && (
 				<FormField
 					control={form.control}
-					name="tidakDtg"
-					render={({ field }) => (
+					name="keupayaan.urusDiri"
+					render={() => (
 						<FormItem>
-							<FormLabel>
-								Jika tidak, dihantar oleh keluarga menggunakan
-							</FormLabel>
-							<Select
-								onValueChange={field.onChange}
-								defaultValue={field.value}
-								{...field}
-							>
-								<FormControl>
-									<SelectTrigger>
-										<SelectValue placeholder="Pilih satu" />
-									</SelectTrigger>
-								</FormControl>
-								<SelectContent>
-									<SelectItem value="1">Berjalan</SelectItem>
-									<SelectItem value="2">Basikal</SelectItem>
-									<SelectItem value="3">Motosikal</SelectItem>
-									<SelectItem value="4">Kereta</SelectItem>
-									<SelectItem value="5">Kenderaan Awam</SelectItem>
-								</SelectContent>
-							</Select>
+							<div className="mb-4">
+								<FormLabel>
+									Jika tidak, dihantar oleh keluarga menggunakan
+								</FormLabel>
+								<FormDescription>Tandakan yang berkaitan</FormDescription>
+							</div>
+							{kenderaan.map((item) => (
+								<FormField
+									key={item.id}
+									control={form.control}
+									name="tidakDtg"
+									render={({ field }) => {
+										return (
+											<FormItem
+												key={item.id}
+												className="flex flex-row items-start space-x-3 space-y-0"
+											>
+												<FormControl>
+													<Checkbox
+														checked={field.value?.includes(item.id)}
+														onCheckedChange={(checked) => {
+															return checked
+																? field.onChange([...field.value, item.id])
+																: field.onChange(
+																		field.value?.filter(
+																			(value) => value !== item.id
+																		)
+																	);
+														}}
+													/>
+												</FormControl>
+												<FormLabel className="text-sm font-normal">
+													{item.label}
+												</FormLabel>
+											</FormItem>
+										);
+									}}
+								/>
+							))}
 							<FormMessage />
 						</FormItem>
 					)}

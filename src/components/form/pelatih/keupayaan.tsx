@@ -32,6 +32,14 @@ const bergerak = [
 	{ id: "5", label: "Meniarap" },
 	{ id: "6", label: "Baring" },
 ] as const;
+const sikapOptions = [
+	{ id: "pendiam", label: "Pendiam" },
+	{ id: "suka bergaul", label: "Suka bergaul" },
+	{ id: "menyendiri", label: "Menyendiri" },
+	{ id: "agresif", label: "Agresif" },
+	{ id: "melawan", label: "Melawan" },
+	{ id: "99", label: "Lain-lain" },
+] as const;
 
 export default function KeupayaanForm({ form }: PelatihFormProps) {
 	return (
@@ -120,33 +128,50 @@ export default function KeupayaanForm({ form }: PelatihFormProps) {
 			<FormField
 				control={form.control}
 				name="keupayaan.sikap"
-				render={({ field }) => (
+				render={() => (
 					<FormItem>
-						<Select
-							onValueChange={field.onChange}
-							defaultValue={field.value}
-							{...field}
-						>
+						<div className="mb-4">
 							<FormLabel>Sikap pelatih di dalam keluarga</FormLabel>
-							<FormControl>
-								<SelectTrigger>
-									<SelectValue placeholder="Pilih satu" />
-								</SelectTrigger>
-							</FormControl>
-							<SelectContent>
-								<SelectItem value="pendiam">Pendiam</SelectItem>
-								<SelectItem value="suka bergaul">Suka bergaul</SelectItem>
-								<SelectItem value="menyendiri">Menyendiri</SelectItem>
-								<SelectItem value="agresif">Agresif</SelectItem>
-								<SelectItem value="melawan">Melawan</SelectItem>
-								<SelectItem value="99">Lain-lain</SelectItem>
-							</SelectContent>
-						</Select>
+							<FormDescription>
+								Pilih satu atau lebih sikap yang berkaitan
+							</FormDescription>
+						</div>
+						{sikapOptions.map((item) => (
+							<FormField
+								key={item.id}
+								control={form.control}
+								name="keupayaan.sikap"
+								render={({ field }) => (
+									<FormItem
+										key={item.id}
+										className="flex flex-row items-start space-x-3 space-y-0"
+									>
+										<FormControl>
+											<Checkbox
+												checked={field.value?.includes(item.id)}
+												onCheckedChange={(checked) => {
+													return checked
+														? field.onChange([...(field.value || []), item.id])
+														: field.onChange(
+																(field.value || []).filter(
+																	(value) => value !== item.id
+																)
+															);
+												}}
+											/>
+										</FormControl>
+										<FormLabel className="text-sm font-normal">
+											{item.label}
+										</FormLabel>
+									</FormItem>
+								)}
+							/>
+						))}
 						<FormMessage />
 					</FormItem>
 				)}
 			/>
-			{form.watch("keupayaan.sikap") === "99" && (
+			{form.watch("keupayaan.sikap").includes("99") && (
 				<FormField
 					control={form.control}
 					name="keupayaan.lainSikap"

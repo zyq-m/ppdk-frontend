@@ -18,7 +18,7 @@ export const formSchema = z
 		agama: z.string(),
 		dtgSendiri: z.string(),
 		yaDtg: z.string().nullable().optional(),
-		tidakDtg: z.string().nullable().optional(),
+		tidakDtg: z.array(z.string()).nullable().optional(),
 		jantina: z.string().min(1, {
 			message: "Sila isi pilih jantina",
 		}),
@@ -66,7 +66,9 @@ export const formSchema = z
 
 			penyakit: z.string().nullable().optional(),
 
-			sikap: z.string(),
+			sikap: z.array(z.string()).refine((value) => value.some((item) => item), {
+				message: "Pilih satu",
+			}),
 			lainSikap: z.string().nullable().optional(),
 
 			urusDiri: z
