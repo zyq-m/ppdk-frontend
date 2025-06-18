@@ -79,7 +79,7 @@ export default function PpdkForm(props: PropsPpdkForm) {
 						<FormItem>
 							<FormLabel>Nama cawangan</FormLabel>
 							<FormControl>
-								<Input {...field} />
+								<Input maxLength={200} {...field} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>

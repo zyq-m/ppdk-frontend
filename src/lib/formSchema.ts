@@ -153,7 +153,7 @@ export const okuSchema = z.object({
 });
 
 export const ppdkSchema = z.object({
-	nama: z.string(),
+	nama: z.string().max(200),
 	alamat: z.string(),
 	negeri: z.string(),
 	notel: z.string().min(10).max(12),
