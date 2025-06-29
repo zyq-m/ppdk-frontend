@@ -94,7 +94,7 @@ export type PenilaianType = {
 		umur: number;
 	};
 	skor: number;
-	indicator: string;
+	highest_score: string;
 	kategori_oku: {
 		id: string;
 		kategori: string;

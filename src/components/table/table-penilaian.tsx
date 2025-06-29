@@ -49,22 +49,18 @@ export default function TablePenilaian({
 			),
 			cell: ({ row }) => <div>{row.getValue("pelatih_umur")} tahun</div>,
 		},
-		// {
-		// 	accessorKey: "skor",
-		// 	header: ({ column }) => (
-		// 		<Button
-		// 			variant="ghost"
-		// 			onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-		// 		>
-		// 			Skor
-		// 			<ArrowUpDown />
-		// 		</Button>
-		// 	),
-		// },
-		// {
-		// 	accessorKey: "indicator",
-		// 	header: "Indikator",
-		// },
+		{
+			accessorKey: "highest_score",
+			header: ({ column }) => (
+				<Button
+					variant="ghost"
+					onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+				>
+					Skor tertinggi
+					<ArrowUpDown />
+				</Button>
+			),
+		},
 		{
 			accessorKey: "created_at",
 			header: ({ column }) => (
@@ -125,8 +121,8 @@ export default function TablePenilaian({
 		<DataTable
 			columns={columns}
 			data={data}
-			colName="kategori_oku_kategori"
-			placeholder="Cari penilaian..."
+			colName="pelatih_nama"
+			placeholder="Cari pelatih..."
 		/>
 	);
 }

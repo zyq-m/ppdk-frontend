@@ -8,8 +8,8 @@ import {
 } from "@/components/ui/card";
 import { api } from "@/utils/axios";
 import { useEffect, useState } from "react";
-import BarPenilaian from "@/components/charts/bar-penilaian";
 import TablePenilaian from "@/components/table/table-penilaian";
+import AssessmentChartCard from "@/components/card/assessment-chart-card";
 
 export default function DashboardPenilaian() {
 	const [assessment, setAssessment] = useState([]);
@@ -27,17 +27,7 @@ export default function DashboardPenilaian() {
 
 	return (
 		<Layout>
-			<Card>
-				<CardHeader>
-					<CardTitle>Jumlah Penilaian</CardTitle>
-					<CardDescription>
-						Skor penilaian mengikut kategori OKU
-					</CardDescription>
-				</CardHeader>
-				<CardContent>
-					<BarPenilaian />
-				</CardContent>
-			</Card>
+			<AssessmentChartCard />
 
 			<Card>
 				<CardHeader>
