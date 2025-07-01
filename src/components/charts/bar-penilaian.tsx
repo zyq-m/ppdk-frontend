@@ -11,9 +11,21 @@ import { useEffect, useState } from "react";
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts";
 
 const chartConfig = {
-	value: {
-		label: "Jumlah pelatih",
-		color: "hsl(var(--chart-5))",
+	rendah: {
+		label: "Skor Rendah",
+		color: "hsl(var(--chart-1))",
+	},
+	sederhana: {
+		label: "Skor Serdahana",
+		color: "hsl(var(--chart-2))",
+	},
+	tinggi: {
+		label: "Skor Tinggi",
+		color: "hsl(var(--chart-3))",
+	},
+	sangatTinggi: {
+		label: "Skor Sangat Tinggi",
+		color: "hsl(var(--chart-4))",
 	},
 } satisfies ChartConfig;
 
@@ -26,25 +38,20 @@ export default function BarPenilaian({ kategori, negeri }: PropsBarPenilaian) {
 	const [chartData, setData] = useState();
 
 	useEffect(() => {
-		if (kategori) {
-			api
-				.get("/analytic/penilaian", {
-					params: {
-						id: kategori,
-						negeri: negeri,
-					},
-				})
-				.then(({ data }) => {
-					setData(data);
-				});
-		}
+		api
+			.get("/analytic/penilaian", {
+				params: {
+					id: kategori,
+					negeri: negeri,
+				},
+			})
+			.then(({ data }) => {
+				setData(data);
+			});
 	}, [kategori, negeri]);
 
 	return (
-		<ChartContainer
-			config={chartConfig}
-			className="aspect- max-h-[35vh] w-full"
-		>
+		<ChartContainer config={chartConfig} className="max-h-[35vh] w-full">
 			<BarChart
 				accessibilityLayer
 				data={chartData}
@@ -54,15 +61,38 @@ export default function BarPenilaian({ kategori, negeri }: PropsBarPenilaian) {
 			>
 				<CartesianGrid vertical={false} />
 				<XAxis
-					className="text-xs text-wrap w-2"
-					dataKey="kriteria"
+					dataKey="kategori"
 					tickLine={false}
 					tickMargin={10}
 					axisLine={false}
 				/>
 				<ChartTooltip content={<ChartTooltipContent />} />
 				<ChartLegend content={<ChartLegendContent />} />
-				<Bar dataKey="value" fill="var(--color-value)" radius={4}>
+				<Bar dataKey="rendah" fill="var(--color-rendah)" radius={4}>
+					<LabelList
+						position="top"
+						offset={12}
+						className="fill-foreground"
+						fontSize={12}
+					/>
+				</Bar>
+				<Bar dataKey="sederhana" fill="var(--color-sederhana)" radius={4}>
+					<LabelList
+						position="top"
+						offset={12}
+						className="fill-foreground"
+						fontSize={12}
+					/>
+				</Bar>
+				<Bar dataKey="tinggi" fill="var(--color-tinggi)" radius={4}>
+					<LabelList
+						position="top"
+						offset={12}
+						className="fill-foreground"
+						fontSize={12}
+					/>
+				</Bar>
+				<Bar dataKey="sangatTinggi" fill="var(--color-sangatTinggi)" radius={4}>
 					<LabelList
 						position="top"
 						offset={12}

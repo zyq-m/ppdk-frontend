@@ -47,7 +47,7 @@ export default function AssessmentChartCard() {
 						</CardDescription>
 					</div>
 					<div className="flex gap-2">
-						<Select
+						{/* <Select
 							value={filterPenilaian.kategori}
 							onValueChange={(e) =>
 								setFilterPenilaian((prev) => ({ ...prev, kategori: e }))
@@ -65,7 +65,7 @@ export default function AssessmentChartCard() {
 									);
 								})}
 							</SelectContent>
-						</Select>
+						</Select> */}
 						<Select
 							onValueChange={(e) =>
 								setFilterPenilaian((prev) => ({ ...prev, negeri: e }))

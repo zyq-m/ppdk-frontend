@@ -50,17 +50,21 @@ export default function TablePenilaian({
 			cell: ({ row }) => <div>{row.getValue("pelatih_umur")} tahun</div>,
 		},
 		{
-			accessorKey: "highest_score",
+			accessorKey: "indicator",
 			header: ({ column }) => (
 				<Button
 					variant="ghost"
 					onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
 				>
-					Skor tertinggi
+					Indikator
 					<ArrowUpDown />
 				</Button>
 			),
 		},
+		// {
+		// 	accessorKey: "indicator",
+		// 	header: "Indikator",
+		// },
 		{
 			accessorKey: "created_at",
 			header: ({ column }) => (
