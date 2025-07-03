@@ -1,5 +1,4 @@
 import LinePPDK from "@/components/charts/line-ppdk";
-import BarPenilaian from "@/components/charts/bar-penilaian";
 import Layout from "@/components/layout/super-admin-layout";
 import {
 	Card,
@@ -8,40 +7,21 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import {
-	Select,
-	SelectItem,
-	SelectContent,
-	SelectTrigger,
-	SelectValue,
-} from "@/components/ui/select";
 
 import { Landmark, TextSearch, Users } from "lucide-react";
 import BarPelatih from "@/components/charts/bar-pelatih";
 import { useEffect, useState } from "react";
 import { api } from "@/utils/axios";
-import { TKategori, TOverall } from "@/lib/type";
+import { TOverall } from "@/lib/type";
 import { Link } from "react-router-dom";
-import { STATES } from "@/utils/CONSTANT";
 import AssessmentChartCard from "@/components/card/assessment-chart-card";
 
 export default function Dashboard() {
 	const [overallTotal, setOverall] = useState<TOverall>();
-	const [oku, setOku] = useState<TKategori[]>();
-	const [filterPenilaian, setFilterPenilaian] = useState<{
-		kategori?: string;
-		negeri?: string;
-	}>({
-		kategori: undefined,
-	});
 
 	useEffect(() => {
 		api.get("/analytic").then(({ data }) => {
 			setOverall(data);
-		});
-		api.get("/setup/oku").then(({ data }) => {
-			setOku(data);
-			setFilterPenilaian({ kategori: data.slice(0, 1)[0].id });
 		});
 	}, []);
 
