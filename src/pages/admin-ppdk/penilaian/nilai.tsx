@@ -55,7 +55,7 @@ export default function NilaiPelatih() {
 				<AssessmentCard soalan={soalan}>
 					<form onSubmit={form.handleSubmit(onSubmit)}>
 						<div className="mb-8">
-							{soalan?.pemarkahan == 1 ? (
+							{soalan.pemarkahan == 1 ? (
 								<Quationaire form={form} soalan={soalan} />
 							) : (
 								<TotalBasedQuestion form={form} soalan={soalan} />
