@@ -97,6 +97,26 @@ export default function ViewAssessment() {
 								</CardContent>
 							</Card>
 						)}
+						{soalan.kategori_oku.pemarkahan == 2 && (
+							<Card className="flex-1">
+								<CardHeader>
+									<CardTitle>Rubrik penilaian</CardTitle>
+									<CardDescription>
+										Rubrik penilaian ini telah ditetapkan oleh Admin
+									</CardDescription>
+								</CardHeader>
+								<CardContent>
+									Jumlahkan skor pesakit untuk setiap item. Skor keseluruhan
+									boleh berkisar antara 0 – 20, di mana skor yang lebih rendah
+									menunjukkan tahap ketidakupayaan yang lebih tinggi. Jika
+									digunakan untuk menilai penambahbaikan selepas pemulihan,
+									perubahan lebih daripada dua mata dalam jumlah skor
+									mencerminkan perubahan yang ketara, dan perubahan pada satu
+									item dari bergantung sepenuhnya kepada berdikari juga dianggap
+									boleh dipercayai.
+								</CardContent>
+							</Card>
+						)}
 					</div>
 				</>
 			)}
