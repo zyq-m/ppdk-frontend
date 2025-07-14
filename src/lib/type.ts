@@ -33,6 +33,7 @@ export type PelatihType = {
 	umur: number;
 	jantina: string;
 	negeri: string;
+	is_aktif: boolean;
 	assessment: TPenilaian[];
 };
 
