@@ -20,7 +20,13 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ArrowUpDown, CheckCheck, MoreHorizontal, X } from "lucide-react";
+import {
+	ArrowUpDown,
+	CheckCheck,
+	ChevronsUpDown,
+	MoreHorizontal,
+	X,
+} from "lucide-react";
 import { ReactNode, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -36,6 +42,11 @@ import { PelatihType, TKategori } from "@/lib/type";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "@/hooks/use-toast";
 import { isAxiosError } from "axios";
+import {
+	Collapsible,
+	CollapsibleContent,
+	CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 
 export default function TablePelatih({
 	displayAssess = true,
@@ -163,25 +174,43 @@ export default function TablePelatih({
 			header: "Sejarah penilaian",
 			cell: ({ row }) => {
 				return (
-					<ol className="my-6 ml-6 list-decimal [&>li]:mt-2">
-						{row.original.assessment?.map((so) => (
-							<li key={so.id}>
-								<Link
-									to={`/app/admin-ppdk/pelatih/${row.original.id}?tab=penilaian`}
+					<Collapsible>
+						<CollapsibleTrigger asChild>
+							<Button variant="ghost" size="sm" className="relative">
+								<ChevronsUpDown className="h-6 w-6" />
+								<Badge
+									className="absolute -top-1 -right-1 h-4 min-w-4 rounded-full px-1 font-mono tabular-nums"
+									variant="destructive"
 								>
-									{so.kategori_oku.kategori}
-									{so.kategori_oku.minUmur > 0 &&
-										` (${so.kategori_oku.minUmur}-${so.kategori_oku.maxUmur} tahun)`}
-								</Link>
-							</li>
-						))}
-					</ol>
+									{row.original.assessment.length}
+								</Badge>
+								<span className="sr-only">More</span>
+							</Button>
+						</CollapsibleTrigger>
+						<CollapsibleContent>
+							<ol className="my-6 ml-6 list-decimal [&>li]:mt-2">
+								{row.original.assessment?.map((so) => (
+									<li key={so.id}>
+										<Link
+											to={`/app/admin-ppdk/pelatih/${row.original.id}?tab=penilaian`}
+										>
+											{so.kategori_oku.kategori}
+											{so.kategori_oku.minUmur > 0 &&
+												` (${so.kategori_oku.minUmur}-${so.kategori_oku.maxUmur} tahun)`}
+										</Link>
+									</li>
+								))}
+							</ol>
+						</CollapsibleContent>
+					</Collapsible>
 				);
 			},
 		},
 		{
 			id: "action",
 			cell: ({ row }) => {
+				const umur = row.original.umur;
+
 				return (
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
@@ -200,17 +229,23 @@ export default function TablePelatih({
 							{displayAssess && (
 								<>
 									<DropdownMenuSeparator />
-									{kategori?.map((k) => {
-										return (
-											<DropdownMenuItem key={k.id}>
-												<Link
-													to={`/app/admin-ppdk/penilaian/${row.original.id}/${k.id}`}
-												>
-													{k.kategori}
-												</Link>
-											</DropdownMenuItem>
-										);
-									})}
+									{kategori
+										.filter(
+											(d) =>
+												(umur >= d.minUmur && umur <= d.maxUmur) ||
+												d.minUmur == 0
+										)
+										.map((k) => {
+											return (
+												<DropdownMenuItem key={k.id}>
+													<Link
+														to={`/app/admin-ppdk/penilaian/${row.original.id}/${k.id}`}
+													>
+														{k.kategori}
+													</Link>
+												</DropdownMenuItem>
+											);
+										})}
 								</>
 							)}
 							<DropdownMenuSeparator />

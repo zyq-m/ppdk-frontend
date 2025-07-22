@@ -88,8 +88,14 @@ export default function TablePPDK() {
 			cell: ({ row }) => (
 				<Collapsible>
 					<CollapsibleTrigger asChild>
-						<Button variant="ghost" size="sm">
-							<ChevronsUpDown className="h-4 w-4" />
+						<Button variant="ghost" size="sm" className="relative">
+							<ChevronsUpDown className="h-6 w-6" />
+							<Badge
+								className="absolute -top-1 -right-1 h-4 min-w-4 rounded-full px-1 font-mono tabular-nums"
+								variant="destructive"
+							>
+								{row.original.admins.length}
+							</Badge>
 							<span className="sr-only">More</span>
 						</Button>
 					</CollapsibleTrigger>
