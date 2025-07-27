@@ -84,10 +84,14 @@ export default function Profile() {
 		}
 	}
 
-	useEffect(() => {
+	function fetchPelatih() {
 		api.get(`/pelatih/${id}`).then(({ data }: { data: ResponseT }) => {
 			setProfile(data);
 		});
+	}
+
+	useEffect(() => {
+		fetchPelatih();
 	}, [id]);
 
 	useEffect(() => {
@@ -121,7 +125,9 @@ export default function Profile() {
 								<CardContent className="p-0">
 									{profile?.assessment && (
 										<TablePenilaian
+											fetchData={fetchPelatih}
 											showProfile={false}
+											showDelete={true}
 											data={profile.assessment.map((d) => ({
 												...d,
 												pelatih: {

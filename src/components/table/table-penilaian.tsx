@@ -12,15 +12,26 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { PenilaianType } from "@/lib/type";
+import { api } from "@/utils/axios";
+import { isAxiosError } from "axios";
+import { toast } from "@/hooks/use-toast";
+import AlertDelete from "../dialog/alert-delete";
+import { useState } from "react";
 
 export default function TablePenilaian({
 	data,
 	showProfile = true,
+	showDelete = false,
+	fetchData,
 }: {
 	data: PenilaianType[];
 	showProfile?: boolean;
+	showDelete?: boolean;
+	fetchData?: () => void;
 }) {
 	const navigate = useNavigate();
+	const [tempId, setTempId] = useState("");
+	const [isOpen, setOpen] = useState(false);
 
 	const columns: ColumnDef<PenilaianType>[] = [
 		{
@@ -114,6 +125,18 @@ export default function TablePenilaian({
 							>
 								Lihat Penilaian
 							</DropdownMenuItem>
+							{showDelete && (
+								<DropdownMenuItem
+									className="focus:text-destructive-foreground focus:bg-destructive"
+									onSelect={(e) => {
+										e.stopPropagation();
+										setOpen(true);
+										setTempId(row.original.id);
+									}}
+								>
+									Padam
+								</DropdownMenuItem>
+							)}
 						</DropdownMenuContent>
 					</DropdownMenu>
 				);
@@ -121,12 +144,36 @@ export default function TablePenilaian({
 		},
 	];
 
+	function deletePenilaian() {
+		api
+			.delete(`/assessment/${tempId}`)
+			.then((res) => {
+				toast({
+					title: "Berjaya",
+					description: res.data.message,
+				});
+				fetchData?.();
+			})
+			.catch((err) => {
+				if (isAxiosError(err)) {
+					toast({
+						title: "Ralat",
+						description: err.response?.data.message,
+						variant: "destructive",
+					});
+				}
+			});
+	}
+
 	return (
-		<DataTable
-			columns={columns}
-			data={data}
-			colName="pelatih_nama"
-			placeholder="Cari pelatih..."
-		/>
+		<>
+			<DataTable
+				columns={columns}
+				data={data}
+				colName="pelatih_nama"
+				placeholder="Cari pelatih..."
+			/>
+			<AlertDelete isOpen={isOpen} setOpen={setOpen} onOk={deletePenilaian} />
+		</>
 	);
 }

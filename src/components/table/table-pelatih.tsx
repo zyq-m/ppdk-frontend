@@ -1,14 +1,3 @@
-import {
-	AlertDialog,
-	AlertDialogAction,
-	AlertDialogCancel,
-	AlertDialogContent,
-	AlertDialogDescription,
-	AlertDialogFooter,
-	AlertDialogHeader,
-	AlertDialogTitle,
-	AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import DataTable from "@/components/data-table";
 import { api } from "@/utils/axios";
@@ -27,7 +16,7 @@ import {
 	MoreHorizontal,
 	X,
 } from "lucide-react";
-import { ReactNode, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
 	Card,
@@ -47,6 +36,7 @@ import {
 	CollapsibleContent,
 	CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import AlertDelete from "../dialog/alert-delete";
 
 export default function TablePelatih({
 	displayAssess = true,
@@ -348,34 +338,3 @@ export default function TablePelatih({
 		</Card>
 	);
 }
-
-const AlertDelete = ({
-	isOpen,
-	setOpen,
-	children,
-	onOk,
-}: {
-	isOpen: boolean;
-	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-	children?: ReactNode;
-	onOk: () => void;
-}) => {
-	return (
-		<AlertDialog open={isOpen} onOpenChange={setOpen}>
-			<AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
-			<AlertDialogContent>
-				<AlertDialogHeader>
-					<AlertDialogTitle>Adakah anda benar-benar pasti?</AlertDialogTitle>
-					<AlertDialogDescription>
-						Tindakan ini tidak boleh dibatalkan. Ini akan memadamkan akaun anda
-						secara kekal dan menghapuskan data anda dari pelayan kami.
-					</AlertDialogDescription>
-				</AlertDialogHeader>
-				<AlertDialogFooter>
-					<AlertDialogCancel>Batal</AlertDialogCancel>
-					<AlertDialogAction onClick={onOk}>Ok</AlertDialogAction>
-				</AlertDialogFooter>
-			</AlertDialogContent>
-		</AlertDialog>
-	);
-};
