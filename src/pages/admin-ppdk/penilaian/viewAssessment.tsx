@@ -89,7 +89,13 @@ export default function ViewAssessment() {
 								<CardHeader>
 									<CardTitle>Rubrik penilaian</CardTitle>
 									<CardDescription>
-										Rubrik penilaian ini telah ditetapkan oleh Admin
+										<a
+											className="text-blue-500"
+											href={`${import.meta.env.VITE_API}/docs/${soalan.kategori_oku.panduan}`}
+											target="_blank"
+										>
+											Rubrik penilaian ini telah ditetapkan oleh Admin
+										</a>
 									</CardDescription>
 								</CardHeader>
 								<CardContent>
@@ -102,7 +108,13 @@ export default function ViewAssessment() {
 								<CardHeader>
 									<CardTitle>Rubrik penilaian</CardTitle>
 									<CardDescription>
-										Rubrik penilaian ini telah ditetapkan oleh Admin
+										<a
+											className="text-blue-500"
+											href={`${import.meta.env.VITE_API}/docs/${soalan.kategori_oku.panduan}`}
+											target="_blank"
+										>
+											Rubrik penilaian ini telah ditetapkan oleh Admin
+										</a>
 									</CardDescription>
 								</CardHeader>
 								<CardContent>

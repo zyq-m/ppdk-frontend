@@ -61,6 +61,7 @@ export type TKategori = {
 	pemarkahan: number;
 	skor: [number[]];
 	kriteria: TKriteria[];
+	panduan: string;
 };
 
 export type PelatihResT = z.infer<typeof formSchema> & {
