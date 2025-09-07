@@ -166,3 +166,18 @@ export const adminSchema = z.object({
 	notel: z.string().min(10).max(12),
 	ppdk: z.string(),
 });
+
+export const chgPassSchema = z
+	.object({
+		oldPass: z.string(),
+		newPass: z
+			.string()
+			.length(8, { message: "Katalaluan hendaklah 8 karakter" }),
+		rePass: z
+			.string()
+			.length(8, { message: "Katalaluan hendaklah 8 karakter" }),
+	})
+	.refine((data) => data.newPass === data.rePass, {
+		path: ["rePass"],
+		message: "Kataluan tidak sepadan",
+	});

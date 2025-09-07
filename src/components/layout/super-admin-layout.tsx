@@ -49,7 +49,13 @@ const items: NavItemType[] = [
 	},
 ];
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function Layout({
+	children,
+	breadcrumbs,
+}: {
+	children: React.ReactNode;
+	breadcrumbs?: string[];
+}) {
 	const { pathname } = useLocation();
 
 	return (
@@ -67,19 +73,27 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 										<Link to="/app/super-admin">Laman Utama</Link>
 									</BreadcrumbLink>
 								</BreadcrumbItem>
-								<BreadcrumbSeparator className="hidden md:block" />
-								{items
-									.filter(
-										(item) =>
-											item.url === pathname ||
-											(item.subItem &&
-												item.subItem.some((sub) => sub.url === pathname))
-									)
-									.map((nav, i) => (
-										<BreadcrumbItem key={i}>
-											<BreadcrumbPage>{nav.title}</BreadcrumbPage>
-										</BreadcrumbItem>
-									))}
+								{breadcrumbs
+									? breadcrumbs.map((nav, idx) => (
+											<BreadcrumbItem key={idx}>
+												<BreadcrumbSeparator className="hidden md:block" />
+												<BreadcrumbPage className="capitalize">
+													{nav}
+												</BreadcrumbPage>
+											</BreadcrumbItem>
+										))
+									: pathname
+											.split("/")
+											.filter((url) => url !== "")
+											.slice(2)
+											.map((nav, idx) => (
+												<BreadcrumbItem key={idx}>
+													<BreadcrumbSeparator className="hidden md:block" />
+													<BreadcrumbPage className="capitalize">
+														{nav}
+													</BreadcrumbPage>
+												</BreadcrumbItem>
+											))}
 							</BreadcrumbList>
 						</Breadcrumb>
 					</div>

@@ -15,6 +15,7 @@ import DashboardPenilaian from "./admin-ppdk/penilaian";
 import Info from "./admin-ppdk/info";
 
 import Login from "./login";
+import ProfileUser from "./profile";
 
 export {
 	// super admin
@@ -35,4 +36,5 @@ export {
 	ViewAssessment,
 	DashboardPenilaian,
 	Info,
+	ProfileUser,
 };

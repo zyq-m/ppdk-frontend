@@ -3,6 +3,7 @@ import {
 	Accessibility,
 	ChevronDown,
 	ChevronUp,
+	KeyRound,
 	LogOut,
 	LucideProps,
 	User2,
@@ -137,12 +138,20 @@ export function AppSidebar({ items }: { items: NavItemType[] }) {
 							>
 								<DropdownMenuItem
 									onClick={() => {
+										navigate("/app/profile-user");
+									}}
+								>
+									<KeyRound />
+									Katalaluan
+								</DropdownMenuItem>
+								<DropdownMenuItem
+									onClick={() => {
 										window.sessionStorage.clear();
 										navigate("/app");
 									}}
 								>
 									<LogOut />
-									Log out
+									Log keluar
 								</DropdownMenuItem>
 							</DropdownMenuContent>
 						</DropdownMenu>

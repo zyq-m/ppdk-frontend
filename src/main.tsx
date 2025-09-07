@@ -17,6 +17,11 @@ const router = createBrowserRouter([
 		path: "/app",
 		element: <Page.Login />,
 	},
+	{
+		path: "/app/profile-user",
+		element: <Page.ProfileUser />,
+		loader: protectedLoader,
+	},
 
 	// Super Admin
 	{
